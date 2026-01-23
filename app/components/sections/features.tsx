@@ -113,14 +113,10 @@ export function Features() {
               <Card className="overflow-hidden">
                 <CardContent className="p-0">
                   <div
-                    className={`grid md:grid-cols-2 gap-8 p-8 ${
-                      index % 2 === 1 ? "md:flex-row-reverse" : ""
-                    }`}
+                    className={`grid md:grid-cols-2 gap-8 p-8`}
                   >
                     <div
-                      className={`flex flex-col justify-center ${
-                        index % 2 === 1 ? "md:order-2" : ""
-                      }`}
+                      className={`flex flex-col justify-center `}
                     >
                       <Badge variant="secondary" className="mb-4 self-start">
                         {feature.badge}

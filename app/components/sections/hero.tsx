@@ -6,9 +6,11 @@ import { FaDiscord, FaSlack } from "react-icons/fa"
 import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
 import { Float } from "~/components/motion"
-import { Sparkles } from "lucide-react"
+import { Sparkles, ArrowRight } from "lucide-react"
+import { useAppConfig } from "~/context/appConfig"
 
 export function Hero() {
+  const { appUrl } = useAppConfig()
   const platforms = [
     {
       name: "Slack Workspace",
@@ -37,12 +39,12 @@ export function Hero() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActivePlatform((prev) => (prev + 1) % platforms.length)
-    }, 1800)
+    }, 3500)
     return () => clearInterval(interval)
   }, [platforms.length])
 
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden">
+    <section className="relative pt-36 pb-24 md:pt-44 md:pb-36 overflow-hidden">
       <div className="section-container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
@@ -60,13 +62,14 @@ export function Hero() {
               className="inline-flex mb-6"
             >
               <Badge variant="promo" size="lg">
-                Ship support without a helpdesk
+                🎉 First 3 months at $0.99/mo
               </Badge>
             </motion.div>
 
             {/* Headline */}
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6">
-              <span className="text-outline-hero">Support chat</span> that
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8">
+              <span className="text-outline-hero">Support chat</span>{" "}
+              <span className="text-foreground">that</span>
               <br />
               <span className="text-foreground">lives in your</span>{" "}
               <span className="relative inline-flex items-center min-w-[13ch]">
@@ -100,8 +103,18 @@ export function Hero() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button size="lg" onClick={() => scrollToSection("pricing")}>
-                Launch your widget
+              <Button
+                variant="gradient"
+                size="xl"
+                className="group"
+                asChild
+              >
+                <a href={appUrl}>
+                  <span className="flex items-center gap-2">
+                    Launch your widget
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </a>
               </Button>
               <Button
                 variant="secondary"
@@ -113,14 +126,21 @@ export function Hero() {
             </div>
 
             {/* Social Proof */}
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.4 }}
-              className="mt-8 text-sm text-muted"
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.4 }}
+              className="mt-10 flex items-center gap-3 justify-center lg:justify-start"
             >
-              Built for indie founders and solo builders
-            </motion.p>
+              <div className="flex -space-x-2">
+                <img src="/static/face1.png" alt="donkey-face1" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                <img src="/static/face2.png" alt="donkey-face2" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                <img src="/static/face3.png" alt="donkey-face3" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+              </div>
+              <p className="text-sm font-semibold text-foreground/70">
+                Be an early adopter — <span className="text-pink-500">join the herd</span>
+              </p>
+            </motion.div>
           </motion.div>
 
           {/* Right Column - Hero Visual */}

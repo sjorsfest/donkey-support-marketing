@@ -176,10 +176,7 @@ export default function PrivacyPolicy() {
                   <h2 className="font-display text-xl font-bold mb-4">14. Contact Us</h2>
                   <p className="text-muted">
                     If you have any questions about this Privacy Policy or wish to exercise your rights, please
-                    contact us at{" "}
-                    <a href="mailto:privacy@donkeysupport.com" className="text-pink-500 hover:underline">
-                      privacy@donkeysupport.com
-                    </a>
+                    contact us using the support widget!                    
                   </p>
                 </section>
               </div>

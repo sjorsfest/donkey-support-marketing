@@ -19,7 +19,7 @@ export function Footer() {
                 </span>
               </div>
               <p className="text-sm text-muted">
-                Built with care for indie builders
+                Built with ❤️ for indie builders
               </p>
             </div>
 

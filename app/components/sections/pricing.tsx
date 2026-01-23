@@ -5,8 +5,10 @@ import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
 import { FadeIn, StaggerContainer, StaggerItem } from "~/components/motion"
 import { pricingPlans } from "~/data/pricing"
+import { useAppConfig } from "~/context/appConfig"
 
 export function Pricing() {
+  const { appUrl } = useAppConfig()
   return (
     <section id="pricing" className="py-20">
       <div className="section-container">
@@ -29,16 +31,9 @@ export function Pricing() {
         >
           {pricingPlans.map((plan) => (
             <StaggerItem key={plan.name}>
-              <Card
-                variant={plan.highlighted ? "shiny" : "default"}
-                className={`h-full relative ${
-                  plan.highlighted
-                    ? "border-pink-500 ring-2 ring-pink-500/20"
-                    : ""
-                }`}
-              >
+              <div className="relative h-full">
                 {plan.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
                     <Badge
                       variant={plan.highlighted ? "default" : "secondary"}
                     >
@@ -46,13 +41,20 @@ export function Pricing() {
                     </Badge>
                   </div>
                 )}
-
-                <CardHeader className="text-center pt-8">
+                <Card
+                  variant={plan.highlighted ? "shiny" : "default"}
+                  className={`h-full ${
+                    plan.highlighted
+                      ? "border-pink-500 ring-2 ring-pink-500/20"
+                      : ""
+                  }`}
+                >
+                  <CardHeader className="text-center pt-8">
                   <CardTitle className="text-2xl">{plan.name}</CardTitle>
                   <CardDescription>{plan.description}</CardDescription>
                 </CardHeader>
 
-                <CardContent className="text-center">
+                <CardContent className="text-center flex-1 flex flex-col">
                   {/* Price */}
                   <div className="mb-6">
                     {plan.name === "Monthly" && plan.promoPrice && (
@@ -99,25 +101,21 @@ export function Pricing() {
                   <Button
                     variant={plan.highlighted ? "default" : "secondary"}
                     size="lg"
-                    className="w-full"
+                    className="w-full mt-auto"
+                    asChild
                   >
-                    Get started
+                    <a href={appUrl}>Get started</a>
                   </Button>
                 </CardContent>
               </Card>
+              </div>
             </StaggerItem>
           ))}
         </StaggerContainer>
 
         <FadeIn className="text-center mt-8" delay={0.4}>
           <p className="text-sm text-muted">
-            Questions? Reach out at{" "}
-            <a
-              href="mailto:hello@donkeysupport.com"
-              className="text-pink-500 hover:underline"
-            >
-              hello@donkeysupport.com
-            </a>
+            Questions? Open a support chat through the widget!
           </p>
         </FadeIn>
       </div>

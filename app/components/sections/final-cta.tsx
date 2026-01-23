@@ -3,8 +3,11 @@
 import { Button } from "~/components/ui/button"
 import { Card, CardContent } from "~/components/ui/card"
 import { FadeIn, Float } from "~/components/motion"
+import { useAppConfig } from "~/context/appConfig"
 
 export function FinalCTA() {
+  const { appUrl } = useAppConfig()
+
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
@@ -37,8 +40,8 @@ export function FinalCTA() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" onClick={() => scrollToSection("pricing")}>
-                  Get started for $0.99/mo
+                <Button size="lg" asChild>
+                  <a href={appUrl}>Get started for $0.99/mo</a>
                 </Button>
                 <Button
                   variant="secondary"
@@ -50,7 +53,7 @@ export function FinalCTA() {
               </div>
 
               <p className="text-sm text-muted mt-6">
-                No credit card required to start.
+                Don&apos;t miss out on this special rate!
               </p>
             </CardContent>
 

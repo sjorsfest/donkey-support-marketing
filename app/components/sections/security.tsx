@@ -81,7 +81,7 @@ export function Security() {
                   {webhookEvents.map((item) => (
                     <div
                       key={item.event}
-                      className="flex items-center justify-between p-3 bg-muted/50 rounded-xl"
+                      className="flex items-center justify-between p-3 bg-muted/10 rounded-xl"
                     >
                       <code className="text-sm font-mono text-pink-600 bg-pink-50 px-2 py-1 rounded">
                         {item.event}

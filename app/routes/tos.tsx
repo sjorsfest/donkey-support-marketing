@@ -137,10 +137,7 @@ export default function TermsOfService() {
                 <section>
                   <h2 className="font-display text-xl font-bold mb-4">12. Contact</h2>
                   <p className="text-muted">
-                    If you have any questions about these Terms, please contact us at{" "}
-                    <a href="mailto:support@donkeysupport.com" className="text-pink-500 hover:underline">
-                      support@donkeysupport.com
-                    </a>
+                    If you have any questions about these Terms, please contact us at using the support widget!
                   </p>
                 </section>
               </div>

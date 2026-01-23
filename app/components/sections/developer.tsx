@@ -34,8 +34,8 @@ function App() {
 
 export function Developer() {
   return (
-    <section className="py-20">
-      <div className="section-container">
+    <section className="py-20 overflow-hidden">
+      <div className="section-container overflow-hidden">
         <FadeIn className="text-center mb-12">
           <Badge variant="secondary" className="mb-4">
             Developer friendly
@@ -54,17 +54,17 @@ export function Developer() {
           staggerDelay={0.15}
         >
           {codeExamples.map((example) => (
-            <StaggerItem key={example.title}>
+            <StaggerItem key={example.title} className="min-w-0 overflow-hidden">
               <Card className="h-full overflow-hidden">
-                <CardContent className="p-6">
+                <CardContent className="p-6 min-w-0 overflow-hidden">
                   <div className="mb-4">
                     <h3 className="font-display text-lg font-bold mb-1">
                       {example.title}
                     </h3>
                     <p className="text-sm text-muted">{example.description}</p>
                   </div>
-                  <div className="code-block p-4 overflow-x-auto">
-                    <pre className="text-sm">
+                  <div className="code-block p-4 overflow-x-auto max-w-full">
+                    <pre className="text-sm w-fit">
                       <code>
                         {example.language === "html" ? (
                           <HighlightHTML code={example.code} />
