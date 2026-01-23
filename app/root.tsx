@@ -6,7 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
+import { Analytics } from "@vercel/analytics/next"
 import type { Route } from "./+types/root";
 import "./app.css";
 import { SupportWidget } from "./components/supportWidget/supportWidget";
@@ -44,6 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <Analytics />
         <SupportWidget accountId="cmko8jp0i0000lo09ghgzcul5" />
       </body>
     </html>
