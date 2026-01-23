@@ -6,7 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/remix"
 import type { Route } from "./+types/root";
 import "./app.css";
 import { SupportWidget } from "./components/supportWidget/supportWidget";
