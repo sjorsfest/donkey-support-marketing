@@ -10,7 +10,7 @@ const comparisons = [
       pricing: "$2.99/mo",
       setup: "5 minutes",
       complexity: "Simple",
-      integration: "Slack/Discord",
+      integration: "Slack/Discord/Telegram",
     },
   },
   {

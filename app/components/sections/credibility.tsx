@@ -3,7 +3,7 @@ import { FadeIn, StaggerContainer, StaggerItem } from "~/components/motion"
 const credibilityItems = [
   { emoji: "⚡", text: "5-min setup" },
   { emoji: "🎯", text: "Built for indie devs" },
-  { emoji: "💬", text: "Slack & Discord native" },
+  { emoji: "💬", text: "Slack, Discord & Telegram" },
   { emoji: "🚀", text: "Zero bloat" },
 ]
 

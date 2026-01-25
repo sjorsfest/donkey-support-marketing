@@ -6,7 +6,7 @@ const benefits = [
     icon: "⚡",
     title: "Lightning fast replies",
     description:
-      "Reply from Slack or Discord the moment a message comes in. No context switching, no app hopping.",
+      "Reply from Slack, Discord, or Telegram the moment a message comes in. No context switching, no app hopping.",
   },
   {
     icon: "🎯",
@@ -18,7 +18,7 @@ const benefits = [
     icon: "📥",
     title: "One inbox",
     description:
-      "Keep all your support in the tool you already use every day. Slack or Discord - your choice.",
+      "Keep all your support in the tool you already use every day. Slack, Discord, or Telegram - your choice.",
   },
   {
     icon: "💰",

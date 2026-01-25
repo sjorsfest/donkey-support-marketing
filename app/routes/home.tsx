@@ -22,13 +22,13 @@ export function meta({}: Route.MetaArgs) {
     {
       name: "description",
       content:
-        "The simplest way to add customer support to your web app. Reply to users from Slack or Discord. Built for indie founders and small teams.",
+        "The simplest way to add customer support to your web app. Reply to users from Slack, Discord, or Telegram. Built for indie founders and small teams.",
     },
     { property: "og:title", content: "Donkey Support - Support Widget for Web Apps" },
     {
       property: "og:description",
       content:
-        "Let visitors chat on your website. Get tickets in Slack or Discord threads. Reply from where you already work.",
+        "Let visitors chat on your website. Get tickets in Slack, Discord, or Telegram threads. Reply from where you already work.",
     },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

@@ -10,14 +10,14 @@ export const faqItems: FAQItem[] = [
       "Just add a simple script tag to your HTML, or use our React component if you're building with React. It takes less than 5 minutes to get up and running.",
   },
   {
-    question: "Can I use both Slack and Discord?",
+    question: "Can I use multiple platforms like Slack, Discord, and Telegram?",
     answer:
-      "You can connect either Slack or Discord - one at a time. This keeps things simple and ensures all your support stays in one place. You can switch between them anytime.",
+      "You can connect Slack, Discord, or Telegram - one at a time. This keeps things simple and ensures all your support stays in one place. You can switch between them anytime.",
   },
   {
-    question: "How does the Slack/Discord sync work?",
+    question: "How does the message sync work?",
     answer:
-      "When a visitor sends a message through the widget, it creates a new thread in your chosen Slack or Discord channel. When you reply in the thread, your response syncs back to the visitor in real-time.",
+      "When a visitor sends a message through the widget, it creates a new thread in your chosen Slack, Discord, or Telegram channel. When you reply in the thread, your response syncs back to the visitor in real-time.",
   },
   {
     question: "What happens to my data if I cancel?",

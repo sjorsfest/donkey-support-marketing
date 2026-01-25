@@ -99,7 +99,7 @@ export default function PrivacyPolicy() {
                   <p className="text-muted mb-4">We may share your information with:</p>
                   <ul className="list-disc list-inside text-muted space-y-2">
                     <li><strong>Service Providers:</strong> Third parties who assist in operating our Service (hosting, payment processing)</li>
-                    <li><strong>Integration Partners:</strong> Slack and Discord for message delivery, as authorised by you</li>
+                    <li><strong>Integration Partners:</strong> Slack, Discord, and Telegram for message delivery, as authorised by you</li>
                     <li><strong>Legal Requirements:</strong> When required by law or to protect our rights</li>
                   </ul>
                   <p className="text-muted mt-4">

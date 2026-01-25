@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
-import { FaDiscord, FaSlack } from "react-icons/fa"
+import { FaDiscord, FaSlack, FaTelegram } from "react-icons/fa"
 import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
 import { Float } from "~/components/motion"
@@ -25,6 +25,13 @@ export function Hero() {
       badgeClass: "bg-[#5865F2]/10 border-[#5865F2]/30",
       sizeClass: "text-[0.85em]",
       icon: FaDiscord,
+    },
+    {
+      name: "Telegram Group",
+      colorClass: "text-[#0088cc]",
+      badgeClass: "bg-[#0088cc]/10 border-[#0088cc]/30",
+      sizeClass: "text-[0.85em]",
+      icon: FaTelegram,
     },
   ]
   const [activePlatform, setActivePlatform] = useState(0)
@@ -97,8 +104,8 @@ export function Hero() {
 
             {/* Subheadline */}
             <p className="text-lg sm:text-xl text-foreground/80 max-w-xl mx-auto lg:mx-0 mb-8">
-              Add a lightweight widget to your app. New messages become Slack or
-              Discord threads, so you can reply where you already work.
+              Add a lightweight widget to your app. New messages become Slack,
+              Discord, or Telegram threads, so you can reply where you already work.
             </p>
 
             {/* CTAs */}

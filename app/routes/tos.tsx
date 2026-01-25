@@ -42,7 +42,7 @@ export default function TermsOfService() {
                   <h2 className="font-display text-xl font-bold mb-4">2. Description of Service</h2>
                   <p className="text-muted">
                     Donkey Support provides a customer support widget that enables website owners to communicate with
-                    their visitors through integrations with Slack and Discord. The Service includes the widget code,
+                    their visitors through integrations with Slack, Discord, and Telegram. The Service includes the widget code,
                     dashboard, and related tools.
                   </p>
                 </section>

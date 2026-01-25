@@ -17,7 +17,7 @@ export const pricingPlans: PricingPlan[] = [
     yearlyPrice: 2.99,
     promoPrice: 0.99,
     features: [
-      "Slack or Discord integration",
+      "Slack, Discord, or Telegram integration",
       "Widget customization",
       "Visitor identification",
       "Webhooks",

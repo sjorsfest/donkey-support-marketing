@@ -36,7 +36,7 @@ export function FinalCTA() {
 
               <p className="text-lg text-muted max-w-xl mx-auto mb-8">
                 Set up your support widget in minutes. Reply to customers from
-                Slack or Discord. It&apos;s that simple.
+                Slack, Discord, or Telegram. It&apos;s that simple.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

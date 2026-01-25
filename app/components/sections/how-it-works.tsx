@@ -12,16 +12,16 @@ const steps = [
   {
     number: "2",
     icon: "🔗",
-    title: "Connect Slack or Discord",
+    title: "Connect your platform",
     description:
-      "One-click OAuth install. Choose your support channel. New tickets become threads automatically.",
+      "Connect Slack, Discord, or Telegram in minutes. Choose your support channel. New tickets become threads automatically.",
   },
   {
     number: "3",
     icon: "💬",
     title: "Reply from threads",
     description:
-      "Answer customers right from Slack or Discord. Your replies sync back to the widget in real-time.",
+      "Answer customers right from Slack, Discord, or Telegram. Your replies sync back to the widget in real-time.",
   },
 ]
 

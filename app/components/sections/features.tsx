@@ -63,7 +63,7 @@ const features = [
   {
     title: "Ticket dashboard",
     description:
-      "See all conversations in one place. Track open and closed tickets, view message history, and jump straight to Slack threads.",
+      "See all conversations in one place. Track open and closed tickets, view message history, and jump straight to your Slack, Discord, or Telegram threads.",
     badge: "Overview",
     visual: (
       <div className="relative">

@@ -25,6 +25,8 @@ const badgeVariants = cva(
           "bg-slack-aubergine text-white border-2 border-outline shadow-[2px_2px_0_#1a1a1a]",
         discord:
           "bg-discord-blurple text-white border-2 border-outline shadow-[2px_2px_0_#1a1a1a]",
+        telegram:
+          "bg-telegram-blue text-white border-2 border-outline shadow-[2px_2px_0_#1a1a1a]",
       },
       size: {
         default: "text-sm px-3 py-1",
