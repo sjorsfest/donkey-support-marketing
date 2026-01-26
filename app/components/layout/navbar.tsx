@@ -1,17 +1,21 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Button } from "~/components/ui/button"
-import { useAppConfig } from "~/context/appConfig"
 
 export function Navbar() {
-  const { appUrl } = useAppConfig()
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+    if (location.pathname !== "/") {
+      navigate(`/#${id}`)
+    } else {
+      const element = document.getElementById(id)
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" })
+      }
     }
   }
 
@@ -63,7 +67,7 @@ export function Navbar() {
 
           {/* CTA */}
           <Button size="sm" asChild>
-            <a href={appUrl}>Get Started</a>
+            <a href="/go?ref=navbar">Get Started</a>
           </Button>
         </nav>
       </div>

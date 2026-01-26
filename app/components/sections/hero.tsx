@@ -7,10 +7,8 @@ import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
 import { Float } from "~/components/motion"
 import { Sparkles, ArrowRight } from "lucide-react"
-import { useAppConfig } from "~/context/appConfig"
 
 export function Hero() {
-  const { appUrl } = useAppConfig()
   const platforms = [
         {
       name: "Discord Server",
@@ -54,7 +52,7 @@ export function Hero() {
   }, [platforms.length])
 
   return (
-    <section className="relative pt-36 pb-24 md:pt-44 md:pb-36 overflow-hidden">
+    <section className="relative pt-36 pb-24 md:pt-44 md:pb-20 overflow-hidden">
       <div className="section-container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
@@ -119,7 +117,7 @@ export function Hero() {
                 className="group"
                 asChild
               >
-                <a href={appUrl}>
+                <a href="/go?ref=hero">
                   <span className="flex items-center gap-2">
                     Launch your widget
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -140,16 +138,31 @@ export function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.4 }}
-              className="mt-10 flex items-center gap-3 justify-center lg:justify-start"
+              className="mt-10 flex flex-col gap-4 items-center lg:items-start"
             >
-              <div className="flex -space-x-2">
-                <img src="/static/face1.png" alt="donkey-face1" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
-                <img src="/static/face2.png" alt="donkey-face2" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
-                <img src="/static/face3.png" alt="donkey-face3" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  <img src="/static/face1.png" alt="donkey-face1" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                  <img src="/static/face2.png" alt="donkey-face2" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                  <img src="/static/face3.png" alt="donkey-face3" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                </div>
+                <p className="text-sm font-semibold text-foreground/70">
+                  Be an early adopter — <span className="text-pink-500">join the herd</span>
+                </p>
               </div>
-              <p className="text-sm font-semibold text-foreground/70">
-                Be an early adopter — <span className="text-pink-500">join the herd</span>
-              </p>
+              <a
+                href="https://www.producthunt.com/products/donkey-support?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-donkey-support"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="opacity-60 hover:opacity-100 transition-opacity"
+              >
+                <img
+                  src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1068311&theme=light&t=1769434185538"
+                  alt="Donkey Support - Support through a Discord/Telegram/Slack thread. | Product Hunt"
+                  width="140"
+                  height="30"
+                />
+              </a>
             </motion.div>
           </motion.div>
 

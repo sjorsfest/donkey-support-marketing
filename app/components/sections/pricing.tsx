@@ -5,10 +5,8 @@ import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
 import { FadeIn, StaggerContainer, StaggerItem } from "~/components/motion"
 import { pricingPlans } from "~/data/pricing"
-import { useAppConfig } from "~/context/appConfig"
 
 export function Pricing() {
-  const { appUrl } = useAppConfig()
   return (
     <section id="pricing" className="py-20">
       <div className="section-container">
@@ -104,7 +102,7 @@ export function Pricing() {
                     className="w-full mt-auto"
                     asChild
                   >
-                    <a href={appUrl}>Get started</a>
+                    <a href="/go?ref=pricing">Get started</a>
                   </Button>
                 </CardContent>
               </Card>

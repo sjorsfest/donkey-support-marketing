@@ -4,4 +4,5 @@ export default [
   index("routes/home.tsx"),
   route("tos", "routes/tos.tsx"),
   route("privacy-policy", "routes/privacy-policy.tsx"),
+  route("go", "routes/go.tsx"),
 ] satisfies RouteConfig;

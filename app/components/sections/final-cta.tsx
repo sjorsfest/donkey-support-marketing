@@ -3,10 +3,8 @@
 import { Button } from "~/components/ui/button"
 import { Card, CardContent } from "~/components/ui/card"
 import { FadeIn, Float } from "~/components/motion"
-import { useAppConfig } from "~/context/appConfig"
 
 export function FinalCTA() {
-  const { appUrl } = useAppConfig()
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -41,7 +39,7 @@ export function FinalCTA() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" asChild>
-                  <a href={appUrl}>Get started for $0.99/mo</a>
+                  <a href="/go?ref=cta">Get started for $0.99/mo</a>
                 </Button>
                 <Button
                   variant="secondary"
