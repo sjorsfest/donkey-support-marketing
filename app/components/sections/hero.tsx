@@ -12,14 +12,7 @@ import { useAppConfig } from "~/context/appConfig"
 export function Hero() {
   const { appUrl } = useAppConfig()
   const platforms = [
-    {
-      name: "Slack Workspace",
-      colorClass: "text-[#7A4A7F]",
-      badgeClass: "bg-[#7A4A7F]/10 border-[#7A4A7F]/30",
-      sizeClass: "text-[0.85em]",
-      icon: FaSlack,
-    },
-    {
+        {
       name: "Discord Server",
       colorClass: "text-[#5865F2]",
       badgeClass: "bg-[#5865F2]/10 border-[#5865F2]/30",
@@ -33,6 +26,16 @@ export function Hero() {
       sizeClass: "text-[0.85em]",
       icon: FaTelegram,
     },
+
+    {
+      name: "Slack Workspace",
+      colorClass: "text-[#7A4A7F]",
+      badgeClass: "bg-[#7A4A7F]/10 border-[#7A4A7F]/30",
+      sizeClass: "text-[0.85em]",
+      icon: FaSlack,
+    },
+    
+
   ]
   const [activePlatform, setActivePlatform] = useState(0)
 
@@ -74,7 +77,7 @@ export function Hero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8">
+            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8">
               <span className="text-outline-hero">Support chat</span>{" "}
               <span className="text-foreground">that</span>
               <br />
@@ -104,7 +107,7 @@ export function Hero() {
 
             {/* Subheadline */}
             <p className="text-lg sm:text-xl text-foreground/80 max-w-xl mx-auto lg:mx-0 mb-8">
-              Add a lightweight widget to your app. New messages become Slack,
+              Add a lightweight widget to your app. Messages become Slack,
               Discord, or Telegram threads, so you can reply where you already work.
             </p>
 
