@@ -15,23 +15,23 @@ export const faqItems: FAQItem[] = [
       "You can connect Slack, Discord, or Telegram - one at a time. This keeps things simple and ensures all your support stays in one place. You can switch between them anytime.",
   },
   {
+    question: "What's included in the free plan?",
+    answer:
+      "Freemium includes integration with Slack, Discord, or Telegram, basic widget customization, visitor identification, up to 3 domains, and unlimited tickets. Widgets show a small \"Powered by Donkey Support\" badge.",
+  },
+  {
+    question: "What do I get with Pro?",
+    answer:
+      "Pro unlocks unlimited domains, removes widget branding, adds webhooks for automation, and extended customization options like operator images. First 3 months at $0.99/mo.",
+  },
+  {
     question: "How does the message sync work?",
     answer:
       "When a visitor sends a message through the widget, it creates a new thread in your chosen Slack, Discord, or Telegram channel. When you reply in the thread, your response syncs back to the visitor in real-time.",
   },
   {
-    question: "What happens to my data if I cancel?",
-    answer:
-      "Your data is yours. If you cancel, you can export everything. We don't hold your conversations hostage.",
-  },
-  {
-    question: "Is there a free trial?",
-    answer:
-      "We offer the first 3 months at just $0.99/month so you can try everything risk-free. No credit card tricks - just affordable pricing for indie builders.",
-  },
-  {
     question: "Can I customize the widget appearance?",
     answer:
-      "Yes! You can set your company name, greeting text, and customize the primary and accent colors to match your brand perfectly.",
+      "Yes! All plans let you set your company name, greeting text, and customize colors. Pro unlocks extended options like adding operator images and removing the Donkey Support badge.",
   },
 ]

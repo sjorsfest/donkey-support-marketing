@@ -12,19 +12,19 @@ export function Pricing() {
       <div className="section-container">
         <FadeIn className="text-center mb-12">
           <Badge variant="promo" className="mb-4">
-            Launch offer: First 3 months at $0.99/mo
+            Pro launch offer: First 3 months at $0.99/mo
           </Badge>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Simple,{" "}
-            <span className="text-pink-500">affordable</span> pricing
+            Start free,{" "}
+            <span className="text-pink-500">upgrade when ready</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            No per-seat pricing. No hidden fees. Just one low price for everything.
+            No per-seat pricing. No hidden fees. Get started at no cost.
           </p>
         </FadeIn>
 
         <StaggerContainer
-          className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto"
+          className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto"
           staggerDelay={0.15}
         >
           {pricingPlans.map((plan) => (
@@ -33,7 +33,7 @@ export function Pricing() {
                 {plan.badge && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
                     <Badge
-                      variant={plan.highlighted ? "default" : "secondary"}
+                      variant={plan.highlighted ? "default" : plan.tier === "freemium" ? "success" : "secondary"}
                     >
                       {plan.badge}
                     </Badge>
@@ -48,64 +48,76 @@ export function Pricing() {
                   }`}
                 >
                   <CardHeader className="text-center pt-8">
-                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                  <CardDescription>{plan.description}</CardDescription>
-                </CardHeader>
+                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                    <CardDescription>{plan.description}</CardDescription>
+                  </CardHeader>
 
-                <CardContent className="text-center flex-1 flex flex-col">
-                  {/* Price */}
-                  <div className="mb-6">
-                    {plan.name === "Monthly" && plan.promoPrice && (
-                      <div className="mb-2">
-                        <span className="text-sm text-muted line-through">
-                          ${plan.monthlyPrice}/mo
+                  <CardContent className="text-center flex-1 flex flex-col">
+                    {/* Price */}
+                    <div className="mb-6">
+                      {plan.name === "Pro Monthly" && plan.promoPrice && (
+                        <div className="mb-2">
+                          <span className="text-sm text-muted line-through">
+                            ${plan.monthlyPrice}/mo
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex items-baseline justify-center gap-1">
+                        <span className="text-5xl font-display font-bold">
+                          {plan.tier === "freemium" ? (
+                            "$0"
+                          ) : plan.name === "Pro Monthly" ? (
+                            `$${plan.promoPrice || plan.monthlyPrice}`
+                          ) : (
+                            `$${plan.yearlyPrice}`
+                          )}
+                        </span>
+                        <span className="text-muted">
+                          {plan.tier === "freemium"
+                            ? "/mo"
+                            : plan.name === "Pro Monthly"
+                              ? "/mo"
+                              : "/year"}
                         </span>
                       </div>
-                    )}
-                    <div className="flex items-baseline justify-center gap-1">
-                      <span className="text-5xl font-display font-bold">
-                        $
-                        {plan.name === "Monthly"
-                          ? plan.promoPrice || plan.monthlyPrice
-                          : plan.yearlyPrice}
-                      </span>
-                      <span className="text-muted">
-                        /{plan.name === "Monthly" ? "mo" : "year"}
-                      </span>
+                      {plan.name === "Pro Yearly" && (
+                        <p className="text-sm text-pink-500 font-semibold mt-2">
+                          Just ${plan.monthlyPrice}/month
+                        </p>
+                      )}
+                      {plan.name === "Pro Monthly" && plan.promoPrice && (
+                        <p className="text-sm text-pink-500 font-semibold mt-2">
+                          for first 3 months
+                        </p>
+                      )}
+                      {plan.tier === "freemium" && (
+                        <p className="text-sm text-green-600 font-semibold mt-2">
+                          Free forever
+                        </p>
+                      )}
                     </div>
-                    {plan.name === "Yearly" && (
-                      <p className="text-sm text-pink-500 font-semibold mt-2">
-                        Just ${plan.monthlyPrice}/month
-                      </p>
-                    )}
-                    {plan.name === "Monthly" && plan.promoPrice && (
-                      <p className="text-sm text-pink-500 font-semibold mt-2">
-                        for first 3 months
-                      </p>
-                    )}
-                  </div>
 
-                  {/* Features */}
-                  <ul className="space-y-3 text-left mb-8">
-                    {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2">
-                        <span className="text-green-500 mt-0.5">✓</span>
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    {/* Features */}
+                    <ul className="space-y-3 text-left mb-8">
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2">
+                          <span className="text-green-500 mt-0.5">✓</span>
+                          <span className="text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
 
-                  {/* CTA */}
-                  <Button
-                    variant={plan.highlighted ? "default" : "secondary"}
-                    size="lg"
-                    className="w-full mt-auto"
-                    asChild
-                  >
-                    <a href="/go?ref=pricing">Get started</a>
-                  </Button>
-                </CardContent>
-              </Card>
+                    {/* CTA */}
+                    <Button
+                      variant={plan.highlighted ? "default" : plan.tier === "freemium" ? "secondary" : "default"}
+                      size="lg"
+                      className="w-full mt-auto"
+                      asChild
+                    >
+                      <a href="/go?ref=pricing">{plan.cta || "Get started"}</a>
+                    </Button>
+                  </CardContent>
+                </Card>
               </div>
             </StaggerItem>
           ))}

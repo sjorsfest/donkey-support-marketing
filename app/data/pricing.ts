@@ -1,43 +1,63 @@
 export interface PricingPlan {
   name: string
+  tier: "freemium" | "pro"
   description: string
   monthlyPrice: number
-  yearlyPrice: number
+  yearlyPrice?: number
   promoPrice?: number
   features: string[]
   highlighted?: boolean
   badge?: string
+  cta?: string
 }
 
 export const pricingPlans: PricingPlan[] = [
   {
-    name: "Monthly",
-    description: "Perfect for trying things out",
-    monthlyPrice: 2.99,
-    yearlyPrice: 2.99,
-    promoPrice: 0.99,
+    name: "Freemium",
+    tier: "freemium",
+    description: "Everything you need to get started",
+    monthlyPrice: 0,
     features: [
       "Slack, Discord, or Telegram integration",
-      "Widget customization",
+      "Basic widget customization",
       "Visitor identification",
-      "Webhooks",
-      "Up to 5 domains",
+      "Up to 3 domains",
       "Unlimited tickets",
+      "\"Powered by Donkey Support\" badge",
     ],
-    badge: "Flexible",
+    badge: "Free forever",
+    cta: "Start free",
   },
   {
-    name: "Yearly",
+    name: "Pro Monthly",
+    tier: "pro",
+    description: "For builders who want more control",
+    monthlyPrice: 2.99,
+    promoPrice: 0.99,
+    features: [
+      "Everything in Freemium",
+      "Unlimited domains",
+      "No widget branding",
+      "Webhooks",
+      "Extended customization (operator images)",
+    ],
+    badge: "Most flexible",
+    cta: "Go Pro",
+  },
+  {
+    name: "Pro Yearly",
+    tier: "pro",
     description: "Best value for committed builders",
     monthlyPrice: 1.67,
     yearlyPrice: 20,
     features: [
-      "Everything in Monthly",
+      "Everything in Pro Monthly",
       "Priority support",
       "Save 44% compared to monthly",
     ],
     highlighted: true,
     badge: "Best Value",
+    cta: "Save 44% Now",
   },
 ]
 

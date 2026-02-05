@@ -70,7 +70,7 @@ export function Hero() {
               className="inline-flex mb-6"
             >
               <Badge variant="promo" size="lg">
-                🎉 First 3 months at $0.99/mo
+                🎉 Now with a free tier!
               </Badge>
             </motion.div>
 

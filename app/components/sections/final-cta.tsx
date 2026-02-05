@@ -39,7 +39,7 @@ export function FinalCTA() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" asChild>
-                  <a href="/go?ref=cta">Get started for $0.99/mo</a>
+                  <a href="/go?ref=cta">Start free</a>
                 </Button>
                 <Button
                   variant="secondary"
@@ -51,7 +51,7 @@ export function FinalCTA() {
               </div>
 
               <p className="text-sm text-muted mt-6">
-                Don&apos;t miss out on this special rate!
+                Or upgrade to Pro for $0.99/mo
               </p>
             </CardContent>
 

@@ -8,12 +8,20 @@ const features = [
   {
     title: "Widget customization",
     description:
-      "Match your brand perfectly. Set your company name, greeting text, and pick primary and accent colors that fit your style.",
+      "Match your brand perfectly. Set your company name, greeting text, profile picture, and pick primary and accent colors that fit your style.",
     badge: "Branding",
     visual: (
       <div className="relative">
         <div className="bg-white rounded-xl border-2 border-outline shadow-[4px_4px_0_#1a1a1a] p-4 max-w-xs mx-auto">
           <div className="space-y-3">
+                        <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                <svg className="w-3 h-3 text-gray-500 mt-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/>
+                </svg>
+              </div>
+              <span className="text-sm font-medium">Profile Picture</span>
+            </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-pink-500 rounded" />
               <span className="text-sm font-medium">Primary Color</span>
@@ -22,6 +30,7 @@ const features = [
               <div className="w-4 h-4 bg-yellow-400 rounded" />
               <span className="text-sm font-medium">Accent Color</span>
             </div>
+
             <div className="h-2 w-full bg-muted rounded" />
             <div className="h-2 w-3/4 bg-muted rounded" />
           </div>
