@@ -7,7 +7,7 @@ const comparisons = [
     name: "Donkey Support",
     isUs: true,
     attributes: {
-      pricing: "Free / $2.99/mo",
+      pricing: "Free",
       setup: "5 minutes",
       complexity: "Simple",
       integration: "Slack/Discord/Telegram",

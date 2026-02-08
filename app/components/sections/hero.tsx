@@ -119,7 +119,7 @@ export function Hero() {
               >
                 <a href="/go?ref=hero">
                   <span className="flex items-center gap-2">
-                    Launch your widget
+                    Start for free
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                   </span>
                 </a>

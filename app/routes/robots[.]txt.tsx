@@ -1,0 +1,21 @@
+import type { LoaderFunctionArgs } from "react-router";
+
+export const loader = ({ request }: LoaderFunctionArgs) => {
+  const url = new URL(request.url);
+  const baseUrl = url.origin;
+
+  const robotText = `
+User-agent: *
+Allow: /
+
+Sitemap: ${baseUrl}/sitemap.xml
+`.trim();
+
+  return new Response(robotText, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/plain",
+      "Cache-Control": "public, max-age=3600", // Cache for 1 hour
+    },
+  });
+};
