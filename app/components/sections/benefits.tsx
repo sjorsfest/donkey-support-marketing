@@ -24,7 +24,7 @@ const benefits = [
     icon: "💰",
     title: "Affordable for solo builders",
     description:
-      "No per-seat pricing. No enterprise minimums. Built for indie devs and small teams.",
+      "No per-seat pricing. No enterprise minimums. Built for solopreneurs and small teams.",
   },
 ]
 
