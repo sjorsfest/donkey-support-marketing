@@ -76,25 +76,27 @@ const features = [
     badge: "Automation",
     visual: (
       <div className="relative">
-        <div className="bg-white rounded-xl border-2 border-outline shadow-[4px_4px_0_#1a1a1a] p-4 max-w-xs mx-auto">
-          <div className="space-y-2">
-            {["Open", "Closed", "Open"].map((status, i) => (
-              <div
-                key={i}
-                className="flex items-center justify-between p-2 bg-muted/50 rounded-lg"
-              >
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-muted rounded" />
-                  <div className="h-2 w-16 bg-foreground/20 rounded" />
-                </div>
-                <Badge
-                  variant={status === "Open" ? "success" : "secondary"}
-                  size="sm"
-                >
-                  {status}
-                </Badge>
-              </div>
-            ))}
+        <div className="bg-white rounded-xl border-2 border-outline shadow-[4px_4px_0_#1a1a1a] p-2.5 max-w-[220px] mx-auto">
+          <div className="text-[12px] text-foreground/80 font-bold mb-2 px-1">Follow-up activity</div>
+          <div className="space-y-1.5 text-[11px]">
+            <div className="flex items-center space-x-3 justify-between px-2 py-1.5 rounded-md border-2 border-yellow-200/80 bg-yellow-50/60">
+              <span className="font-semibold text-yellow-900">Agent reply unseen</span>
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full border border-yellow-300 text-yellow-900">
+                waiting
+              </span>
+            </div>
+            <div className="flex items-center justify-between px-2 py-1.5 rounded-md border-2 border-blue-200/80 bg-blue-50/60">
+              <span className="font-semibold text-blue-900">Email follow-up sent</span>
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full border border-blue-300 text-blue-900">
+                sent
+              </span>
+            </div>
+            <div className="flex items-center justify-between px-2 py-1.5 rounded-md border-2 border-green-200/80 bg-green-50/60">
+              <span className="font-semibold text-green-900">Delivery logged</span>
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded-full border border-green-300 text-green-900">
+                delivered
+              </span>
+            </div>
           </div>
         </div>
       </div>
