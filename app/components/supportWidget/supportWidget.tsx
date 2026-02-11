@@ -11,6 +11,8 @@ interface SupportWidgetProps {
   name?: string;
   /** Custom data to attach to the conversation (e.g. userId, plan) */
   metadata?: Record<string, any>;
+  /** Signed metadata JWT for verified context */
+  metadataToken?: string;
   /** Set to true to hide the floating button and control the widget programmatically */
   controlledByHost?: boolean;
   /** When controlledByHost is true, use this to open/close the widget */
@@ -22,6 +24,7 @@ export function SupportWidget({
   email,
   name,
   metadata,
+  metadataToken,
   controlledByHost,
   widgetIsOpen,
 }: SupportWidgetProps) {
@@ -37,6 +40,7 @@ export function SupportWidget({
       email,
       name,
       metadata,
+      metadataToken,
       controlledByHost,
       widgetIsOpen,
     };
@@ -49,7 +53,7 @@ export function SupportWidget({
     script.src = WIDGET_BASE_URL + "/widget/loader.js";
     script.async = true;
     document.body.appendChild(script);
-  }, [accountId, email, name, metadata, controlledByHost, widgetIsOpen]);
+  }, [accountId, email, name, metadata, metadataToken, controlledByHost, widgetIsOpen]);
 
   return null;
 }

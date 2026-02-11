@@ -33,8 +33,9 @@ export function FinalCTA() {
               </h2>
 
               <p className="text-lg text-muted max-w-xl mx-auto mb-8">
-                Set up your support widget in minutes. Reply to customers from
-                Slack, Discord, or Telegram. It&apos;s that simple.
+                Set up your support widget in minutes. Reply from Slack,
+                Discord, or Telegram, keep context signed, and automatically
+                follow up when visitors miss your reply.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">

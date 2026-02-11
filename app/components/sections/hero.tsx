@@ -105,8 +105,8 @@ export function Hero() {
 
             {/* Subheadline */}
             <p className="text-lg sm:text-xl text-foreground/80 max-w-xl mx-auto lg:mx-0 mb-8">
-              Add a lightweight widget to your app. Messages become Slack,
-              Discord, or Telegram threads, so you can reply where you already work.
+              Add a lightweight widget to your app. Reply from Slack, Discord,
+              or Telegram threads, and automatically follow up by email when replies go unseen.
             </p>
 
             {/* CTAs */}

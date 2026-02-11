@@ -64,7 +64,7 @@ export function HowItWorks() {
 
                 {/* Connector Line (not on last item) */}
                 {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 w-6 border-t-2 border-dashed border-outline/30" />
+                  <div className="hidden md:block absolute top-1/2 -right-7 w-6 border-t-2 border-dashed border-outline/30" />
                 )}
               </Card>
             </StaggerItem>

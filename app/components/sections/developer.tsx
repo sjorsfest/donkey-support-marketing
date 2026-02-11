@@ -9,7 +9,7 @@ const codeExamples = [
     language: "html",
     code: `<script>
   window.SupportWidget = {
-    accountId: "YOUR_ACCOUNT_ID"
+    accountId: "YOUR_ACCOUNT_ID",
   };
 </script>
 <script async src="https://app.donkey.support/widget/loader.js"></script>`,
@@ -26,6 +26,7 @@ function App() {
       accountId="YOUR_ACCOUNT_ID"
       email="user@example.com"
       name="Jane Doe"
+      metadata={{ plan: "pro", userId: "usr_123" }}
     />
   )
 }`,
@@ -45,7 +46,8 @@ export function Developer() {
             <span className="text-pink-500">minutes</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Simple APIs. Clear docs. No headaches.
+            Simple APIs. Clear docs. Add signed metadata when you need
+            verified context.
           </p>
         </FadeIn>
 

@@ -11,15 +11,15 @@ const securityFeatures = [
   },
   {
     icon: "🔐",
-    title: "Signed webhooks",
+    title: "Signed metadata tokens",
     description:
-      "All webhook payloads are signed. Verify authenticity with rotating secrets.",
+      "Verify visitor metadata with HS256 tokens so unsigned context can be ignored when signing is enabled.",
   },
   {
     icon: "📜",
-    title: "Delivery history",
+    title: "Email delivery logs",
     description:
-      "Track every webhook attempt. Debug failed deliveries with full logs.",
+      "Track follow-up sends and statuses so you can debug delivery issues fast.",
   },
   {
     icon: "🏢",
@@ -48,7 +48,8 @@ export function Security() {
             <span className="text-pink-500">automation</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Simple doesn&apos;t mean insecure. Automate your workflows with webhooks.
+            Simple doesn&apos;t mean insecure. Verify visitor context and
+            automate follow-ups with clear delivery visibility.
           </p>
         </FadeIn>
 

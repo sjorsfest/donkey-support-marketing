@@ -39,10 +39,10 @@ const features = [
     ),
   },
   {
-    title: "Visitor identification",
+    title: "Trusted visitor context",
     description:
-      "Know who you're talking to. Collect email and name, plus attach custom metadata to show your agents more context.",
-    badge: "Context",
+      "Know who you're talking to with email, name, and custom metadata. Add a signed metadata token so agents can trust the context they see.",
+    badge: "Trust",
     visual: (
       <div className="relative">
         <div className="bg-white rounded-xl border-2 border-outline shadow-[4px_4px_0_#1a1a1a] p-4 max-w-xs mx-auto">
@@ -70,10 +70,10 @@ const features = [
     ),
   },
   {
-    title: "Ticket dashboard",
+    title: "Automatic missed-reply follow-ups",
     description:
-      "See all conversations in one place. Track open and closed tickets, view message history, and jump straight to your Slack, Discord, or Telegram threads.",
-    badge: "Overview",
+      "If a visitor doesn't see your agent reply, Donkey Support sends a branded email nudge automatically and tracks delivery status.",
+    badge: "Automation",
     visual: (
       <div className="relative">
         <div className="bg-white rounded-xl border-2 border-outline shadow-[4px_4px_0_#1a1a1a] p-4 max-w-xs mx-auto">
@@ -112,7 +112,8 @@ export function Features() {
             <span className="text-pink-500">nothing you don&apos;t</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Powerful features without the complexity. Built for builders who value simplicity.
+            Powerful features without the complexity. Built for builders who
+            want simple support and reliable follow-up.
           </p>
         </FadeIn>
 
