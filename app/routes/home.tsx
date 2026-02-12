@@ -18,19 +18,25 @@ import {
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Donkey Support - Customer Support Widget for Web Apps" },
+    { title: "Donkey Support - Customer Support Widget" },
     {
       name: "description",
       content:
-        "The simplest way to add customer support to your web app. Reply from Slack, Discord, or Telegram, with signed metadata and automatic missed-reply email follow-ups.",
+        "Support chat that lives in your Discord Server. Reply from Slack, Discord, or Telegram threads, and follow up by email when replies go unseen.",
     },
-    { property: "og:title", content: "Donkey Support - Support Widget for Web Apps" },
+    { tagName: "link", rel: "canonical", href: "https://www.donkey.support/" },
+    { property: "og:type", content: "website" },
+    { property: "og:site_name", content: "Donkey Support" },
+    { property: "og:title", content: "Donkey Support - Customer Support Widget" },
     {
       property: "og:description",
       content:
-        "Let visitors chat on your website. Get tickets in Slack, Discord, or Telegram threads with signed metadata and automatic missed-reply email follow-ups.",
+        "Support chat that lives in your Discord Server. Reply from Slack, Discord, or Telegram threads, and follow up by email when replies go unseen.",
     },
-    { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://www.donkey.support/" },
+    { property: "og:image", content: "https://www.donkey.support/og/og-image.png" },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
     { name: "twitter:card", content: "summary_large_image" },
     {
       name: "twitter:title",
@@ -39,8 +45,9 @@ export function meta({}: Route.MetaArgs) {
     {
       name: "twitter:description",
       content:
-        "Support chat for indie builders with signed metadata and automatic missed-reply email follow-ups.",
+        "Support chat that lives in your Discord Server. Reply from Slack, Discord, or Telegram threads, and follow up by email when replies go unseen.",
     },
+    { name: "twitter:image", content: "https://www.donkey.support/og/og-image.png" },
   ]
 }
 
