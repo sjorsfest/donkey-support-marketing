@@ -16,6 +16,9 @@ import {
   FinalCTA,
 } from "~/components/sections"
 
+const SITE_URL = "https://www.donkey.support"
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/og-image.png`
+
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Donkey Support - Customer Support Widget" },
@@ -24,7 +27,7 @@ export function meta({}: Route.MetaArgs) {
       content:
         "Support chat that lives in your Discord Server. Reply from Slack, Discord, or Telegram threads, and follow up by email when replies go unseen.",
     },
-    { tagName: "link", rel: "canonical", href: "https://www.donkey.support/" },
+    { tagName: "link", rel: "canonical", href: `${SITE_URL}/` },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "Donkey Support" },
     { property: "og:title", content: "Donkey Support - Customer Support Widget" },
@@ -33,8 +36,8 @@ export function meta({}: Route.MetaArgs) {
       content:
         "Support chat that lives in your Discord Server. Reply from Slack, Discord, or Telegram threads, and follow up by email when replies go unseen.",
     },
-    { property: "og:url", content: "https://www.donkey.support/" },
-    { property: "og:image", content: "https://www.donkey.support/og/og-image.png" },
+    { property: "og:url", content: `${SITE_URL}/` },
+    { property: "og:image", content: SOCIAL_IMAGE_URL },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
     { name: "twitter:card", content: "summary_large_image" },
@@ -47,7 +50,8 @@ export function meta({}: Route.MetaArgs) {
       content:
         "Support chat that lives in your Discord Server. Reply from Slack, Discord, or Telegram threads, and follow up by email when replies go unseen.",
     },
-    { name: "twitter:image", content: "https://www.donkey.support/og/og-image.png" },
+    { name: "twitter:image", content: SOCIAL_IMAGE_URL },
+    { name: "twitter:image:src", content: SOCIAL_IMAGE_URL },
   ]
 }
 
