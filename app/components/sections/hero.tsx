@@ -52,7 +52,7 @@ export function Hero() {
   }, [platforms.length])
 
   return (
-    <section className="relative pt-36 pb-24 md:pt-44 md:pb-20 overflow-hidden">
+    <section className="relative pt-40 sm:pt-36 pb-24 md:pt-44 md:pb-20 overflow-x-hidden">
       <div className="section-container">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Column - Content */}
@@ -75,7 +75,7 @@ export function Hero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8">
               <span className="text-outline-hero">Support chat</span>{" "}
               <span className="text-foreground">that</span>
               <br />

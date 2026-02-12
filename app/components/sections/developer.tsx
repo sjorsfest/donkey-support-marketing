@@ -35,8 +35,8 @@ function App() {
 
 export function Developer() {
   return (
-    <section className="py-20 overflow-hidden">
-      <div className="section-container overflow-hidden">
+    <section className="py-20">
+      <div className="section-container">
         <FadeIn className="text-center mb-12">
           <Badge variant="secondary" className="mb-4">
             Developer friendly
@@ -56,9 +56,9 @@ export function Developer() {
           staggerDelay={0.15}
         >
           {codeExamples.map((example) => (
-            <StaggerItem key={example.title} className="min-w-0 overflow-hidden">
-              <Card className="h-full overflow-hidden">
-                <CardContent className="p-6 min-w-0 overflow-hidden">
+            <StaggerItem key={example.title} className="min-w-0">
+              <Card className="h-full">
+                <CardContent className="p-6 min-w-0">
                   <div className="mb-4">
                     <h3 className="font-display text-lg font-bold mb-1">
                       {example.title}

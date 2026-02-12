@@ -20,7 +20,7 @@ export function FAQ() {
             <span className="text-pink-500">questions</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Got questions? We&apos;ve got answers.
+            From &quot;what&apos;s free?&quot; to &quot;how Pro gets fancy&quot; - we&apos;ve got you.
           </p>
         </FadeIn>
 

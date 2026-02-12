@@ -19,7 +19,7 @@ export function Pricing() {
             <span className="text-pink-500">upgrade when ready</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            No per-seat pricing. No hidden fees. Get started at no cost.
+            From full ticketing on Freemium to unlimited unbranded Pro. No per-seat pricing, no sneaky fees.
           </p>
         </FadeIn>
 

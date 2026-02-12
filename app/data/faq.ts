@@ -12,17 +12,17 @@ export const faqItems: FAQItem[] = [
   {
     question: "Can I use multiple platforms like Slack, Discord, and Telegram?",
     answer:
-      "You can connect Slack, Discord, or Telegram - one at a time. This keeps things simple and ensures all your support stays in one place. You can switch between them anytime.",
+      "Yep. You can connect Slack, Discord, or Telegram in a couple clicks. Pick the one your team actually lives in, and keep support flowing there.",
   },
   {
     question: "What's included in the free plan?",
     answer:
-      "Freemium includes integration with Slack, Discord, or Telegram, basic widget customization, visitor identification, up to 3 domains, and unlimited tickets. Widgets show a small \"Powered by Donkey Support\" badge.",
+      "Freemium is more than a teaser: full ticketing workflow, widget setup, Slack/Discord/Telegram integration, office hours, signed widget metadata, and up to 3 domains. You also get 10 email notifications per month, with Donkey branding visible.",
   },
   {
     question: "What do I get with Pro?",
     answer:
-      "Pro unlocks unlimited domains, removes widget branding, adds webhooks for automation, and extended customization options like operator images. First 3 months at $0.99/mo.",
+      "Pro removes the caps and polishes the look: unlimited domains, unlimited email notifications, no Donkey branding, custom email logo, custom widget avatar, and access to webhooks. Plus the launch offer is still spicy: first 3 months at $0.99/mo.",
   },
   {
     question: "How does the message sync work?",
@@ -32,6 +32,6 @@ export const faqItems: FAQItem[] = [
   {
     question: "Can I customize the widget appearance?",
     answer:
-      "Yes! All plans let you set your company name, greeting text, and customize colors. Pro unlocks extended options like adding operator images and removing the Donkey Support badge.",
+      "Absolutely. Freemium gives you company name, greeting text, colors, and embed options. Pro goes further with custom avatar/logo uploads and a fully unbranded widget + email experience.",
   },
 ]
