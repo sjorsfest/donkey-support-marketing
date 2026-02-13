@@ -17,7 +17,7 @@ import {
 } from "~/components/sections"
 
 const SITE_URL = "https://www.donkey.support"
-const SOCIAL_IMAGE_URL = `${SITE_URL}/og/og-image.png?v=2`
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/og-image.png?v=3`
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -39,8 +39,8 @@ export function meta({}: Route.MetaArgs) {
     { property: "og:url", content: `${SITE_URL}/` },
     { property: "og:image", content: SOCIAL_IMAGE_URL },
     { property: "og:image:secure_url", content: SOCIAL_IMAGE_URL },
-    { property: "og:image:width", content: "1142" },
-    { property: "og:image:height", content: "614" },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
     {
       property: "og:image:alt",
       content: "Donkey Support customer support widget preview",
