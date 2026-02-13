@@ -16,7 +16,7 @@ import {
   FinalCTA,
 } from "~/components/sections"
 
-const SITE_URL = "https://www.donkey.support"
+const SITE_URL = "https://donkey.support"
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/og-image.png`
 
 export function meta({}: Route.MetaArgs) {
@@ -38,9 +38,15 @@ export function meta({}: Route.MetaArgs) {
     },
     { property: "og:url", content: `${SITE_URL}/` },
     { property: "og:image", content: SOCIAL_IMAGE_URL },
-    { property: "og:image:width", content: "1200" },
-    { property: "og:image:height", content: "630" },
+    { property: "og:image:secure_url", content: SOCIAL_IMAGE_URL },
+    { property: "og:image:width", content: "1142" },
+    { property: "og:image:height", content: "614" },
+    {
+      property: "og:image:alt",
+      content: "Donkey Support customer support widget preview",
+    },
     { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:url", content: `${SITE_URL}/` },
     {
       name: "twitter:title",
       content: "Donkey Support - Customer Support Widget",
@@ -52,6 +58,10 @@ export function meta({}: Route.MetaArgs) {
     },
     { name: "twitter:image", content: SOCIAL_IMAGE_URL },
     { name: "twitter:image:src", content: SOCIAL_IMAGE_URL },
+    {
+      name: "twitter:image:alt",
+      content: "Donkey Support customer support widget preview",
+    },
   ]
 }
 
