@@ -16,8 +16,8 @@ import {
   FinalCTA,
 } from "~/components/sections"
 
-const SITE_URL = "https://donkey.support"
-const SOCIAL_IMAGE_URL = `${SITE_URL}/og/og-image.png`
+const SITE_URL = "https://www.donkey.support"
+const SOCIAL_IMAGE_URL = `${SITE_URL}/og/og-image.png?v=2`
 
 export function meta({}: Route.MetaArgs) {
   return [
