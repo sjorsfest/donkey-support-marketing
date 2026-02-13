@@ -74,8 +74,8 @@ Freemium plan:
   - Donkey branding remains visible.
 
 Pro Monthly plan:
-- Standard price: $2.99/month.
-- Current launch offer: first 3 months at $0.99/month.
+- Standard price: $4.99/month.
+- Current launch offer: first 3 months at $2.99/month.
 - Includes:
   - Everything in Freemium.
   - Unlimited domains.
@@ -86,11 +86,11 @@ Pro Monthly plan:
   - Webhooks for automation.
 
 Pro Yearly plan:
-- Price: $20/year (effective $1.67/month).
+- Price: $35/year (effective $2.92/month).
 - Includes:
   - Everything in Pro Monthly.
   - Same unlimited setup with annual billing.
-  - Approx. 44% savings versus monthly pricing.
+  - Approx. 42% savings versus monthly pricing.
 
 ## Ideal use cases
 - SaaS products that need live customer support without buying a full helpdesk.

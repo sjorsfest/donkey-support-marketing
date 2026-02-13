@@ -12,7 +12,7 @@ export function Pricing() {
       <div className="section-container">
         <FadeIn className="text-center mb-12">
           <Badge variant="promo" className="mb-4">
-            Pro launch offer: First 3 months at $0.99/mo
+            Pro launch offer: First 3 months at $2.99/mo
           </Badge>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
             Start free,{" "}
@@ -82,12 +82,12 @@ export function Pricing() {
                       </div>
                       {plan.name === "Pro Yearly" && (
                         <p className="text-sm text-pink-500 font-semibold mt-2">
-                          Just ${plan.monthlyPrice}/month
+                          ${plan.monthlyPrice}/month billed annually
                         </p>
                       )}
                       {plan.name === "Pro Monthly" && plan.promoPrice && (
                         <p className="text-sm text-pink-500 font-semibold mt-2">
-                          for first 3 months
+                          Then ${plan.monthlyPrice}/month after 3 months
                         </p>
                       )}
                       {plan.tier === "freemium" && (

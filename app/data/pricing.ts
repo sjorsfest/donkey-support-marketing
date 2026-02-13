@@ -33,8 +33,8 @@ export const pricingPlans: PricingPlan[] = [
     name: "Pro Monthly",
     tier: "pro",
     description: "For teams that want full control (and zero limits)",
-    monthlyPrice: 2.99,
-    promoPrice: 0.99,
+    monthlyPrice: 4.99,
+    promoPrice: 2.99,
     features: [
       "Everything in Freemium",
       "Unlimited domains",
@@ -50,16 +50,16 @@ export const pricingPlans: PricingPlan[] = [
     name: "Pro Yearly",
     tier: "pro",
     description: "Best value for committed builders",
-    monthlyPrice: 1.67,
-    yearlyPrice: 20,
+    monthlyPrice: 2.92,
+    yearlyPrice: 35,
     features: [
       "Everything in Pro Monthly",
       "Same unlimited setup, billed yearly",
-      "Save 44% compared to monthly",
+      "Save 42% compared to monthly",
     ],
     highlighted: true,
     badge: "Best Value",
-    cta: "Save 44% Now",
+    cta: "Save 42% Now",
   },
 ]
 

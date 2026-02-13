@@ -52,7 +52,7 @@ export function FinalCTA() {
               </div>
 
               <p className="text-sm text-muted mt-6">
-                Or upgrade to Pro for $0.99/mo
+                Or upgrade to Pro from $2.99/mo
               </p>
             </CardContent>
 

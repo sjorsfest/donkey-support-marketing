@@ -22,7 +22,7 @@ export const faqItems: FAQItem[] = [
   {
     question: "What do I get with Pro?",
     answer:
-      "Pro removes the caps and polishes the look: unlimited domains, unlimited email notifications, no Donkey branding, custom email logo, custom widget avatar, and access to webhooks. Plus the launch offer is still spicy: first 3 months at $0.99/mo.",
+      "Pro removes the caps and polishes the look: unlimited domains, unlimited email notifications, no Donkey branding, custom email logo, custom widget avatar, and access to webhooks. Plus the launch offer is still spicy: first 3 months at $2.99/mo, then $4.99/mo.",
   },
   {
     question: "How does the message sync work?",
