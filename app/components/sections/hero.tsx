@@ -142,9 +142,9 @@ export function Hero() {
             >
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
-                  <img src="/static/face1.png" alt="donkey-face1" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
-                  <img src="/static/face2.png" alt="donkey-face2" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
-                  <img src="/static/face3.png" alt="donkey-face3" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                  <img src="/static/face1.png" alt="" aria-hidden="true" width={32} height={32} decoding="async" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                  <img src="/static/face2.png" alt="" aria-hidden="true" width={32} height={32} decoding="async" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                  <img src="/static/face3.png" alt="" aria-hidden="true" width={32} height={32} decoding="async" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
                 </div>
                 <p className="text-sm font-semibold text-foreground/70">
                   Be an early adopter — <span className="text-pink-500">join the herd</span>

@@ -1,4 +1,5 @@
 import type { LoaderFunctionArgs } from "react-router";
+import { sitemapLastmodMap } from "~/data/sitemap-lastmod.generated";
 
 export const loader = ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
@@ -24,10 +25,11 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
     .map((route) => {
       // Clean up path to ensure it doesn't have double slashes if we combine
       const loc = `${baseUrl}${route.path}`; 
+      const lastmod = sitemapLastmodMap[route.path];
+      const lastmodTag = lastmod ? `\n      <lastmod>${lastmod}</lastmod>` : "";
       return `
     <url>
-      <loc>${loc}</loc>
-      <lastmod>${new Date().toISOString()}</lastmod>
+      <loc>${loc}</loc>${lastmodTag}
       <changefreq>${route.changefreq}</changefreq>
       <priority>${route.priority}</priority>
     </url>`;

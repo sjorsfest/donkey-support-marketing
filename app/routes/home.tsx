@@ -1,6 +1,7 @@
 import type { Route } from "./+types/home"
 import { Navbar } from "~/components/layout/navbar"
 import { Footer } from "~/components/layout/footer"
+import { faqItems } from "~/data/faq"
 import {
   Hero,
   Credibility,
@@ -18,6 +19,42 @@ import {
 
 const SITE_URL = "https://www.donkey.support"
 const SOCIAL_IMAGE_URL = `${SITE_URL}/og/og-image.png?v=3`
+const STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      name: "Donkey Support",
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon-512.png`,
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Donkey Support",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: SITE_URL,
+      description:
+        "A lightweight customer support widget for your website. Reply from Slack, Discord, or Telegram threads, and follow up by email when replies go unseen.",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqItems.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+    },
+  ],
+}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -68,6 +105,12 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(STRUCTURED_DATA),
+        }}
+      />
       <Navbar />
       <main>
         <Hero />

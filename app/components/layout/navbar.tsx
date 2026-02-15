@@ -33,7 +33,10 @@ export function Navbar() {
             <div className="relative group">
               <img
                 src="/static/donkey.png"
-                alt="Donkey Support"
+                alt="Donkey Support logo"
+                width={48}
+                height={48}
+                decoding="async"
                 className="w-12 h-12 object-contain group-hover:scale-110 transition-transform duration-300"
               />
               <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white animate-bounce-subtle" />

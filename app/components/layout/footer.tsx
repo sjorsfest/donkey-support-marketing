@@ -11,7 +11,11 @@ export function Footer() {
               <div className="flex items-center gap-1">
                 <img
                   src="/static/donkey.png"
-                  alt="Donkey Support"
+                  alt="Donkey Support logo"
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                  decoding="async"
                   className="w-10 h-10 object-contain"
                 />
                 <span className="font-display text-lg font-bold text-pink-500 tracking-tight">
@@ -26,19 +30,19 @@ export function Footer() {
             {/* Links */}
             <div className="flex flex-wrap items-center justify-center gap-6 text-center">
               <a
-                href="#features"
+                href="/#features"
                 className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
               >
                 Features
               </a>
               <a
-                href="#pricing"
+                href="/#pricing"
                 className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
               >
                 Pricing
               </a>
               <a
-                href="#faq"
+                href="/#faq"
                 className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
               >
                 FAQ

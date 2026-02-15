@@ -22,7 +22,11 @@ export function FinalCTA() {
               <Float className="flex justify-center items-center" y={6}>
                 <img
                 src="/static/donkey.png"
-                alt="Donkey Support"
+                alt="Donkey Support logo"
+                width={80}
+                height={80}
+                loading="lazy"
+                decoding="async"
                 className="w-20 h-20 object-contain mb-4 self-center"
               />
               </Float>

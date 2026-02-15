@@ -3,11 +3,31 @@ import { Navbar } from "~/components/layout/navbar"
 import { Footer } from "~/components/layout/footer"
 import { FadeIn } from "~/components/motion"
 
+const SITE_URL = "https://www.donkey.support"
+const PAGE_URL = `${SITE_URL}/privacy-policy`
+const LAST_UPDATED_ISO = "2026-02-15"
+const LAST_UPDATED_LABEL = "15 February 2026"
+
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Privacy Policy - Donkey Support" },
     {
       name: "description",
+      content: "Privacy Policy for Donkey Support - Learn how we collect, use, and protect your data.",
+    },
+    { tagName: "link", rel: "canonical", href: PAGE_URL },
+    { property: "og:type", content: "article" },
+    { property: "og:site_name", content: "Donkey Support" },
+    { property: "og:title", content: "Privacy Policy - Donkey Support" },
+    {
+      property: "og:description",
+      content: "Privacy Policy for Donkey Support - Learn how we collect, use, and protect your data.",
+    },
+    { property: "og:url", content: PAGE_URL },
+    { name: "twitter:card", content: "summary" },
+    { name: "twitter:title", content: "Privacy Policy - Donkey Support" },
+    {
+      name: "twitter:description",
       content: "Privacy Policy for Donkey Support - Learn how we collect, use, and protect your data.",
     },
   ]
@@ -26,7 +46,7 @@ export default function PrivacyPolicy() {
               </h1>
 
               <p className="text-muted mb-8">
-                Last updated: {new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
+                Last updated: <time dateTime={LAST_UPDATED_ISO}>{LAST_UPDATED_LABEL}</time>
               </p>
 
               <div className="prose prose-lg max-w-none space-y-8">

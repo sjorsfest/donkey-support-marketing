@@ -13,7 +13,11 @@ export function loader({ request }: Route.LoaderArgs) {
     throw new Response("App URL not configured", { status: 500 });
   }
 
-  // The ref param is captured by analytics when they visit /go?ref=hero
-  // We just redirect to the app
-  return redirect(appUrl);
+  // Preserve attribution/query params for downstream conversion tracking.
+  const targetUrl = new URL(appUrl);
+  for (const [key, value] of url.searchParams.entries()) {
+    targetUrl.searchParams.append(key, value);
+  }
+
+  return redirect(targetUrl.toString());
 }
