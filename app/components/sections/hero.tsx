@@ -14,14 +14,14 @@ export function Hero() {
       name: "Discord Server",
       colorClass: "text-[#5865F2]",
       badgeClass: "bg-[#5865F2]/10 border-[#5865F2]/30",
-      sizeClass: "text-[0.85em]",
+      sizeClass: "text-[0.95em] sm:text-[0.85em]",
       icon: FaDiscord,
     },
     {
       name: "Telegram Group",
       colorClass: "text-[#0088cc]",
       badgeClass: "bg-[#0088cc]/10 border-[#0088cc]/30",
-      sizeClass: "text-[0.85em]",
+      sizeClass: "text-[0.95em] sm:text-[0.85em]",
       icon: FaTelegram,
     },
 
@@ -29,7 +29,7 @@ export function Hero() {
       name: "Slack Workspace",
       colorClass: "text-[#7A4A7F]",
       badgeClass: "bg-[#7A4A7F]/10 border-[#7A4A7F]/30",
-      sizeClass: "text-[0.85em]",
+      sizeClass: "text-[0.95em] sm:text-[0.85em]",
       icon: FaSlack,
     },
     
