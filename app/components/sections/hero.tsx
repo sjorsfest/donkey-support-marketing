@@ -80,14 +80,14 @@ export function Hero() {
               <span className="text-foreground">that</span>
               <br />
               <span className="text-foreground">lives in your</span>{" "}
-              <span className="relative inline-flex items-center min-w-[13ch]">
+              <span className="relative inline-flex items-center min-w-[15ch] whitespace-nowrap">
                 <motion.span
                   key={platforms[activePlatform].name}
                   initial={{ opacity: 0, y: 10, rotate: -2 }}
                   animate={{ opacity: 1, y: 0, rotate: 0 }}
                   exit={{ opacity: 0, y: -10, rotate: 2 }}
                   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                  className={`inline-flex items-center gap-2 font-bold ${platforms[activePlatform].colorClass} ${platforms[activePlatform].sizeClass}`}
+                  className={`inline-flex items-center gap-2 font-bold whitespace-nowrap ${platforms[activePlatform].colorClass} ${platforms[activePlatform].sizeClass}`}
                 >
                   <span
                     className={`inline-flex h-[1em] w-[1em] items-center justify-center rounded-full border ${platforms[activePlatform].badgeClass}`}
