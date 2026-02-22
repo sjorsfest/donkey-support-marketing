@@ -35,9 +35,8 @@ export function AgenciesHero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8 max-w-4xl mx-auto lg:mx-0">
               <span className="text-outline-hero">White Label Support</span>{" "}
-              <br />
               <span className="text-foreground">for</span>{" "}
               <span className="text-pink-500">Agency Client Work</span>
             </h1>
