@@ -8,6 +8,11 @@ export const loader = ({ request }: LoaderFunctionArgs) => {
   // List of static routes
   const routes = [
     { path: "/", changefreq: "daily", priority: "1.0" },
+    { path: "/discord-communities", changefreq: "weekly", priority: "0.8" },
+    { path: "/open-source", changefreq: "weekly", priority: "0.8" },
+    { path: "/indie-games", changefreq: "weekly", priority: "0.8" },
+    { path: "/agencies", changefreq: "weekly", priority: "0.8" },
+    { path: "/non-technical-founders", changefreq: "weekly", priority: "0.8" },
     { path: "/privacy-policy", changefreq: "monthly", priority: "0.5" },
     { path: "/tos", changefreq: "monthly", priority: "0.5" },
   ];
