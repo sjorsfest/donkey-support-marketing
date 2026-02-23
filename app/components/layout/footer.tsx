@@ -25,9 +25,40 @@ export function Footer() {
               <p className="text-sm text-muted text-center md:text-left">
                 Built with ❤️ for indie builders
               </p>
-              <p className="text-sm text-muted mt-4 text-center md:text-left">
-                &copy; {new Date().getFullYear()} Donkey Support
-              </p>
+              <div className="flex items-center gap-2 mt-2">
+                <a
+                  href="https://www.producthunt.com/products/donkey-support?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-donkey-support"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="opacity-70 hover:opacity-100 transition-opacity"
+                >
+                  <img
+                    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1068311&theme=light&t=1769434185538"
+                    alt="Featured on Product Hunt"
+                    width={120}
+                    height={26}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-[120px] h-[26px] object-contain"
+                  />
+                </a>
+                <a
+                  href="https://rankinpublic.xyz/products/donkey.support"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="opacity-70 hover:opacity-100 transition-opacity"
+                >
+                  <img
+                    src="https://rankinpublic.xyz/api/badges/badge3.png?site=donkey.support"
+                    alt="Featured on RankInPublic"
+                    width={120}
+                    height={26}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-[120px] h-[26px] object-contain"
+                  />
+                </a>
+              </div>
             </div>
 
             {/* Product */}
@@ -110,6 +141,11 @@ export function Footer() {
                 </a>
               </div>
             </div>
+          </div>
+          <div className="mt-10 pt-6 border-t border-outline/20">
+            <p className="text-sm text-muted text-center md:text-left">
+              &copy; {new Date().getFullYear()} Donkey Support
+            </p>
           </div>
         </FadeIn>
       </div>
