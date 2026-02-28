@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
+import { FaDiscord, FaSlack, FaTelegram } from "react-icons/fa"
 import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
 import { Float } from "~/components/motion"
@@ -14,21 +15,21 @@ export function Hero() {
       colorClass: "text-[#5865F2]",
       badgeClass: "bg-[#5865F2]/10 border-[#5865F2]/30",
       sizeClass: "text-[1em] sm:text-[0.85em]",
-      glyph: "D",
+      icon: FaDiscord,
     },
     {
       name: "Telegram Group",
       colorClass: "text-[#0088cc]",
       badgeClass: "bg-[#0088cc]/10 border-[#0088cc]/30",
       sizeClass: "text-[1em] sm:text-[0.85em]",
-      glyph: "T",
+      icon: FaTelegram,
     },
     {
       name: "Slack Workspace",
       colorClass: "text-[#7A4A7F]",
       badgeClass: "bg-[#7A4A7F]/10 border-[#7A4A7F]/30",
       sizeClass: "text-[1em] sm:text-[0.85em]",
-      glyph: "S",
+      icon: FaSlack,
     },
   ]
   const [activePlatform, setActivePlatform] = useState(0)
@@ -46,6 +47,8 @@ export function Hero() {
     }, 3500)
     return () => clearInterval(interval)
   }, [platforms.length])
+
+  const ActivePlatformIcon = platforms[activePlatform].icon
 
   return (
     <section className="relative pt-40 sm:pt-36 pb-24 md:pt-44 md:pb-20 overflow-x-hidden">
@@ -89,9 +92,7 @@ export function Hero() {
                     className={`inline-flex h-[1em] w-[1em] items-center justify-center rounded-full border ${platforms[activePlatform].badgeClass}`}
                     aria-hidden
                   >
-                    <span className="text-[0.56em] font-black leading-none">
-                      {platforms[activePlatform].glyph}
-                    </span>
+                    <ActivePlatformIcon className="text-[0.62em] leading-none" />
                   </span>
                   {platforms[activePlatform].name}
                 </motion.span>
