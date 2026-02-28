@@ -3,6 +3,7 @@
 import { Button } from "~/components/ui/button"
 import { Card, CardContent } from "~/components/ui/card"
 import { FadeIn, Float } from "~/components/motion"
+import { BrandLogo } from "~/components/ui/brand-logo"
 
 export function FinalCTA() {
 
@@ -20,15 +21,13 @@ export function FinalCTA() {
           <Card variant="elevated" className="relative overflow-hidden">
             <CardContent className="py-16 px-8 text-center relative z-10">
               <Float className="flex justify-center items-center" y={6}>
-                <img
-                src="/static/donkey.png"
-                alt="Donkey Support logo"
-                width={80}
-                height={80}
-                loading="lazy"
-                decoding="async"
-                className="w-20 h-20 object-contain mb-4 self-center"
-              />
+                <BrandLogo
+                  width={80}
+                  height={80}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-20 h-20 object-contain mb-4 self-center"
+                />
               </Float>
 
               <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4">

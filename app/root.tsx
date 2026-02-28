@@ -1,4 +1,5 @@
 import {
+  redirect,
   isRouteErrorResponse,
   Links,
   Meta,
@@ -12,7 +13,26 @@ import "./app.css";
 import { SupportWidget } from "./components/supportWidget/supportWidget";
 import { AppConfigProvider } from "./context/appConfig";
 
-export function loader() {
+const MANAGED_HOSTS = new Set(["donkey.support", "www.donkey.support"])
+const CANONICAL_HOST = "www.donkey.support"
+
+export function loader({ request }: Route.LoaderArgs) {
+  const requestUrl = new URL(request.url)
+  if (MANAGED_HOSTS.has(requestUrl.hostname)) {
+    let shouldRedirect = false
+    if (requestUrl.hostname !== CANONICAL_HOST) {
+      requestUrl.hostname = CANONICAL_HOST
+      shouldRedirect = true
+    }
+    if (requestUrl.protocol !== "https:") {
+      requestUrl.protocol = "https:"
+      shouldRedirect = true
+    }
+    if (shouldRedirect) {
+      return redirect(requestUrl.toString(), 301)
+    }
+  }
+
   return {
     appUrl: process.env.APP_URL ?? "",
   };
@@ -49,7 +69,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <ScrollRestoration />
         <Scripts />
         <Analytics />
-        <SupportWidget accountId="cmko8jp0i0000lo09ghgzcul5" />
+        <SupportWidget
+          accountId="cmko8jp0i0000lo09ghgzcul5"
+          deferLoad="idle"
+        />
       </body>
     </html>
   );

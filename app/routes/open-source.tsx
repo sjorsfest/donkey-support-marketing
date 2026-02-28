@@ -4,6 +4,12 @@ import { Footer } from "~/components/layout/footer"
 import { OpenSourceHero } from "~/components/sections/open-source-hero"
 import { OpenSourceBenefits } from "~/components/sections/open-source-benefits"
 import {
+  buildBreadcrumbJsonLd,
+  buildJsonLdGraph,
+  buildMeta,
+  buildSoftwareApplicationJsonLd,
+} from "~/lib/seo"
+import {
   Credibility,
   HowItWorks,
   Integrations,
@@ -11,57 +17,37 @@ import {
   FinalCTA
 } from "~/components/sections"
 
-const SITE_URL = "https://www.donkey.support"
 const PAGE_PATH = "/open-source"
-const SOCIAL_IMAGE = `${SITE_URL}/og/og-image.png?v=3`
+const PAGE_TITLE = "Open Source Support Software (Free) | Donkey Support"
+const PAGE_DESCRIPTION =
+  "Free support inbox for open source maintainers. Aggregate questions from Discord, Slack, and Telegram with verified user context."
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Free Support Software for Open Source Projects | Donkey Support" },
-    {
-      name: "description",
-      content: "Free support inbox for OSS maintainers. Aggregate questions from Discord/Slack/Telegram. Verify users with signed tokens. Zero budget, zero complexity."
-    },
-    { tagName: "link", rel: "canonical", href: `${SITE_URL}${PAGE_PATH}` },
-    { property: "og:type", content: "website" },
-    { property: "og:site_name", content: "Donkey Support" },
-    { property: "og:title", content: "Free Support Software for Open Source Projects | Donkey Support" },
-    {
-      property: "og:description",
-      content: "Free support inbox for OSS maintainers. Aggregate questions from Discord/Slack/Telegram. Verify users with signed tokens. Zero budget, zero complexity."
-    },
-    { property: "og:url", content: `${SITE_URL}${PAGE_PATH}` },
-    { property: "og:image", content: SOCIAL_IMAGE },
-    { property: "og:image:width", content: "1200" },
-    { property: "og:image:height", content: "630" },
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: "Free Support Software for Open Source Projects | Donkey Support" },
-    {
-      name: "twitter:description",
-      content: "Free support inbox for OSS maintainers. Aggregate questions from Discord/Slack/Telegram. Verify users with signed tokens. Zero budget, zero complexity."
-    },
-    { name: "twitter:image", content: SOCIAL_IMAGE },
-  ]
+  return buildMeta({
+    path: PAGE_PATH,
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+  })
 }
 
 export default function OpenSourcePage() {
+  const structuredData = buildJsonLdGraph(
+    buildSoftwareApplicationJsonLd({
+      path: PAGE_PATH,
+      description: PAGE_DESCRIPTION,
+    }),
+    buildBreadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Open Source", path: PAGE_PATH },
+    ]),
+  )
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: "Donkey Support",
-            applicationCategory: "BusinessApplication",
-            description: "Free support inbox for OSS maintainers. Aggregate questions from Discord, Slack, and Telegram. Verify users with signed tokens.",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD"
-            }
-          })
+          __html: JSON.stringify(structuredData),
         }}
       />
       <Navbar />

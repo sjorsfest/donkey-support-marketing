@@ -2,40 +2,38 @@ import type { Route } from "./+types/privacy-policy"
 import { Navbar } from "~/components/layout/navbar"
 import { Footer } from "~/components/layout/footer"
 import { FadeIn } from "~/components/motion"
+import { buildBreadcrumbJsonLd, buildMeta } from "~/lib/seo"
 
-const SITE_URL = "https://www.donkey.support"
-const PAGE_URL = `${SITE_URL}/privacy-policy`
+const PAGE_PATH = "/privacy-policy"
 const LAST_UPDATED_ISO = "2026-02-15"
 const LAST_UPDATED_LABEL = "15 February 2026"
+const PAGE_TITLE = "Privacy Policy | Donkey Support"
+const PAGE_DESCRIPTION =
+  "Privacy Policy for Donkey Support. Learn how we collect, use, and protect your data."
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Privacy Policy - Donkey Support" },
-    {
-      name: "description",
-      content: "Privacy Policy for Donkey Support - Learn how we collect, use, and protect your data.",
-    },
-    { tagName: "link", rel: "canonical", href: PAGE_URL },
-    { property: "og:type", content: "article" },
-    { property: "og:site_name", content: "Donkey Support" },
-    { property: "og:title", content: "Privacy Policy - Donkey Support" },
-    {
-      property: "og:description",
-      content: "Privacy Policy for Donkey Support - Learn how we collect, use, and protect your data.",
-    },
-    { property: "og:url", content: PAGE_URL },
-    { name: "twitter:card", content: "summary" },
-    { name: "twitter:title", content: "Privacy Policy - Donkey Support" },
-    {
-      name: "twitter:description",
-      content: "Privacy Policy for Donkey Support - Learn how we collect, use, and protect your data.",
-    },
-  ]
+  return buildMeta({
+    path: PAGE_PATH,
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    ogType: "article",
+  })
 }
 
 export default function PrivacyPolicy() {
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Privacy Policy", path: PAGE_PATH },
+  ])
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
       <Navbar />
       <main className="py-20">
         <div className="section-container">

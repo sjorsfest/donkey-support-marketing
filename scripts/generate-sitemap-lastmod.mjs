@@ -5,6 +5,11 @@ import { fileURLToPath } from "node:url"
 
 const ROUTE_TO_SOURCE = [
   { path: "/", file: "app/routes/home.tsx" },
+  { path: "/discord-communities", file: "app/routes/discord-communities.tsx" },
+  { path: "/open-source", file: "app/routes/open-source.tsx" },
+  { path: "/indie-games", file: "app/routes/indie-games.tsx" },
+  { path: "/agencies", file: "app/routes/agencies.tsx" },
+  { path: "/non-technical-founders", file: "app/routes/non-technical-founders.tsx" },
   { path: "/privacy-policy", file: "app/routes/privacy-policy.tsx" },
   { path: "/tos", file: "app/routes/tos.tsx" },
 ]

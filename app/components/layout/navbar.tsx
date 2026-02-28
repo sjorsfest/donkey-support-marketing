@@ -1,8 +1,8 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { Link, useLocation, useNavigate } from "react-router";
 import { Button } from "~/components/ui/button"
+import { BrandLogo } from "~/components/ui/brand-logo"
 
 export function Navbar() {
   const location = useLocation()
@@ -20,20 +20,13 @@ export function Navbar() {
   }
 
   return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 py-4"
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 py-4">
       <div className="section-container">
         <nav className="flex items-center justify-between rounded-2xl px-4 py-3 glass border-2 border-outline shadow-[4px_4px_0_#1a1a1a]">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
             <div className="relative group">
-              <img
-                src="/static/donkey.png"
-                alt="Donkey Support logo"
+              <BrandLogo
                 width={48}
                 height={48}
                 decoding="async"
@@ -74,6 +67,6 @@ export function Navbar() {
           </Button>
         </nav>
       </div>
-    </motion.header>
+    </header>
   )
 }

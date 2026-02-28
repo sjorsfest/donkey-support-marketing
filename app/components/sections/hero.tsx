@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react"
-import { FaDiscord, FaSlack, FaTelegram } from "react-icons/fa"
 import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
 import { Float } from "~/components/motion"
@@ -10,30 +9,27 @@ import { Sparkles, ArrowRight } from "lucide-react"
 
 export function Hero() {
   const platforms = [
-        {
+    {
       name: "Discord Server",
       colorClass: "text-[#5865F2]",
       badgeClass: "bg-[#5865F2]/10 border-[#5865F2]/30",
       sizeClass: "text-[1em] sm:text-[0.85em]",
-      icon: FaDiscord,
+      glyph: "D",
     },
     {
       name: "Telegram Group",
       colorClass: "text-[#0088cc]",
       badgeClass: "bg-[#0088cc]/10 border-[#0088cc]/30",
       sizeClass: "text-[1em] sm:text-[0.85em]",
-      icon: FaTelegram,
+      glyph: "T",
     },
-
     {
       name: "Slack Workspace",
       colorClass: "text-[#7A4A7F]",
       badgeClass: "bg-[#7A4A7F]/10 border-[#7A4A7F]/30",
       sizeClass: "text-[1em] sm:text-[0.85em]",
-      icon: FaSlack,
+      glyph: "S",
     },
-    
-
   ]
   const [activePlatform, setActivePlatform] = useState(0)
 
@@ -93,10 +89,9 @@ export function Hero() {
                     className={`inline-flex h-[1em] w-[1em] items-center justify-center rounded-full border ${platforms[activePlatform].badgeClass}`}
                     aria-hidden
                   >
-                    {(() => {
-                      const Icon = platforms[activePlatform].icon
-                      return <Icon className="h-[0.65em] w-[0.65em]" />
-                    })()}
+                    <span className="text-[0.56em] font-black leading-none">
+                      {platforms[activePlatform].glyph}
+                    </span>
                   </span>
                   {platforms[activePlatform].name}
                 </motion.span>
@@ -142,9 +137,45 @@ export function Hero() {
             >
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
-                  <img src="/static/face1.png" alt="" aria-hidden="true" width={32} height={32} decoding="async" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
-                  <img src="/static/face2.png" alt="" aria-hidden="true" width={32} height={32} decoding="async" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
-                  <img src="/static/face3.png" alt="" aria-hidden="true" width={32} height={32} decoding="async" className="w-8 h-8 rounded-full border-2 border-white bg-white" />
+                  <picture>
+                    <source srcSet="/static/face1.webp" type="image/webp" />
+                    <img
+                      src="/static/face1.png"
+                      alt=""
+                      aria-hidden="true"
+                      width={32}
+                      height={32}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-8 h-8 rounded-full border-2 border-white bg-white"
+                    />
+                  </picture>
+                  <picture>
+                    <source srcSet="/static/face2.webp" type="image/webp" />
+                    <img
+                      src="/static/face2.png"
+                      alt=""
+                      aria-hidden="true"
+                      width={32}
+                      height={32}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-8 h-8 rounded-full border-2 border-white bg-white"
+                    />
+                  </picture>
+                  <picture>
+                    <source srcSet="/static/face3.webp" type="image/webp" />
+                    <img
+                      src="/static/face3.png"
+                      alt=""
+                      aria-hidden="true"
+                      width={32}
+                      height={32}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-8 h-8 rounded-full border-2 border-white bg-white"
+                    />
+                  </picture>
                 </div>
                 <p className="text-sm font-semibold text-foreground/70">
                   Be an early adopter — <span className="text-pink-500">join the herd</span>
@@ -161,6 +192,9 @@ export function Hero() {
                   alt="Donkey Support - Support through a Discord/Telegram/Slack thread. | Product Hunt"
                   width="140"
                   height="30"
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
                 />
               </a>
             </motion.div>

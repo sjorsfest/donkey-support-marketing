@@ -3,6 +3,11 @@
 
 export const sitemapLastmodMap: Record<string, string> = {
   "/": "2026-02-15T12:06:55+01:00",
+  "/discord-communities": "2026-02-22T13:43:29+01:00",
+  "/open-source": "2026-02-22T13:43:29+01:00",
+  "/indie-games": "2026-02-22T13:43:29+01:00",
+  "/agencies": "2026-02-22T13:43:29+01:00",
+  "/non-technical-founders": "2026-02-22T13:43:29+01:00",
   "/privacy-policy": "2026-02-15T12:06:55+01:00",
   "/tos": "2026-02-15T12:06:55+01:00"
 }

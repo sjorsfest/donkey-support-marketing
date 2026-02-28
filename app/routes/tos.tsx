@@ -2,40 +2,37 @@ import type { Route } from "./+types/tos"
 import { Navbar } from "~/components/layout/navbar"
 import { Footer } from "~/components/layout/footer"
 import { FadeIn } from "~/components/motion"
+import { buildBreadcrumbJsonLd, buildMeta } from "~/lib/seo"
 
-const SITE_URL = "https://www.donkey.support"
-const PAGE_URL = `${SITE_URL}/tos`
+const PAGE_PATH = "/tos"
 const LAST_UPDATED_ISO = "2026-02-15"
 const LAST_UPDATED_LABEL = "15 February 2026"
+const PAGE_TITLE = "Terms of Service | Donkey Support"
+const PAGE_DESCRIPTION = "Terms of Service for Donkey Support."
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Terms of Service - Donkey Support" },
-    {
-      name: "description",
-      content: "Terms of Service for Donkey Support customer support widget.",
-    },
-    { tagName: "link", rel: "canonical", href: PAGE_URL },
-    { property: "og:type", content: "article" },
-    { property: "og:site_name", content: "Donkey Support" },
-    { property: "og:title", content: "Terms of Service - Donkey Support" },
-    {
-      property: "og:description",
-      content: "Terms of Service for Donkey Support customer support widget.",
-    },
-    { property: "og:url", content: PAGE_URL },
-    { name: "twitter:card", content: "summary" },
-    { name: "twitter:title", content: "Terms of Service - Donkey Support" },
-    {
-      name: "twitter:description",
-      content: "Terms of Service for Donkey Support customer support widget.",
-    },
-  ]
+  return buildMeta({
+    path: PAGE_PATH,
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    ogType: "article",
+  })
 }
 
 export default function TermsOfService() {
+  const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Terms of Service", path: PAGE_PATH },
+  ])
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd),
+        }}
+      />
       <Navbar />
       <main className="py-20">
         <div className="section-container">

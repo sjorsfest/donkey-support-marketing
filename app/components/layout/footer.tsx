@@ -1,4 +1,6 @@
 import { FadeIn } from "~/components/motion"
+import { BrandLogo } from "~/components/ui/brand-logo"
+import { ExternalBadges } from "./external-badges"
 
 export function Footer() {
   return (
@@ -9,9 +11,7 @@ export function Footer() {
             {/* Logo & Tagline */}
             <div className="flex flex-col items-center md:items-start gap-2 lg:col-span-2">
               <div className="flex items-center gap-1">
-                <img
-                  src="/static/donkey.png"
-                  alt="Donkey Support logo"
+                <BrandLogo
                   width={40}
                   height={40}
                   loading="lazy"
@@ -25,56 +25,7 @@ export function Footer() {
               <p className="text-sm text-muted text-center md:text-left">
                 Built with ❤️ for indie builders
               </p>
-              <div className="flex items-center gap-2 mt-2">
-                <a
-                  href="https://www.producthunt.com/products/donkey-support?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-donkey-support"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="opacity-70 hover:opacity-100 transition-opacity"
-                >
-                  <img
-                    src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1068311&theme=light&t=1769434185538"
-                    alt="Featured on Product Hunt"
-                    width={120}
-                    height={26}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-[120px] h-[26px] object-contain"
-                  />
-                </a>
-                <a
-                  href="https://rankinpublic.xyz/products/donkey.support"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="opacity-70 hover:opacity-100 transition-opacity"
-                >
-                  <img
-                    src="https://rankinpublic.xyz/api/badges/badge3.png?site=donkey.support"
-                    alt="Featured on RankInPublic"
-                    width={120}
-                    height={26}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-[120px] h-[26px] object-contain"
-                  />
-                </a>
-                <a
-                  href="https://neeed.directory/products/donkey-support?utm_source=donkey-support"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="opacity-70 hover:opacity-100 transition-opacity"
-                >
-                  <img
-                    src="https://neeed.directory/badges/neeed-badge-light.svg"
-                    alt="Featured on neeed.directory"
-                    width={120}
-                    height={26}
-                    loading="lazy"
-                    decoding="async"
-                    className="w-[120px] h-[26px] object-contain"
-                  />
-                </a>
-              </div>
+              <ExternalBadges />
             </div>
 
             {/* Product */}

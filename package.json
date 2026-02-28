@@ -5,6 +5,7 @@
   "scripts": {
     "build": "npm run generate:sitemap-lastmod && react-router build",
     "dev": "react-router dev",
+    "seo:check": "node scripts/seo-check.mjs",
     "generate:sitemap-lastmod": "node scripts/generate-sitemap-lastmod.mjs",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc"

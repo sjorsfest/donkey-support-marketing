@@ -1,0 +1,3 @@
+http://donkey.support/* https://www.donkey.support/:splat 301!
+http://www.donkey.support/* https://www.donkey.support/:splat 301!
+https://donkey.support/* https://www.donkey.support/:splat 301!

@@ -4,6 +4,12 @@ import { Footer } from "~/components/layout/footer"
 import { NonTechnicalFoundersHero } from "~/components/sections/non-technical-founders-hero"
 import { NonTechnicalFoundersBenefits } from "~/components/sections/non-technical-founders-benefits"
 import {
+  buildBreadcrumbJsonLd,
+  buildJsonLdGraph,
+  buildMeta,
+  buildSoftwareApplicationJsonLd,
+} from "~/lib/seo"
+import {
   Credibility,
   HowItWorks,
   Integrations,
@@ -11,57 +17,37 @@ import {
   FinalCTA
 } from "~/components/sections"
 
-const SITE_URL = "https://www.donkey.support"
 const PAGE_PATH = "/non-technical-founders"
-const SOCIAL_IMAGE = `${SITE_URL}/og/og-image.png?v=3`
+const PAGE_TITLE = "Support Software for Non-Technical Founders | Donkey"
+const PAGE_DESCRIPTION =
+  "No-code support widget for non-technical SaaS founders. Reply from Discord or Slack with automatic follow-ups and flat pricing."
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Simple Support Software for Non-Technical Founders | Donkey Support" },
-    {
-      name: "description",
-      content: "No-code support widget for non-technical SaaS founders. Reply from Discord/Slack, automatic follow-ups, flat pricing. 5-minute setup."
-    },
-    { tagName: "link", rel: "canonical", href: `${SITE_URL}${PAGE_PATH}` },
-    { property: "og:type", content: "website" },
-    { property: "og:site_name", content: "Donkey Support" },
-    { property: "og:title", content: "Simple Support Software for Non-Technical Founders | Donkey Support" },
-    {
-      property: "og:description",
-      content: "No-code support widget for non-technical SaaS founders. Reply from Discord/Slack, automatic follow-ups, flat pricing. 5-minute setup."
-    },
-    { property: "og:url", content: `${SITE_URL}${PAGE_PATH}` },
-    { property: "og:image", content: SOCIAL_IMAGE },
-    { property: "og:image:width", content: "1200" },
-    { property: "og:image:height", content: "630" },
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: "Simple Support Software for Non-Technical Founders | Donkey Support" },
-    {
-      name: "twitter:description",
-      content: "No-code support widget for non-technical SaaS founders. Reply from Discord/Slack, automatic follow-ups, flat pricing. 5-minute setup."
-    },
-    { name: "twitter:image", content: SOCIAL_IMAGE },
-  ]
+  return buildMeta({
+    path: PAGE_PATH,
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+  })
 }
 
 export default function NonTechnicalFoundersPage() {
+  const structuredData = buildJsonLdGraph(
+    buildSoftwareApplicationJsonLd({
+      path: PAGE_PATH,
+      description: PAGE_DESCRIPTION,
+    }),
+    buildBreadcrumbJsonLd([
+      { name: "Home", path: "/" },
+      { name: "Non-Technical Founders", path: PAGE_PATH },
+    ]),
+  )
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: "Donkey Support",
-            applicationCategory: "BusinessApplication",
-            description: "No-code support widget for non-technical SaaS founders. Reply from Discord or Slack, automatic follow-ups, flat pricing.",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD"
-            }
-          })
+          __html: JSON.stringify(structuredData),
         }}
       />
       <Navbar />
