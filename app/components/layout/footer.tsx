@@ -58,6 +58,22 @@ export function Footer() {
                     className="w-[120px] h-[26px] object-contain"
                   />
                 </a>
+                <a
+                  href="https://neeed.directory/products/donkey-support?utm_source=donkey-support"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="opacity-70 hover:opacity-100 transition-opacity"
+                >
+                  <img
+                    src="https://neeed.directory/badges/neeed-badge-light.svg"
+                    alt="Featured on neeed.directory"
+                    width={120}
+                    height={26}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-[120px] h-[26px] object-contain"
+                  />
+                </a>
               </div>
             </div>
 
