@@ -36,10 +36,10 @@ Your application will be available at `http://localhost:5173`.
 
 ### Database setup (Supabase on Vercel)
 
-Add your Supabase Postgres URL to `.env`:
+Add your Postgres URL to `.env`:
 
 ```bash
-DATABASE_POSTGRES_URL=postgresql://...
+DATABASE_URL=postgresql://...
 ```
 
 Then run the app. A simple API route is available at:

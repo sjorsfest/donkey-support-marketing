@@ -2,7 +2,8 @@
 // Receives and processes webhook events from Donkey SEO
 
 import type { Route } from "./+types/api.webhooks.donkey-seo"
-import { getDbPool } from "~/lib/db.server"
+import { sql } from "drizzle-orm"
+import { getDb } from "~/lib/db.server"
 import { verifyWebhookSignature } from "~/lib/webhook-verification.server"
 import {
   processArticlePublication,
@@ -97,11 +98,12 @@ export async function action({ request }: Route.ActionArgs) {
     console.log(`[Donkey SEO Webhook] Received event: ${event_type} (${event_id})`)
 
     // 5. Check idempotency
-    const pool = getDbPool()
-    const existingEvent = await pool.query(
-      "SELECT event_id, processed FROM donkey_webhook_events WHERE event_id = $1",
-      [event_id]
-    )
+    const db = getDb()
+    const existingEvent = await db.execute(sql`
+      SELECT event_id, processed
+      FROM donkey_webhook_events
+      WHERE event_id = ${event_id}
+    `)
 
     if (existingEvent.rows.length > 0) {
       console.log(`[Donkey SEO Webhook] Event ${event_id} already received, skipping`)
@@ -113,11 +115,10 @@ export async function action({ request }: Route.ActionArgs) {
     }
 
     // 6. Store event immediately (prevents duplicate processing)
-    await pool.query(
-      `INSERT INTO donkey_webhook_events (event_id, event_type, payload, processed)
-       VALUES ($1, $2, $3, false)`,
-      [event_id, event_type, payload]
-    )
+    await db.execute(sql`
+      INSERT INTO donkey_webhook_events (event_id, event_type, payload, processed)
+      VALUES (${event_id}, ${event_type}, ${payload}, false)
+    `)
 
     // 7. Process event based on type
     if (event_type === "content.article.publish_requested") {
@@ -137,10 +138,11 @@ export async function action({ request }: Route.ActionArgs) {
     }
 
     // Unknown event type - mark as processed
-    await pool.query(
-      "UPDATE donkey_webhook_events SET processed = true, processed_at = NOW() WHERE event_id = $1",
-      [event_id]
-    )
+    await db.execute(sql`
+      UPDATE donkey_webhook_events
+      SET processed = true, processed_at = NOW()
+      WHERE event_id = ${event_id}
+    `)
 
     console.log(`[Donkey SEO Webhook] Unknown event type: ${event_type}`)
     return Response.json({

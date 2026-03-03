@@ -1,7 +1,8 @@
 // Pillar Sync Service
 // Syncs pillar data from Donkey SEO API to local database
 
-import { getDbPool } from "~/lib/db.server"
+import { sql } from "drizzle-orm"
+import { getDb } from "~/lib/db.server"
 import { getDonkeySeoClient } from "~/lib/donkey-seo-client.server"
 
 /**
@@ -12,7 +13,7 @@ import { getDonkeySeoClient } from "~/lib/donkey-seo-client.server"
  * @returns Number of pillars synced
  */
 export async function syncPillars(includeArchived = false): Promise<number> {
-  const pool = getDbPool()
+  const db = getDb()
   const client = getDonkeySeoClient()
 
   try {
@@ -25,13 +26,27 @@ export async function syncPillars(includeArchived = false): Promise<number> {
 
     // Upsert each pillar
     for (const pillar of pillars) {
-      await pool.query(
-        `INSERT INTO donkey_pillars (
+      await db.execute(sql`
+        INSERT INTO donkey_pillars (
           pillar_id, project_id, slug, name, description,
           seo_title, seo_description, status,
           primary_article_count, published_primary_article_count,
           last_synced_at, created_at, updated_at
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW(), NOW(), NOW())
+        ) VALUES (
+          ${pillar.id},
+          ${pillar.project_id},
+          ${pillar.slug},
+          ${pillar.name},
+          ${pillar.description || null},
+          ${pillar.name},
+          ${pillar.description || null},
+          ${pillar.status},
+          ${pillar.primary_article_count},
+          ${pillar.published_primary_article_count},
+          NOW(),
+          NOW(),
+          NOW()
+        )
         ON CONFLICT (pillar_id) DO UPDATE SET
           project_id = EXCLUDED.project_id,
           slug = EXCLUDED.slug,
@@ -43,21 +58,8 @@ export async function syncPillars(includeArchived = false): Promise<number> {
           primary_article_count = EXCLUDED.primary_article_count,
           published_primary_article_count = EXCLUDED.published_primary_article_count,
           last_synced_at = NOW(),
-          updated_at = NOW()`,
-        [
-          pillar.id,
-          pillar.project_id,
-          pillar.slug,
-          pillar.name,
-          pillar.description || null,
-          // Use pillar name as SEO title if not provided
-          pillar.name,
-          pillar.description || null,
-          pillar.status,
-          pillar.primary_article_count,
-          pillar.published_primary_article_count,
-        ]
-      )
+          updated_at = NOW()
+      `)
     }
 
     console.log(`[Donkey SEO] Successfully synced ${pillars.length} pillars`)

@@ -1,7 +1,8 @@
 // Article Publication Service
 // Handles the full publication workflow for Donkey SEO articles
 
-import { getDbPool } from "~/lib/db.server"
+import { sql } from "drizzle-orm"
+import { getDb } from "~/lib/db.server"
 import { getDonkeySeoClient } from "~/lib/donkey-seo-client.server"
 import { uploadImageToR2 } from "~/lib/r2.server"
 import { CANONICAL_ORIGIN } from "~/lib/seo"
@@ -175,7 +176,7 @@ export async function processArticlePublication(
   eventId: string,
   payload: WebhookArticlePayload
 ): Promise<void> {
-  const pool = getDbPool()
+  const db = getDb()
   const client = getDonkeySeoClient()
 
   try {
@@ -236,15 +237,36 @@ export async function processArticlePublication(
     const metadata = extractArticleMetadata(payload)
 
     // 6. Store article in database (upsert)
-    await pool.query(
-      `INSERT INTO donkey_articles (
+    await db.execute(sql`
+      INSERT INTO donkey_articles (
         article_id, project_id, slug, title, excerpt,
         seo_title, seo_description, seo_h1, primary_keyword,
         featured_image_url, featured_image_alt,
         pillar_id, pillar_slug, pillar_name,
         webhook_payload, publish_status, published_at, proposed_publication_date,
         created_at, updated_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, NOW(), $17, NOW(), NOW())
+      ) VALUES (
+        ${metadata.article_id},
+        ${metadata.project_id},
+        ${metadata.slug},
+        ${metadata.title},
+        ${metadata.excerpt},
+        ${metadata.seo_title},
+        ${metadata.seo_description},
+        ${metadata.seo_h1},
+        ${metadata.primary_keyword},
+        ${featuredImageUrl},
+        ${featuredImageAlt},
+        ${metadata.pillar_id},
+        ${metadata.pillar_slug},
+        ${metadata.pillar_name},
+        ${JSON.stringify({ ...payload, modular_document: processedDocument })},
+        ${"published"},
+        NOW(),
+        ${metadata.proposed_publication_date},
+        NOW(),
+        NOW()
+      )
       ON CONFLICT (article_id) DO UPDATE SET
         project_id = EXCLUDED.project_id,
         slug = EXCLUDED.slug,
@@ -263,27 +285,8 @@ export async function processArticlePublication(
         publish_status = EXCLUDED.publish_status,
         published_at = EXCLUDED.published_at,
         proposed_publication_date = EXCLUDED.proposed_publication_date,
-        updated_at = NOW()`,
-      [
-        metadata.article_id,
-        metadata.project_id,
-        metadata.slug,
-        metadata.title,
-        metadata.excerpt,
-        metadata.seo_title,
-        metadata.seo_description,
-        metadata.seo_h1,
-        metadata.primary_keyword,
-        featuredImageUrl,
-        featuredImageAlt,
-        metadata.pillar_id,
-        metadata.pillar_slug,
-        metadata.pillar_name,
-        JSON.stringify({ ...payload, modular_document: processedDocument }),
-        "published",
-        metadata.proposed_publication_date,
-      ]
-    )
+        updated_at = NOW()
+    `)
 
     // 7. Notify Donkey SEO of successful publication
     const publishedUrl = `${CANONICAL_ORIGIN}/blog/${metadata.slug}`
@@ -294,12 +297,11 @@ export async function processArticlePublication(
     })
 
     // 8. Mark webhook event as processed
-    await pool.query(
-      `UPDATE donkey_webhook_events
-       SET processed = true, processed_at = NOW()
-       WHERE event_id = $1`,
-      [eventId]
-    )
+    await db.execute(sql`
+      UPDATE donkey_webhook_events
+      SET processed = true, processed_at = NOW()
+      WHERE event_id = ${eventId}
+    `)
 
     console.log(`[Donkey SEO] Successfully published article: ${metadata.slug}`)
   } catch (error) {
@@ -310,29 +312,28 @@ export async function processArticlePublication(
 
     // Store error in webhook event
     const errorMessage = error instanceof Error ? error.message : "Unknown error"
-    await pool.query(
-      `UPDATE donkey_webhook_events
-       SET processed = true, processed_at = NOW(), error_message = $1
-       WHERE event_id = $2`,
-      [errorMessage, eventId]
-    )
+    await db.execute(sql`
+      UPDATE donkey_webhook_events
+      SET processed = true, processed_at = NOW(), error_message = ${errorMessage}
+      WHERE event_id = ${eventId}
+    `)
 
     // Update article status to failed
-    await pool.query(
-      `INSERT INTO donkey_articles (
+    await db.execute(sql`
+      INSERT INTO donkey_articles (
         article_id, project_id, slug, title, webhook_payload, publish_status
-      ) VALUES ($1, $2, $3, $4, $5, 'failed')
+      ) VALUES (
+        ${payload.article.article_id},
+        ${payload.project.id},
+        ${payload.article.slug},
+        ${payload.article.title},
+        ${JSON.stringify(payload)},
+        'failed'
+      )
       ON CONFLICT (article_id) DO UPDATE SET
         publish_status = 'failed',
-        updated_at = NOW()`,
-      [
-        payload.article.article_id,
-        payload.project.id,
-        payload.article.slug,
-        payload.article.title,
-        JSON.stringify(payload),
-      ]
-    )
+        updated_at = NOW()
+    `)
 
     // Notify Donkey SEO of failure
     try {

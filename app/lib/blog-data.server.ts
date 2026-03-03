@@ -1,7 +1,8 @@
 // Blog Data Access Layer
 // Handles all database queries for blog articles
 
-import { getDbPool } from "~/lib/db.server"
+import { sql } from "drizzle-orm"
+import { getDb } from "~/lib/db.server"
 import { withCache } from "~/lib/cache.server"
 
 // Cache TTLs (in seconds)
@@ -56,25 +57,24 @@ export async function getPublishedArticleBySlug(
   slug: string
 ): Promise<BlogArticle | null> {
   return withCache(`article:${slug}`, ARTICLE_CACHE_TTL, async () => {
-    const pool = getDbPool()
+    const db = getDb()
 
-    const result = await pool.query(
-      `SELECT
+    const result = await db.execute(sql`
+      SELECT
         article_id, slug, title, excerpt,
         seo_title, seo_description, seo_h1,
         featured_image_url, featured_image_alt,
         pillar_slug, pillar_name,
         webhook_payload, published_at
-       FROM donkey_articles
-       WHERE slug = $1 AND publish_status = 'published'`,
-      [slug]
-    )
+      FROM donkey_articles
+      WHERE slug = ${slug} AND publish_status = 'published'
+    `)
 
     if (result.rows.length === 0) {
       return null
     }
 
-    return result.rows[0]
+    return result.rows[0] as unknown as BlogArticle
   })
 }
 
@@ -86,21 +86,20 @@ export async function getAllPublishedArticles(
   limit = 50
 ): Promise<BlogArticleSummary[]> {
   return withCache(`articles:all:${limit}`, ARTICLES_LIST_CACHE_TTL, async () => {
-    const pool = getDbPool()
+    const db = getDb()
 
-    const result = await pool.query(
-      `SELECT
+    const result = await db.execute(sql`
+      SELECT
         article_id, slug, title, excerpt,
         featured_image_url, featured_image_alt,
         pillar_slug, pillar_name, published_at
-       FROM donkey_articles
-       WHERE publish_status = 'published'
-       ORDER BY published_at DESC
-       LIMIT $1`,
-      [limit]
-    )
+      FROM donkey_articles
+      WHERE publish_status = 'published'
+      ORDER BY published_at DESC
+      LIMIT ${limit}
+    `)
 
-    return result.rows
+    return result.rows as unknown as BlogArticleSummary[]
   })
 }
 
@@ -112,16 +111,16 @@ export async function getPublishedArticlesForSitemap(): Promise<
   BlogArticleForSitemap[]
 > {
   return withCache("articles:sitemap", SITEMAP_CACHE_TTL, async () => {
-    const pool = getDbPool()
+    const db = getDb()
 
-    const result = await pool.query(
-      `SELECT slug, updated_at
-       FROM donkey_articles
-       WHERE publish_status = 'published'
-       ORDER BY published_at DESC`
-    )
+    const result = await db.execute(sql`
+      SELECT slug, updated_at
+      FROM donkey_articles
+      WHERE publish_status = 'published'
+      ORDER BY published_at DESC
+    `)
 
-    return result.rows
+    return result.rows as unknown as BlogArticleForSitemap[]
   })
 }
 
@@ -133,18 +132,17 @@ export async function getArticlesByPillar(
   pillarSlug: string
 ): Promise<BlogArticleSummary[]> {
   return withCache(`articles:pillar:${pillarSlug}`, ARTICLES_LIST_CACHE_TTL, async () => {
-    const pool = getDbPool()
+    const db = getDb()
 
-    const result = await pool.query(
-      `SELECT
+    const result = await db.execute(sql`
+      SELECT
         article_id, slug, title, excerpt,
         featured_image_url, featured_image_alt, published_at
-       FROM donkey_articles
-       WHERE pillar_slug = $1 AND publish_status = 'published'
-       ORDER BY published_at DESC`,
-      [pillarSlug]
-    )
+      FROM donkey_articles
+      WHERE pillar_slug = ${pillarSlug} AND publish_status = 'published'
+      ORDER BY published_at DESC
+    `)
 
-    return result.rows
+    return result.rows as unknown as BlogArticleSummary[]
   })
 }

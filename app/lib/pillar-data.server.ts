@@ -1,7 +1,8 @@
 // Pillar Data Access Layer
 // Handles all database queries for pillar categories
 
-import { getDbPool } from "~/lib/db.server"
+import { sql } from "drizzle-orm"
+import { getDb } from "~/lib/db.server"
 import { withCache } from "~/lib/cache.server"
 
 // Cache TTLs (in seconds)
@@ -31,20 +32,19 @@ export interface PillarForSitemap {
  */
 export async function getActivePillarBySlug(slug: string): Promise<Pillar | null> {
   return withCache(`pillar:${slug}`, PILLAR_CACHE_TTL, async () => {
-    const pool = getDbPool()
+    const db = getDb()
 
-    const result = await pool.query(
-      `SELECT pillar_id, slug, name, description, seo_title, seo_description
-       FROM donkey_pillars
-       WHERE slug = $1 AND status = 'active'`,
-      [slug]
-    )
+    const result = await db.execute(sql`
+      SELECT pillar_id, slug, name, description, seo_title, seo_description
+      FROM donkey_pillars
+      WHERE slug = ${slug} AND status = 'active'
+    `)
 
     if (result.rows.length === 0) {
       return null
     }
 
-    return result.rows[0]
+    return result.rows[0] as unknown as Pillar
   })
 }
 
@@ -54,15 +54,15 @@ export async function getActivePillarBySlug(slug: string): Promise<Pillar | null
  */
 export async function getActivePillarsForSitemap(): Promise<PillarForSitemap[]> {
   return withCache("pillars:sitemap", SITEMAP_CACHE_TTL, async () => {
-    const pool = getDbPool()
+    const db = getDb()
 
-    const result = await pool.query(
-      `SELECT slug, updated_at
-       FROM donkey_pillars
-       WHERE status = 'active'
-       ORDER BY name ASC`
-    )
+    const result = await db.execute(sql`
+      SELECT slug, updated_at
+      FROM donkey_pillars
+      WHERE status = 'active'
+      ORDER BY name ASC
+    `)
 
-    return result.rows
+    return result.rows as unknown as PillarForSitemap[]
   })
 }
