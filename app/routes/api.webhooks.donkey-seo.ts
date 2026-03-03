@@ -100,12 +100,16 @@ export async function action({ request }: Route.ActionArgs) {
     // 5. Check idempotency
     const db = getDb()
     const existingEvent = await db.execute(sql`
-      SELECT event_id, processed
+      SELECT event_id, processed, error_message
       FROM donkey_webhook_events
       WHERE event_id = ${event_id}
     `)
 
-    if (existingEvent.rows.length > 0) {
+    const existingRow = existingEvent.rows[0] as
+      | { processed: boolean; error_message: string | null }
+      | undefined
+
+    if (existingRow?.processed && !existingRow.error_message) {
       console.log(`[Donkey SEO Webhook] Event ${event_id} already received, skipping`)
       return Response.json({
         ok: true,
@@ -114,25 +118,28 @@ export async function action({ request }: Route.ActionArgs) {
       })
     }
 
-    // 6. Store event immediately (prevents duplicate processing)
-    await db.execute(sql`
-      INSERT INTO donkey_webhook_events (event_id, event_type, payload, processed)
-      VALUES (${event_id}, ${event_type}, ${payload}, false)
-    `)
+    // 6. Store event if this is the first delivery
+    if (!existingRow) {
+      await db.execute(sql`
+        INSERT INTO donkey_webhook_events (event_id, event_type, payload, processed)
+        VALUES (${event_id}, ${event_type}, ${payload}, false)
+      `)
+    } else {
+      console.log(
+        `[Donkey SEO Webhook] Reprocessing existing event ${event_id} (processed=${String(
+          existingRow.processed
+        )}, had_error=${String(Boolean(existingRow.error_message))})`
+      )
+    }
 
     // 7. Process event based on type
     if (event_type === "content.article.publish_requested") {
-      // Trigger async publication (don't block webhook response)
-      processArticlePublication(event_id, payload).catch((error) => {
-        console.error(
-          `[Donkey SEO Webhook] Failed to process publication for event ${event_id}:`,
-          error
-        )
-      })
+      // Process publication synchronously so serverless runtimes complete all work
+      await processArticlePublication(event_id, payload)
 
       return Response.json({
         ok: true,
-        message: "Publication triggered",
+        message: "Publication processed",
         event_id,
       })
     }
