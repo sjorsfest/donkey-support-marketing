@@ -78,7 +78,7 @@ export default function BlogArticlePage({ loaderData }: Route.ComponentProps) {
         }}
       />
       <Navbar />
-      <main className="py-20">
+      <main className="pt-32 pb-20">
         <div className="section-container max-w-4xl">
           {/* Pillar breadcrumb */}
           {article.pillar_slug && article.pillar_name && (
@@ -94,7 +94,11 @@ export default function BlogArticlePage({ loaderData }: Route.ComponentProps) {
           )}
 
           {/* Article content */}
-          <ArticleRenderer document={modularDocument} />
+          <ArticleRenderer
+            document={modularDocument}
+            featuredImageUrl={article.featured_image_url}
+            featuredImageAlt={article.featured_image_alt}
+          />
 
           {/* Back to pillar */}
           {article.pillar_slug && article.pillar_name && (

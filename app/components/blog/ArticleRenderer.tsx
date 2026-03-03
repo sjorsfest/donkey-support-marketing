@@ -676,17 +676,24 @@ function ArticleBlock({
 
 interface ArticleRendererProps {
   document: ModularDocument
+  featuredImageUrl?: string | null
+  featuredImageAlt?: string | null
 }
 
-export function ArticleRenderer({ document }: ArticleRendererProps) {
+export function ArticleRenderer({
+  document,
+  featuredImageUrl: externalFeaturedImageUrl,
+  featuredImageAlt: externalFeaturedImageAlt
+}: ArticleRendererProps) {
   const seoMeta = document.seo_meta
   const author = document.author
   const featuredImage = document.featured_image
   const blocks = safeArray<ModularBlock>(document.blocks)
 
   const h1Text = safeString(seoMeta?.h1)
-  const featuredImageUrl = safeString(featuredImage?.signed_url)
-  const featuredImageTitle = safeString(featuredImage?.title_text)
+  // Prefer external R2 URL over signed URL from modular_document
+  const featuredImageUrl = safeString(externalFeaturedImageUrl) || safeString(featuredImage?.signed_url)
+  const featuredImageTitle = safeString(externalFeaturedImageAlt) || safeString(featuredImage?.title_text)
   const authorName = safeString(author?.name)
   const authorBio = safeString(author?.bio)
   const authorProfileImage = safeString(author?.profile_image?.signed_url)
