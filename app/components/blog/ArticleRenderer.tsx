@@ -25,7 +25,7 @@ function safeArray<T>(value: unknown): T[] {
 const INLINE_MARKDOWN_PATTERN = /(\[[^\]]+\]\((?:https?:\/\/[^\s)]+|#[^)]+)\)|\*\*[^*\n]+\*\*|`[^`\n]+`)/g
 const LINK_MARKDOWN_PATTERN = /^\[([^\]]+)\]\(([^)]+)\)$/
 const FENCED_CODE_BLOCK_PATTERN = /```([a-zA-Z0-9_-]+)?\n([\s\S]*?)```/g
-const TABLE_PATTERN = /^\|(.+)\|\n\|[\s:-]+\|\n((?:\|.+\|\n?)*)/gm
+const TABLE_PATTERN = /(?:^|\n)(\|.+\|(?:\n\|.+\|)+)/gm
 
 type MarkdownBlock = {
   type: "paragraph" | "code" | "table"
@@ -116,23 +116,39 @@ function renderInlineMarkdown(value: string): ReactNode[] {
 }
 
 function parseTableData(tableMarkdown: string): { headers: string[]; rows: string[][] } {
-  const lines = tableMarkdown.trim().split("\n")
-  if (lines.length < 2) {
+  const lines = tableMarkdown.trim().split("\n").map(line => line.trim()).filter(Boolean)
+  if (lines.length < 3) {
     return { headers: [], rows: [] }
   }
 
-  // Parse header row
-  const headerLine = lines[0].trim()
+  // Find the separator line (contains dashes, colons, spaces, and pipes)
+  // Example: | --- | :---: | ---: |
+  let separatorIndex = -1
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim()
+    // Check if line is a separator: starts and ends with |, contains mostly dashes/colons/spaces/pipes
+    if (line.startsWith("|") && line.endsWith("|") && /^[\s|:-]+$/.test(line)) {
+      separatorIndex = i
+      break
+    }
+  }
+
+  if (separatorIndex < 1) {
+    return { headers: [], rows: [] }
+  }
+
+  // Parse header row (line before separator)
+  const headerLine = lines[separatorIndex - 1]
   const headers = headerLine
     .split("|")
     .map((cell) => cell.trim())
     .filter(Boolean)
 
-  // Skip separator line (index 1) and parse data rows
+  // Parse data rows (lines after separator)
   const rows: string[][] = []
-  for (let i = 2; i < lines.length; i++) {
+  for (let i = separatorIndex + 1; i < lines.length; i++) {
     const line = lines[i].trim()
-    if (!line) continue
+    if (!line || !line.startsWith("|")) continue
     const cells = line
       .split("|")
       .map((cell) => cell.trim())
@@ -182,9 +198,10 @@ function parseMarkdownBlocks(value: string): MarkdownBlock[] {
   // Collect tables
   for (const match of value.matchAll(TABLE_PATTERN)) {
     const fullMatch = match[0]
-    if (!fullMatch) continue
+    const tableContent = match[1] // The captured table content
+    if (!tableContent) continue
     const start = match.index ?? 0
-    const tableData = parseTableData(fullMatch)
+    const tableData = parseTableData(tableContent)
     if (tableData.headers.length > 0) {
       allMatches.push({
         type: "table",
@@ -192,7 +209,7 @@ function parseMarkdownBlocks(value: string): MarkdownBlock[] {
         length: fullMatch.length,
         data: {
           type: "table",
-          value: fullMatch,
+          value: tableContent,
           tableData,
         },
       })
