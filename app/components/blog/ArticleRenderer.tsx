@@ -25,11 +25,16 @@ function safeArray<T>(value: unknown): T[] {
 const INLINE_MARKDOWN_PATTERN = /(\[[^\]]+\]\((?:https?:\/\/[^\s)]+|#[^)]+)\)|\*\*[^*\n]+\*\*|`[^`\n]+`)/g
 const LINK_MARKDOWN_PATTERN = /^\[([^\]]+)\]\(([^)]+)\)$/
 const FENCED_CODE_BLOCK_PATTERN = /```([a-zA-Z0-9_-]+)?\n([\s\S]*?)```/g
+const TABLE_PATTERN = /^\|(.+)\|\n\|[\s:-]+\|\n((?:\|.+\|\n?)*)/gm
 
 type MarkdownBlock = {
-  type: "paragraph" | "code"
+  type: "paragraph" | "code" | "table"
   value: string
   language?: string
+  tableData?: {
+    headers: string[]
+    rows: string[][]
+  }
 }
 
 function renderTextWithLineBreaks(text: string, keyPrefix: string): ReactNode[] {
@@ -110,6 +115,36 @@ function renderInlineMarkdown(value: string): ReactNode[] {
   return nodes
 }
 
+function parseTableData(tableMarkdown: string): { headers: string[]; rows: string[][] } {
+  const lines = tableMarkdown.trim().split("\n")
+  if (lines.length < 2) {
+    return { headers: [], rows: [] }
+  }
+
+  // Parse header row
+  const headerLine = lines[0].trim()
+  const headers = headerLine
+    .split("|")
+    .map((cell) => cell.trim())
+    .filter(Boolean)
+
+  // Skip separator line (index 1) and parse data rows
+  const rows: string[][] = []
+  for (let i = 2; i < lines.length; i++) {
+    const line = lines[i].trim()
+    if (!line) continue
+    const cells = line
+      .split("|")
+      .map((cell) => cell.trim())
+      .filter(Boolean)
+    if (cells.length > 0) {
+      rows.push(cells)
+    }
+  }
+
+  return { headers, rows }
+}
+
 function parseMarkdownBlocks(value: string): MarkdownBlock[] {
   const blocks: MarkdownBlock[] = []
   let cursor = 0
@@ -124,17 +159,54 @@ function parseMarkdownBlocks(value: string): MarkdownBlock[] {
       })
   }
 
+  // Find all code blocks and tables
+  const allMatches: Array<{ type: "code" | "table"; index: number; length: number; data: MarkdownBlock }> = []
+
+  // Collect code blocks
   for (const match of value.matchAll(FENCED_CODE_BLOCK_PATTERN)) {
     const fullMatch = match[0]
     if (!fullMatch) continue
     const start = match.index ?? 0
-    pushParagraphBlocks(value.slice(cursor, start))
-    blocks.push({
+    allMatches.push({
       type: "code",
-      language: safeString(match[1]),
-      value: safeString(match[2]).replace(/\n$/, ""),
+      index: start,
+      length: fullMatch.length,
+      data: {
+        type: "code",
+        language: safeString(match[1]),
+        value: safeString(match[2]).replace(/\n$/, ""),
+      },
     })
-    cursor = start + fullMatch.length
+  }
+
+  // Collect tables
+  for (const match of value.matchAll(TABLE_PATTERN)) {
+    const fullMatch = match[0]
+    if (!fullMatch) continue
+    const start = match.index ?? 0
+    const tableData = parseTableData(fullMatch)
+    if (tableData.headers.length > 0) {
+      allMatches.push({
+        type: "table",
+        index: start,
+        length: fullMatch.length,
+        data: {
+          type: "table",
+          value: fullMatch,
+          tableData,
+        },
+      })
+    }
+  }
+
+  // Sort matches by index
+  allMatches.sort((a, b) => a.index - b.index)
+
+  // Process in order
+  for (const match of allMatches) {
+    pushParagraphBlocks(value.slice(cursor, match.index))
+    blocks.push(match.data)
+    cursor = match.index + match.length
   }
 
   pushParagraphBlocks(value.slice(cursor))
@@ -158,21 +230,61 @@ function MarkdownContent({
 
   return (
     <div className={cn("space-y-4", className)}>
-      {blocks.map((block, index) =>
-        block.type === "code" ? (
-          <pre
-            key={index}
-            data-language={block.language || undefined}
-            className="overflow-x-auto rounded-xl bg-gray-900 px-5 py-4 text-sm leading-relaxed text-gray-100 shadow-sm font-mono"
-          >
-            <code>{block.value}</code>
-          </pre>
-        ) : (
+      {blocks.map((block, index) => {
+        if (block.type === "code") {
+          return (
+            <pre
+              key={index}
+              data-language={block.language || undefined}
+              className="overflow-x-auto rounded-xl bg-gray-900 px-5 py-4 text-sm leading-relaxed text-gray-100 shadow-sm font-mono"
+            >
+              <code>{block.value}</code>
+            </pre>
+          )
+        }
+
+        if (block.type === "table" && block.tableData) {
+          const { headers, rows } = block.tableData
+          return (
+            <div key={index} className="overflow-x-auto rounded-xl border border-gray-200">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-gray-200 bg-gray-50">
+                    {headers.map((header, i) => (
+                      <th
+                        key={i}
+                        className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-gray-700"
+                      >
+                        <MarkdownInline content={header} />
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((row, ri) => (
+                    <tr
+                      key={ri}
+                      className="border-b border-gray-100 last:border-b-0 even:bg-gray-50/50 hover:bg-gray-50 transition-colors"
+                    >
+                      {row.map((cell, ci) => (
+                        <td key={ci} className="px-6 py-4 text-gray-700">
+                          <MarkdownInline content={cell} />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        }
+
+        return (
           <p key={index} className={paragraphClassName}>
             {renderInlineMarkdown(block.value)}
           </p>
-        ),
-      )}
+        )
+      })}
     </div>
   )
 }
@@ -711,6 +823,23 @@ export function ArticleRenderer({
           </h1>
         )}
 
+        {/* Featured Image */}
+        {featuredImageUrl && (
+          <div className="overflow-hidden rounded-2xl">
+            <img
+              src={featuredImageUrl}
+              alt={featuredImageTitle || h1Text || "Article featured image"}
+              className="w-full object-cover"
+              style={{
+                aspectRatio:
+                  featuredImage?.width && featuredImage?.height
+                    ? `${featuredImage.width} / ${featuredImage.height}`
+                    : "16 / 9",
+              }}
+            />
+          </div>
+        )}
+
         {/* Author Byline */}
         {authorName && (
           <div className="flex items-center gap-5 pb-8 border-b border-gray-100">
@@ -765,23 +894,6 @@ export function ArticleRenderer({
                 <p className="mt-1 text-sm leading-relaxed text-gray-600">{authorBio}</p>
               )}
             </div>
-          </div>
-        )}
-
-        {/* Featured Image */}
-        {featuredImageUrl && (
-          <div className="overflow-hidden rounded-2xl">
-            <img
-              src={featuredImageUrl}
-              alt={featuredImageTitle || h1Text || "Article featured image"}
-              className="w-full object-cover"
-              style={{
-                aspectRatio:
-                  featuredImage?.width && featuredImage?.height
-                    ? `${featuredImage.width} / ${featuredImage.height}`
-                    : "16 / 9",
-              }}
-            />
           </div>
         )}
 
