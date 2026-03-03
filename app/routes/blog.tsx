@@ -3,8 +3,8 @@
 
 import type { Route } from "./+types/blog"
 import { useOutletContext } from "react-router"
-import { Navbar } from "~/components/layout/Navbar"
-import { Footer } from "~/components/layout/Footer"
+import { Navbar } from "~/components/layout/navbar"
+import { Footer } from "~/components/layout/footer"
 import { getAllPublishedArticles } from "~/lib/blog-data.server"
 import { buildMeta } from "~/lib/seo"
 import type { FooterPillar } from "~/lib/footer-pillars.server"

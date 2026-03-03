@@ -3,8 +3,8 @@
 
 import type { Route } from "./+types/pillars.$slug"
 import { data, useOutletContext } from "react-router"
-import { Navbar } from "~/components/layout/Navbar"
-import { Footer } from "~/components/layout/Footer"
+import { Navbar } from "~/components/layout/navbar"
+import { Footer } from "~/components/layout/footer"
 import { getActivePillarBySlug } from "~/lib/pillar-data.server"
 import { getArticlesByPillar } from "~/lib/blog-data.server"
 import { buildMeta } from "~/lib/seo"

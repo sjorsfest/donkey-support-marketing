@@ -3,8 +3,8 @@
 
 import type { Route } from "./+types/blog.$slug"
 import { data, useOutletContext } from "react-router"
-import { Navbar } from "~/components/layout/Navbar"
-import { Footer } from "~/components/layout/Footer"
+import { Navbar } from "~/components/layout/navbar"
+import { Footer } from "~/components/layout/footer"
 import { ArticleRenderer } from "~/components/blog/ArticleRenderer"
 import { getPublishedArticleBySlug } from "~/lib/blog-data.server"
 import { buildMeta, buildJsonLdGraph, CANONICAL_ORIGIN } from "~/lib/seo"
