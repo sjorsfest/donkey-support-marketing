@@ -12,11 +12,12 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { SupportWidget } from "./components/supportWidget/supportWidget";
 import { AppConfigProvider } from "./context/appConfig";
+import { getActivePillars } from "./lib/footer-pillars.server";
 
 const MANAGED_HOSTS = new Set(["donkey.support", "www.donkey.support"])
 const CANONICAL_HOST = "www.donkey.support"
 
-export function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
   const requestUrl = new URL(request.url)
   if (MANAGED_HOSTS.has(requestUrl.hostname)) {
     let shouldRedirect = false
@@ -33,8 +34,12 @@ export function loader({ request }: Route.LoaderArgs) {
     }
   }
 
+  // Fetch pillars for footer
+  const pillars = await getActivePillars()
+
   return {
     appUrl: process.env.APP_URL ?? "",
+    pillars,
   };
 }
 
@@ -81,7 +86,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App({ loaderData }: Route.ComponentProps) {
   return (
     <AppConfigProvider appUrl={loaderData.appUrl}>
-      <Outlet />
+      <Outlet context={{ pillars: loaderData.pillars }} />
     </AppConfigProvider>
   );
 }

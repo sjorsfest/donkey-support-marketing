@@ -1,13 +1,18 @@
 import { FadeIn } from "~/components/motion"
 import { BrandLogo } from "~/components/ui/brand-logo"
 import { ExternalBadges } from "./external-badges"
+import type { FooterPillar } from "~/lib/footer-pillars.server"
 
-export function Footer() {
+interface FooterProps {
+  pillars?: FooterPillar[]
+}
+
+export function Footer({ pillars = [] }: FooterProps) {
   return (
     <footer className="py-12 border-t-2 border-outline/20">
       <div className="section-container">
         <FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-12">
             {/* Logo & Tagline */}
             <div className="flex flex-col items-center md:items-start gap-2 lg:col-span-2">
               <div className="flex items-center gap-1">
@@ -108,6 +113,24 @@ export function Footer() {
                 </a>
               </div>
             </div>
+
+            {/* Resources - Pillars from Donkey SEO */}
+            {pillars.length > 0 && (
+              <div className="flex flex-col items-center md:items-start gap-3">
+                <h3 className="text-sm font-bold text-foreground">Resources</h3>
+                <div className="flex flex-col items-center md:items-start gap-2">
+                  {pillars.map((pillar) => (
+                    <a
+                      key={pillar.pillar_id}
+                      href={`/pillars/${pillar.slug}`}
+                      className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                    >
+                      {pillar.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           <div className="mt-10 pt-6 border-t border-outline/20">
             <p className="text-sm text-muted text-center md:text-left">
