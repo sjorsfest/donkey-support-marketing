@@ -4,6 +4,16 @@
 import { sql } from "drizzle-orm"
 import { getDb } from "~/lib/db.server"
 import { getDonkeySeoClient } from "~/lib/donkey-seo-client.server"
+import { cache } from "~/lib/cache.server"
+
+function invalidatePillarCaches(pillarSlugs: string[]): void {
+  cache.delete("pillars:sitemap")
+  cache.delete("pillars:footer")
+
+  for (const slug of pillarSlugs) {
+    cache.delete(`pillar:${slug}`)
+  }
+}
 
 /**
  * Sync pillars from Donkey SEO API to database
@@ -61,6 +71,8 @@ export async function syncPillars(includeArchived = false): Promise<number> {
           updated_at = NOW()
       `)
     }
+
+    invalidatePillarCaches(pillars.map((pillar) => pillar.slug))
 
     console.log(`[Donkey SEO] Successfully synced ${pillars.length} pillars`)
     return pillars.length

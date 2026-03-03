@@ -9,6 +9,30 @@ import {
   processArticlePublication,
   type WebhookArticlePayload,
 } from "~/lib/donkey-seo-publication.server"
+import { syncPillars } from "~/lib/donkey-seo-pillar-sync.server"
+
+interface WebhookEventPayload {
+  event_id?: string
+  event_type?: string
+  article?: {
+    article_id?: string
+    slug?: string
+  }
+}
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null
+}
+
+function hasBlogpostPayload(payload: WebhookEventPayload): payload is WebhookArticlePayload {
+  return (
+    isObject(payload.article) &&
+    typeof payload.article.article_id === "string" &&
+    payload.article.article_id.length > 0 &&
+    typeof payload.article.slug === "string" &&
+    payload.article.slug.length > 0
+  )
+}
 
 /**
  * GET handler - not allowed
@@ -77,9 +101,16 @@ export async function action({ request }: Route.ActionArgs) {
     }
 
     // 4. Parse payload
-    let payload: WebhookArticlePayload
+    let payload: WebhookEventPayload
     try {
-      payload = JSON.parse(rawBody)
+      const parsedPayload = JSON.parse(rawBody) as unknown
+      if (!isObject(parsedPayload)) {
+        return Response.json(
+          { ok: false, error: "Invalid payload format" },
+          { status: 400 }
+        )
+      }
+      payload = parsedPayload as WebhookEventPayload
     } catch (error) {
       console.error("[Donkey SEO Webhook] Failed to parse JSON payload:", error)
       return Response.json({ ok: false, error: "Invalid JSON payload" }, { status: 400 })
@@ -87,7 +118,7 @@ export async function action({ request }: Route.ActionArgs) {
 
     const { event_id, event_type } = payload
 
-    if (!event_id || !event_type) {
+    if (typeof event_id !== "string" || typeof event_type !== "string") {
       console.warn("[Donkey SEO Webhook] Missing event_id or event_type")
       return Response.json(
         { ok: false, error: "Missing event_id or event_type" },
@@ -132,8 +163,31 @@ export async function action({ request }: Route.ActionArgs) {
       )
     }
 
-    // 7. Process event based on type
+    // 7. Sync pillars for blogpost events so local pillar data stays current
+    if (hasBlogpostPayload(payload)) {
+      try {
+        const syncedCount = await syncPillars()
+        console.log(
+          `[Donkey SEO Webhook] Synced pillars before article handling (${syncedCount} pillars)`
+        )
+      } catch (error) {
+        console.error(
+          "[Donkey SEO Webhook] Pillar sync failed during blogpost webhook:",
+          error
+        )
+      }
+    }
+
+    // 8. Process event based on type
     if (event_type === "content.article.publish_requested") {
+      if (!hasBlogpostPayload(payload)) {
+        console.warn("[Donkey SEO Webhook] Missing blogpost payload for publish event")
+        return Response.json(
+          { ok: false, error: "Missing article payload for publish event" },
+          { status: 400 }
+        )
+      }
+
       // Process publication synchronously so serverless runtimes complete all work
       await processArticlePublication(event_id, payload)
 
