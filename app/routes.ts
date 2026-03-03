@@ -2,6 +2,8 @@ import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
 export default [
   index("routes/home.tsx"),
+  route("api/db-connection", "routes/api.db-connection.ts"),
+  route("api/r2-upload", "routes/api.r2-upload.ts"),
   route("discord-communities", "routes/discord-communities.tsx"),
   route("open-source", "routes/open-source.tsx"),
   route("indie-games", "routes/indie-games.tsx"),

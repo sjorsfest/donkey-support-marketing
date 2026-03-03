@@ -34,6 +34,24 @@ npm run dev
 
 Your application will be available at `http://localhost:5173`.
 
+### Database setup (Supabase on Vercel)
+
+Add your Supabase Postgres URL to `.env`:
+
+```bash
+DATABASE_POSTGRES_URL=postgresql://...
+```
+
+Then run the app. A simple API route is available at:
+
+- `GET /api/db-connection` to test DB connection
+
+Example:
+
+```bash
+curl http://localhost:5173/api/db-connection
+```
+
 ## Building for Production
 
 Create a production build:
