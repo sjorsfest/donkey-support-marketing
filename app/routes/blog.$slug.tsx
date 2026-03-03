@@ -17,9 +17,9 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw data({ message: "Article not found" }, { status: 404 })
   }
 
-  const blocks = article.webhook_payload.modular_document.blocks
+  const modularDocument = article.webhook_payload.modular_document
 
-  return { article, blocks }
+  return { article, modularDocument }
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -40,19 +40,23 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 export default function BlogArticlePage({ loaderData }: Route.ComponentProps) {
-  const { article, blocks } = loaderData
+  const { article, modularDocument } = loaderData
   const { pillars } = useOutletContext<{ pillars: FooterPillar[] }>()
+
+  // Use author from modular_document if available, otherwise fallback to organization
+  const authorName = modularDocument.author?.name || "Donkey Support"
+  const authorType = modularDocument.author?.name ? "Person" : "Organization"
 
   const structuredData = buildJsonLdGraph({
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
-    image: article.featured_image_url || `${CANONICAL_ORIGIN}/og/og-image.png`,
+    image: modularDocument.featured_image?.signed_url || article.featured_image_url || `${CANONICAL_ORIGIN}/og/og-image.png`,
     datePublished: article.published_at,
     author: {
-      "@type": "Organization",
-      name: "Donkey Support",
-      url: CANONICAL_ORIGIN,
+      "@type": authorType,
+      name: authorName,
+      ...(authorType === "Organization" ? { url: CANONICAL_ORIGIN } : {}),
     },
     publisher: {
       "@type": "Organization",
@@ -90,7 +94,7 @@ export default function BlogArticlePage({ loaderData }: Route.ComponentProps) {
           )}
 
           {/* Article content */}
-          <ArticleRenderer blocks={blocks} />
+          <ArticleRenderer document={modularDocument} />
 
           {/* Back to pillar */}
           {article.pillar_slug && article.pillar_name && (
