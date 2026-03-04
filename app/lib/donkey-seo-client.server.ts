@@ -80,6 +80,7 @@ export interface ModularDocument {
     title_text?: string
     signed_url: string
   }
+  structured_data?: Array<Record<string, unknown>>
   blocks: ModularBlock[]
 }
 

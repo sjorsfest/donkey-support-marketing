@@ -18,6 +18,23 @@ function safeArray<T>(value: unknown): T[] {
   return Array.isArray(value) ? (value as T[]) : []
 }
 
+function isJsonLdObject(value: unknown): value is Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false
+  const record = value as Record<string, unknown>
+  return typeof record["@type"] === "string" || typeof record["@context"] === "string"
+}
+
+function safeStructuredData(value: unknown): Array<Record<string, unknown>> {
+  if (Array.isArray(value)) {
+    return value.filter(isJsonLdObject)
+  }
+  return isJsonLdObject(value) ? [value] : []
+}
+
+function serializeJsonLd(data: Record<string, unknown>): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c")
+}
+
 // ============================================================================
 // Markdown Rendering
 // ============================================================================
@@ -828,9 +845,19 @@ export function ArticleRenderer({
   const authorProfileImage = safeString(author?.profile_image?.signed_url)
   const authorTwitter = author?.social_urls?.twitter || author?.social_urls?.x
   const authorWebsite = author?.social_urls?.website
+  const structuredData = safeStructuredData(document.structured_data)
 
   return (
     <div className="mx-auto max-w-5xl">
+      {structuredData.map((item, index) => (
+        <script
+          key={`structured-data-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: serializeJsonLd(item),
+          }}
+        />
+      ))}
       {/* Light canvas container for optimal reading */}
       <article className="bg-white rounded-3xl shadow-sm border border-gray-100 px-8 sm:px-12 lg:px-16 py-12 space-y-12">
         {/* Article H1 */}
