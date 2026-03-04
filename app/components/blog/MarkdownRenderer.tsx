@@ -14,11 +14,11 @@ export function MarkdownRenderer({ content, className = "" }: MarkdownRendererPr
   if (!content) return null
 
   return (
-    <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeSanitize]}
-      className={className}
-      components={{
+    <div className={className}>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeSanitize]}
+        components={{
         // Headings
         h1: ({ children }) => (
           <h1 className="font-display text-4xl font-bold mb-4 text-foreground">
@@ -133,9 +133,10 @@ export function MarkdownRenderer({ content, className = "" }: MarkdownRendererPr
 
         // Emphasis/italic
         em: ({ children }) => <em className="italic">{children}</em>,
-      }}
-    >
-      {content}
-    </ReactMarkdown>
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    </div>
   )
 }

@@ -32,10 +32,13 @@ export function meta({ data }: Route.MetaArgs) {
   return buildMeta({
     path: `/blog/${article.slug}`,
     title: article.seo_title || article.title,
-    description: article.seo_description || article.excerpt,
+    description:
+      article.seo_description ??
+      article.excerpt ??
+      "Insights and guidance from Donkey Support.",
     ogType: "article",
-    socialImagePath: article.featured_image_url,
-    socialImageAlt: article.featured_image_alt,
+    socialImagePath: article.featured_image_url ?? undefined,
+    socialImageAlt: article.featured_image_alt ?? undefined,
   })
 }
 

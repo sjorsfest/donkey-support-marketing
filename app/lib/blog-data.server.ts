@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm"
 import { getDb } from "~/lib/db.server"
 import { withCache } from "~/lib/cache.server"
+import type { ModularDocument } from "~/lib/donkey-seo-client.server"
 
 // Cache TTLs (in seconds)
 const ARTICLE_CACHE_TTL = 120 // 2 minutes
@@ -23,9 +24,7 @@ export interface BlogArticle {
   pillar_slug: string | null
   pillar_name: string | null
   webhook_payload: {
-    modular_document: {
-      blocks: unknown[]
-    }
+    modular_document: ModularDocument
   }
   published_at: string
   updated_at: string
