@@ -81,14 +81,14 @@ export default function BlogArticlePage({ loaderData }: Route.ComponentProps) {
         }}
       />
       <Navbar />
-      <main className="pt-32 pb-20">
+      <main className="pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20">
         <div className="section-container max-w-4xl">
           {/* Pillar breadcrumb */}
           {article.pillar_slug && article.pillar_name && (
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-5 md:mb-6">
               <a
                 href={`/pillars/${article.pillar_slug}`}
-                className="inline-flex items-center gap-2 text-sm font-medium text-pink-500 hover:text-pink-600 transition-colors"
+                className="inline-flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-pink-500 hover:text-pink-600 transition-colors"
               >
                 <span>←</span>
                 <span>{article.pillar_name}</span>
@@ -105,10 +105,10 @@ export default function BlogArticlePage({ loaderData }: Route.ComponentProps) {
 
           {/* Back to pillar */}
           {article.pillar_slug && article.pillar_name && (
-            <div className="mt-12 pt-8 border-t-2 border-border">
+            <div className="mt-8 sm:mt-10 md:mt-12 pt-6 sm:pt-7 md:pt-8 border-t-2 border-border">
               <a
                 href={`/pillars/${article.pillar_slug}`}
-                className="inline-flex items-center gap-2 text-pink-500 hover:text-pink-600 font-medium transition-colors"
+                className="inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base text-pink-500 hover:text-pink-600 font-medium transition-colors"
               >
                 <span>←</span>
                 <span>More articles in {article.pillar_name}</span>

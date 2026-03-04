@@ -92,7 +92,7 @@ function renderInlineMarkdown(value: string): ReactNode[] {
       nodes.push(
         <code
           key={`code-${tokenIndex}`}
-          className="rounded bg-gray-100 px-2 py-0.5 font-mono text-sm text-gray-800"
+          className="rounded bg-gray-100 px-1.5 sm:px-2 py-0.5 font-mono text-xs sm:text-sm text-gray-800 break-words"
         >
           {token.slice(1, -1)}
         </code>,
@@ -109,7 +109,7 @@ function renderInlineMarkdown(value: string): ReactNode[] {
             href={href}
             target={isAnchor ? undefined : "_blank"}
             rel={isAnchor ? undefined : "noopener noreferrer"}
-            className="text-pink-500 hover:text-pink-600 underline underline-offset-2 font-medium transition-colors"
+            className="text-pink-500 hover:text-pink-600 underline underline-offset-2 font-medium transition-colors break-words"
           >
             {label}
           </a>,
@@ -263,14 +263,14 @@ function MarkdownContent({
   if (blocks.length === 0) return null
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn("space-y-3 sm:space-y-4", className)}>
       {blocks.map((block, index) => {
         if (block.type === "code") {
           return (
             <pre
               key={index}
               data-language={block.language || undefined}
-              className="overflow-x-auto rounded-xl bg-gray-900 px-5 py-4 text-sm leading-relaxed text-gray-100 shadow-sm font-mono"
+              className="overflow-x-auto rounded-lg sm:rounded-xl bg-gray-900 px-3 sm:px-4 md:px-5 py-3 sm:py-4 text-xs sm:text-sm leading-relaxed text-gray-100 shadow-sm font-mono -mx-5 sm:mx-0"
             >
               <code>{block.value}</code>
             </pre>
@@ -280,14 +280,14 @@ function MarkdownContent({
         if (block.type === "table" && block.tableData) {
           const { headers, rows } = block.tableData
           return (
-            <div key={index} className="overflow-x-auto rounded-xl border border-gray-200">
-              <table className="w-full text-sm">
+            <div key={index} className="overflow-x-auto rounded-lg sm:rounded-xl border border-gray-200 -mx-5 sm:mx-0">
+              <table className="w-full text-xs sm:text-sm">
                 <thead>
                   <tr className="border-b border-gray-200 bg-gray-50">
                     {headers.map((header, i) => (
                       <th
                         key={i}
-                        className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-gray-700"
+                        className="px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold uppercase tracking-wide text-gray-700"
                       >
                         <MarkdownInline content={header} />
                       </th>
@@ -301,7 +301,7 @@ function MarkdownContent({
                       className="border-b border-gray-100 last:border-b-0 even:bg-gray-50/50 hover:bg-gray-50 transition-colors"
                     >
                       {row.map((cell, ci) => (
-                        <td key={ci} className="px-6 py-4 text-gray-700">
+                        <td key={ci} className="px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 text-gray-700">
                           <MarkdownInline content={cell} />
                         </td>
                       ))}
@@ -340,9 +340,9 @@ function headingTag(level: number | undefined | null): "h2" | "h3" | "h4" {
 }
 
 const headingStyles: Record<string, string> = {
-  h2: "font-display text-3xl sm:text-4xl font-bold leading-tight text-gray-900",
-  h3: "font-display text-2xl sm:text-3xl font-bold leading-tight text-gray-900",
-  h4: "font-display text-xl sm:text-2xl font-bold leading-snug text-gray-900",
+  h2: "font-display text-xl sm:text-3xl md:text-4xl font-bold leading-tight text-gray-900",
+  h3: "font-display text-lg sm:text-2xl md:text-3xl font-bold leading-tight text-gray-900",
+  h4: "font-display text-base sm:text-xl md:text-2xl font-bold leading-snug text-gray-900",
 }
 
 // ============================================================================
@@ -358,7 +358,7 @@ function BlockLinks({ links }: { links?: ModularBlock["links"] }) {
   if (safeLinks.length === 0) return null
 
   return (
-    <ul className="mt-5 flex flex-wrap gap-3">
+    <ul className="mt-3 sm:mt-4 md:mt-5 flex flex-wrap gap-2 sm:gap-3">
       {safeLinks.map((link, i) => {
         const href = safeString(link.href)
         const text = safeString(link.anchor) || href
@@ -368,9 +368,9 @@ function BlockLinks({ links }: { links?: ModularBlock["links"] }) {
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-sm text-pink-500 hover:text-pink-600 font-medium transition-colors underline underline-offset-2"
+              className="inline-flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm text-pink-500 hover:text-pink-600 font-medium transition-colors underline underline-offset-2"
             >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
               {text}
@@ -392,9 +392,9 @@ function HeroBlock({ block, skipHeading }: { block: ModularBlock; skipHeading: b
   if (!heading && !body) return null
 
   return (
-    <header className="rounded-2xl border border-yellow-200 bg-gradient-to-br from-yellow-50 to-orange-50 px-8 py-10">
+    <header className="rounded-xl sm:rounded-2xl border border-yellow-200 bg-gradient-to-br from-yellow-50 to-orange-50 px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-10">
       {heading && !skipHeading && (
-        <h2 className="font-display text-3xl sm:text-4xl font-bold leading-tight text-gray-900 mb-5">
+        <h2 className="font-display text-xl sm:text-3xl md:text-4xl font-bold leading-tight text-gray-900 mb-3 sm:mb-5">
           {heading}
         </h2>
       )}
@@ -402,7 +402,7 @@ function HeroBlock({ block, skipHeading }: { block: ModularBlock; skipHeading: b
         <MarkdownContent
           content={body}
           className={cn(!skipHeading && heading && "mt-0")}
-          paragraphClassName="text-lg leading-relaxed text-gray-700"
+          paragraphClassName="text-base sm:text-lg leading-relaxed text-gray-700"
         />
       )}
       <BlockLinks links={block.links} />
@@ -416,9 +416,9 @@ function SummaryBlock({ block }: { block: ModularBlock }) {
   const items = safeArray<string>(block.items)
 
   return (
-    <section className="rounded-xl border-l-4 border-l-pink-400 bg-gray-50 px-7 py-6">
+    <section className="rounded-lg sm:rounded-xl border-l-2 sm:border-l-4 border-l-pink-400 bg-gray-50 px-4 sm:px-6 md:px-7 py-4 sm:py-5 md:py-6">
       {heading && (
-        <h3 className="font-display text-base font-bold uppercase tracking-wide text-gray-700 mb-3">
+        <h3 className="font-display text-xs sm:text-sm md:text-base font-bold uppercase tracking-wide text-gray-700 mb-2 sm:mb-3">
           {heading}
         </h3>
       )}
@@ -426,15 +426,15 @@ function SummaryBlock({ block }: { block: ModularBlock }) {
         <MarkdownContent
           content={body}
           className={cn(heading && "mt-0")}
-          paragraphClassName="text-base leading-relaxed text-gray-700"
+          paragraphClassName="text-sm sm:text-base leading-relaxed text-gray-700"
         />
       )}
       {items.length > 0 && (
-        <ul className="mt-4 space-y-2.5">
+        <ul className="mt-3 sm:mt-4 space-y-2 sm:space-y-2.5">
           {items.map((item, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <span className="flex-shrink-0 mt-1.5 w-2 h-2 rounded-full bg-pink-400" />
-              <span className="text-base leading-relaxed text-gray-700">
+            <li key={i} className="flex items-start gap-2 sm:gap-3">
+              <span className="flex-shrink-0 mt-1.5 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-400" />
+              <span className="text-sm sm:text-base leading-relaxed text-gray-700">
                 <MarkdownInline content={safeString(item)} />
               </span>
             </li>
@@ -453,20 +453,20 @@ function SectionBlock({ block }: { block: ModularBlock }) {
   const Tag = headingTag(block.level)
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-3 sm:space-y-4">
       {heading && <Tag className={headingStyles[Tag]}>{heading}</Tag>}
       {body && (
         <MarkdownContent
           content={body}
-          paragraphClassName="text-base leading-relaxed text-gray-700"
+          paragraphClassName="text-sm sm:text-base leading-relaxed text-gray-700"
         />
       )}
       {items.length > 0 && (
-        <ul className="space-y-3 mt-5">
+        <ul className="space-y-2 sm:space-y-3 mt-3 sm:mt-4 md:mt-5">
           {items.map((item, i) => (
-            <li key={i} className="flex items-start gap-3 pl-1">
-              <span className="flex-shrink-0 mt-2 w-2 h-2 rounded-full bg-pink-400" />
-              <span className="flex-1 text-base leading-relaxed text-gray-700">
+            <li key={i} className="flex items-start gap-2 sm:gap-3 pl-0.5 sm:pl-1">
+              <span className="flex-shrink-0 mt-2 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-400" />
+              <span className="flex-1 text-sm sm:text-base leading-relaxed text-gray-700">
                 <MarkdownInline content={safeString(item)} />
               </span>
             </li>
@@ -485,25 +485,25 @@ function ListBlock({ block }: { block: ModularBlock }) {
   const Tag = headingTag(block.level)
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-3 sm:space-y-4">
       {heading && <Tag className={headingStyles[Tag]}>{heading}</Tag>}
       {isOrdered ? (
-        <ol className="space-y-3 pl-6">
+        <ol className="space-y-2 sm:space-y-3 pl-5 sm:pl-6">
           {items.map((item, i) => (
             <li
               key={i}
-              className="list-decimal pl-2 text-base leading-relaxed text-gray-700 marker:font-bold marker:text-pink-400"
+              className="list-decimal pl-1.5 sm:pl-2 text-sm sm:text-base leading-relaxed text-gray-700 marker:font-bold marker:text-pink-400"
             >
               <MarkdownInline content={safeString(item)} />
             </li>
           ))}
         </ol>
       ) : (
-        <ul className="space-y-3">
+        <ul className="space-y-2 sm:space-y-3">
           {items.map((item, i) => (
-            <li key={i} className="flex items-start gap-3 pl-1">
-              <span className="flex-shrink-0 mt-2 w-2 h-2 rounded-full bg-pink-400" />
-              <span className="flex-1 text-base leading-relaxed text-gray-700">
+            <li key={i} className="flex items-start gap-2 sm:gap-3 pl-0.5 sm:pl-1">
+              <span className="flex-shrink-0 mt-2 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-pink-400" />
+              <span className="flex-1 text-sm sm:text-base leading-relaxed text-gray-700">
                 <MarkdownInline content={safeString(item)} />
               </span>
             </li>
@@ -521,15 +521,15 @@ function StepsBlock({ block }: { block: ModularBlock }) {
   const Tag = headingTag(block.level)
 
   return (
-    <section className="space-y-5">
+    <section className="space-y-3 sm:space-y-4 md:space-y-5">
       {heading && <Tag className={headingStyles[Tag]}>{heading}</Tag>}
-      <ol className="space-y-5">
+      <ol className="space-y-3 sm:space-y-4 md:space-y-5">
         {items.map((item, i) => (
-          <li key={i} className="flex items-start gap-4">
-            <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-pink-500 text-white font-bold text-base shadow-sm">
+          <li key={i} className="flex items-start gap-3 sm:gap-3.5 md:gap-4">
+            <span className="flex h-7 w-7 sm:h-8 sm:w-8 md:h-9 md:w-9 flex-shrink-0 items-center justify-center rounded-full bg-pink-500 text-white font-bold text-sm sm:text-base shadow-sm">
               {i + 1}
             </span>
-            <span className="flex-1 pt-1 text-base leading-relaxed text-gray-700">
+            <span className="flex-1 pt-0.5 sm:pt-1 text-sm sm:text-base leading-relaxed text-gray-700">
               <MarkdownInline content={safeString(item)} />
             </span>
           </li>
@@ -549,16 +549,16 @@ function ComparisonTableBlock({ block }: { block: ModularBlock }) {
   if (columns.length === 0) return null
 
   return (
-    <section className="space-y-5">
+    <section className="space-y-3 sm:space-y-4 md:space-y-5">
       {heading && <Tag className={headingStyles[Tag]}>{heading}</Tag>}
-      <div className="overflow-x-auto rounded-xl border border-gray-200">
-        <table className="w-full text-sm">
+      <div className="overflow-x-auto rounded-lg sm:rounded-xl border border-gray-200 -mx-5 sm:mx-0">
+        <table className="w-full text-xs sm:text-sm">
           <thead>
             <tr className="border-b border-gray-200 bg-gray-50">
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-gray-700"
+                  className="px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 text-left text-[10px] sm:text-xs font-bold uppercase tracking-wide text-gray-700"
                 >
                   {safeString(col)}
                 </th>
@@ -574,7 +574,7 @@ function ComparisonTableBlock({ block }: { block: ModularBlock }) {
                   className="border-b border-gray-100 last:border-b-0 even:bg-gray-50/50 hover:bg-gray-50 transition-colors"
                 >
                   {cells.map((cell, ci) => (
-                    <td key={ci} className="px-6 py-4 text-gray-700">
+                    <td key={ci} className="px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 text-gray-700">
                       <MarkdownInline content={safeString(cell)} />
                     </td>
                   ))}
@@ -601,28 +601,28 @@ function FaqBlock({ block }: { block: ModularBlock }) {
   if (faqItems.length === 0) return null
 
   return (
-    <section className="space-y-5">
+    <section className="space-y-3 sm:space-y-4 md:space-y-5">
       {heading && <Tag className={headingStyles[Tag]}>{heading}</Tag>}
-      <div className="space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         {faqItems.map((item, i) => (
           <details
             key={i}
-            className="group rounded-xl border border-gray-200 bg-white overflow-hidden"
+            className="group rounded-lg sm:rounded-xl border border-gray-200 bg-white overflow-hidden"
           >
-            <summary className="cursor-pointer select-none list-none px-6 py-4 text-base font-semibold text-gray-900 marker:content-[''] transition-colors hover:bg-gray-50">
-              <span className="flex items-center justify-between gap-3">
-                <span>
+            <summary className="cursor-pointer select-none list-none px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 text-sm sm:text-base font-semibold text-gray-900 marker:content-[''] transition-colors hover:bg-gray-50">
+              <span className="flex items-center justify-between gap-2 sm:gap-3">
+                <span className="flex-1">
                   <MarkdownInline content={safeString(item.question)} />
                 </span>
-                <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center text-pink-400 text-xl transition-transform group-open:rotate-45">
+                <span className="flex h-5 w-5 sm:h-6 sm:w-6 flex-shrink-0 items-center justify-center text-pink-400 text-lg sm:text-xl transition-transform group-open:rotate-45">
                   +
                 </span>
               </span>
             </summary>
-            <div className="border-t border-gray-100 bg-gray-50 px-6 py-5">
+            <div className="border-t border-gray-100 bg-gray-50 px-4 sm:px-5 md:px-6 py-3 sm:py-4 md:py-5">
               <MarkdownContent
                 content={safeString(item.answer)}
-                paragraphClassName="text-sm leading-relaxed text-gray-700"
+                paragraphClassName="text-xs sm:text-sm leading-relaxed text-gray-700"
               />
             </div>
           </details>
@@ -643,14 +643,14 @@ function CtaBlock({ block }: { block: ModularBlock }) {
   const ctaHref = safeString(cta.href) || "#"
 
   return (
-    <aside className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 border border-pink-100 px-10 py-12 text-center">
+    <aside className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 border border-pink-100 px-5 sm:px-8 md:px-10 py-8 sm:py-10 md:py-12 text-center">
       {/* Subtle decorative element */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-gradient-to-br from-pink-200/20 to-purple-200/20 rounded-full blur-3xl" />
 
       {/* Content */}
       <div className="relative z-10">
         {heading && (
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="font-display text-lg sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3 sm:mb-4">
             {heading}
           </h2>
         )}
@@ -658,7 +658,7 @@ function CtaBlock({ block }: { block: ModularBlock }) {
           <MarkdownContent
             content={body}
             className={cn(heading && "mt-0")}
-            paragraphClassName="mx-auto max-w-2xl text-base leading-relaxed text-gray-700"
+            paragraphClassName="mx-auto max-w-2xl text-sm sm:text-base leading-relaxed text-gray-700"
           />
         )}
         <a
@@ -666,12 +666,12 @@ function CtaBlock({ block }: { block: ModularBlock }) {
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
-            "inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 px-7 py-3.5 text-base font-semibold text-white shadow-lg hover:shadow-xl hover:from-pink-600 hover:to-purple-600 transition-all duration-200",
-            heading || body ? "mt-6" : "",
+            "inline-flex items-center gap-2 rounded-lg sm:rounded-xl bg-gradient-to-r from-pink-500 to-purple-500 px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base font-semibold text-white shadow-lg hover:shadow-xl hover:from-pink-600 hover:to-purple-600 transition-all duration-200",
+            heading || body ? "mt-5 sm:mt-6" : "",
           )}
         >
           {ctaLabel}
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
         </a>
@@ -687,21 +687,21 @@ function ConclusionBlock({ block }: { block: ModularBlock }) {
   const Tag = headingTag(block.level)
 
   return (
-    <footer className="rounded-xl border-l-4 border-l-blue-400 bg-blue-50 px-7 py-6">
+    <footer className="rounded-lg sm:rounded-xl border-l-2 sm:border-l-4 border-l-blue-400 bg-blue-50 px-4 sm:px-6 md:px-7 py-4 sm:py-5 md:py-6">
       {heading && <Tag className={headingStyles[Tag]}>{heading}</Tag>}
       {body && (
         <MarkdownContent
           content={body}
-          className={cn(heading && "mt-4")}
-          paragraphClassName="text-base leading-relaxed text-gray-700"
+          className={cn(heading && "mt-3 sm:mt-4")}
+          paragraphClassName="text-sm sm:text-base leading-relaxed text-gray-700"
         />
       )}
       {items.length > 0 && (
-        <ul className="mt-4 space-y-2.5">
+        <ul className="mt-3 sm:mt-4 space-y-2 sm:space-y-2.5">
           {items.map((item, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <span className="flex-shrink-0 mt-1.5 w-2 h-2 rounded-full bg-blue-500" />
-              <span className="text-base leading-relaxed text-gray-700">
+            <li key={i} className="flex items-start gap-2 sm:gap-3">
+              <span className="flex-shrink-0 mt-1.5 w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-blue-500" />
+              <span className="text-sm sm:text-base leading-relaxed text-gray-700">
                 <MarkdownInline content={safeString(item)} />
               </span>
             </li>
@@ -721,17 +721,17 @@ function SourcesBlock({ block }: { block: ModularBlock }) {
   )
 
   return (
-    <section className="rounded-xl border border-gray-200 bg-gray-50 px-6 py-5">
-      <h3 className="text-sm font-bold uppercase tracking-wider text-gray-500">{heading}</h3>
+    <section className="rounded-lg sm:rounded-xl border border-gray-200 bg-gray-50 px-4 sm:px-5 md:px-6 py-4 sm:py-5">
+      <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500">{heading}</h3>
       {body && (
         <MarkdownContent
           content={body}
           className="mt-2"
-          paragraphClassName="text-sm leading-relaxed text-gray-600"
+          paragraphClassName="text-xs sm:text-sm leading-relaxed text-gray-600"
         />
       )}
       {links.length > 0 && (
-        <ul className="mt-4 space-y-2">
+        <ul className="mt-3 sm:mt-4 space-y-1.5 sm:space-y-2">
           {links.map((link, i) => {
             const href = safeString(link.href)
             const text = safeString(link.anchor) || href
@@ -741,9 +741,9 @@ function SourcesBlock({ block }: { block: ModularBlock }) {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-pink-500 hover:text-pink-600 transition-colors underline underline-offset-2"
+                  className="inline-flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm text-pink-500 hover:text-pink-600 transition-colors underline underline-offset-2 break-words"
                 >
-                  <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                   {text}
@@ -859,17 +859,17 @@ export function ArticleRenderer({
         />
       ))}
       {/* Light canvas container for optimal reading */}
-      <article className="bg-white rounded-3xl shadow-sm border border-gray-100 px-8 sm:px-12 lg:px-16 py-12 space-y-12">
+      <article className="bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100 px-5 sm:px-8 md:px-12 lg:px-16 py-8 sm:py-10 md:py-12 space-y-8 sm:space-y-10 md:space-y-12">
         {/* Article H1 */}
         {h1Text && (
-          <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-gray-900">
+          <h1 className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-gray-900">
             {h1Text}
           </h1>
         )}
 
         {/* Featured Image */}
         {featuredImageUrl && (
-          <div className="overflow-hidden rounded-2xl">
+          <div className="overflow-hidden rounded-xl sm:rounded-2xl">
             <img
               src={featuredImageUrl}
               alt={featuredImageTitle || h1Text || "Article featured image"}
@@ -886,25 +886,25 @@ export function ArticleRenderer({
 
         {/* Author Byline */}
         {authorName && (
-          <div className="flex items-center gap-5 pb-8 border-b border-gray-100">
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 pb-6 sm:pb-7 md:pb-8 border-b border-gray-100">
             {authorProfileImage ? (
               <img
                 src={authorProfileImage}
                 alt={authorName}
-                className="h-14 w-14 rounded-full object-cover ring-2 ring-gray-100"
+                className="h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full object-cover ring-2 ring-gray-100"
               />
             ) : (
-              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-50 text-gray-300">
-                <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="flex h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 items-center justify-center rounded-full bg-gray-50 text-gray-300">
+                <svg className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
             )}
-            <div className="flex-1">
-              <div className="flex items-center gap-3 flex-wrap">
-                <span className="font-semibold text-base text-gray-900">{authorName}</span>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                <span className="font-semibold text-sm sm:text-base text-gray-900">{authorName}</span>
                 {(authorTwitter || authorWebsite) && (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
                     {authorTwitter && (
                       <a
                         href={authorTwitter}
@@ -913,7 +913,7 @@ export function ArticleRenderer({
                         className="text-gray-400 hover:text-pink-500 transition-colors"
                         aria-label="Twitter"
                       >
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                         </svg>
                       </a>
@@ -926,7 +926,7 @@ export function ArticleRenderer({
                         className="text-gray-400 hover:text-pink-500 transition-colors"
                         aria-label="Website"
                       >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                         </svg>
                       </a>
@@ -935,7 +935,7 @@ export function ArticleRenderer({
                 )}
               </div>
               {authorBio && (
-                <p className="mt-1 text-sm leading-relaxed text-gray-600">{authorBio}</p>
+                <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm leading-relaxed text-gray-600">{authorBio}</p>
               )}
             </div>
           </div>
