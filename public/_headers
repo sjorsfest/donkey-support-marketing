@@ -22,5 +22,14 @@
 /llms.txt
   Cache-Control: public, max-age=3600
 
+/blog
+  Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
+
+/blog/*
+  Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
+
+/pillars/*
+  Cache-Control: public, max-age=0, s-maxage=3600, stale-while-revalidate=86400
+
 /*
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400

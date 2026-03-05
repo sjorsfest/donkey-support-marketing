@@ -2,21 +2,30 @@
 // Displays list of all published articles
 
 import type { Route } from "./+types/blog"
-import { useOutletContext } from "react-router"
+import { data, useOutletContext } from "react-router"
 import { Navbar } from "~/components/layout/navbar"
 import { Footer } from "~/components/layout/footer"
 import { getAllPublishedArticles } from "~/lib/blog-data.server"
 import { buildMeta } from "~/lib/seo"
-import type { FooterPillar } from "~/lib/footer-pillars.server"
+import type { MarketingPillar } from "~/lib/pillars"
 
 const PAGE_PATH = "/blog"
 const PAGE_TITLE = "Blog | Donkey Support"
 const PAGE_DESCRIPTION =
   "Insights, guides, and best practices for customer support automation"
+const HTML_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
 
 export async function loader() {
-  const articles = await getAllPublishedArticles(50)
-  return { articles }
+  const articles = await getAllPublishedArticles()
+  return data(
+    { articles },
+    {
+      headers: {
+        "Cache-Control": HTML_CACHE_CONTROL,
+      },
+    }
+  )
 }
 
 export function meta() {
@@ -29,7 +38,7 @@ export function meta() {
 
 export default function BlogIndexPage({ loaderData }: Route.ComponentProps) {
   const { articles } = loaderData
-  const { pillars } = useOutletContext<{ pillars: FooterPillar[] }>()
+  const { pillars } = useOutletContext<{ pillars: MarketingPillar[] }>()
 
   return (
     <>

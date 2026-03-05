@@ -1,7 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { sitemapLastmodMap } from "~/data/sitemap-lastmod.generated";
 import { getPublishedArticlesForSitemap } from "~/lib/blog-data.server";
-import { getActivePillarsForSitemap } from "~/lib/pillar-data.server";
+import { getMarketingPillars } from "~/lib/pillars";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
@@ -23,9 +23,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     { path: "/tos", changefreq: "monthly", priority: "0.5" },
   ];
 
-  // Fetch dynamic routes from database
+  // Fetch dynamic routes
   const articles = await getPublishedArticlesForSitemap();
-  const pillars = await getActivePillarsForSitemap();
+  const pillars = getMarketingPillars().filter((pillar) => pillar.slug !== "blog");
 
   const articleRoutes = articles.map((article) => ({
     path: `/blog/${article.slug}`,
@@ -35,10 +35,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }));
 
   const pillarRoutes = pillars.map((pillar) => ({
-    path: `/pillars/${pillar.slug}`,
+    path: pillar.path,
     changefreq: "weekly" as const,
     priority: "0.6",
-    lastmod: new Date(pillar.updated_at).toISOString().split("T")[0],
   }));
 
   // Add blog index if there are articles

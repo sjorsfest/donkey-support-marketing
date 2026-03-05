@@ -9,7 +9,6 @@ import {
   processArticlePublication,
   type WebhookArticlePayload,
 } from "~/lib/donkey-seo-publication.server"
-import { syncPillars } from "~/lib/donkey-seo-pillar-sync.server"
 
 interface WebhookEventPayload {
   event_id?: string
@@ -163,22 +162,7 @@ export async function action({ request }: Route.ActionArgs) {
       )
     }
 
-    // 7. Sync pillars for blogpost events so local pillar data stays current
-    if (hasBlogpostPayload(payload)) {
-      try {
-        const syncedCount = await syncPillars()
-        console.log(
-          `[Donkey SEO Webhook] Synced pillars before article handling (${syncedCount} pillars)`
-        )
-      } catch (error) {
-        console.error(
-          "[Donkey SEO Webhook] Pillar sync failed during blogpost webhook:",
-          error
-        )
-      }
-    }
-
-    // 8. Process event based on type
+    // 7. Process event based on type
     if (event_type === "content.article.publish_requested") {
       if (!hasBlogpostPayload(payload)) {
         console.warn("[Donkey SEO Webhook] Missing blogpost payload for publish event")

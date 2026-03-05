@@ -12,7 +12,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import { SupportWidget } from "./components/supportWidget/supportWidget";
 import { AppConfigProvider } from "./context/appConfig";
-import { getActivePillars } from "./lib/footer-pillars.server";
+import { getMarketingPillars } from "./lib/pillars";
 
 const MANAGED_HOSTS = new Set(["donkey.support", "www.donkey.support"])
 const CANONICAL_HOST = "www.donkey.support"
@@ -34,8 +34,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     }
   }
 
-  // Fetch pillars for footer
-  const pillars = await getActivePillars()
+  const pillars = getMarketingPillars()
 
   return {
     appUrl: process.env.APP_URL ?? "",

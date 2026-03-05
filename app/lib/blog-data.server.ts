@@ -7,9 +7,9 @@ import { withCache } from "~/lib/cache.server"
 import type { ModularDocument } from "~/lib/donkey-seo-client.server"
 
 // Cache TTLs (in seconds)
-const ARTICLE_CACHE_TTL = 120 // 2 minutes
-const ARTICLES_LIST_CACHE_TTL = 60 // 1 minute
-const SITEMAP_CACHE_TTL = 300 // 5 minutes
+const ARTICLE_CACHE_TTL = 3600 // 60 minutes
+const ARTICLES_LIST_CACHE_TTL = 3600 // 60 minutes
+const SITEMAP_CACHE_TTL = 3600 // 60 minutes
 
 export interface BlogArticle {
   article_id: string
@@ -82,8 +82,11 @@ export async function getPublishedArticleBySlug(
  * Cached for 1 minute
  */
 export async function getAllPublishedArticles(
-  limit = 50
+  limit?: number
 ): Promise<BlogArticleSummary[]> {
+  const limitClause =
+    typeof limit === "number" ? sql`LIMIT ${limit}` : sql``
+
   return withCache(`articles:all:${limit}`, ARTICLES_LIST_CACHE_TTL, async () => {
     const db = getDb()
 
@@ -95,7 +98,7 @@ export async function getAllPublishedArticles(
       FROM donkey_articles
       WHERE publish_status = 'published'
       ORDER BY published_at DESC
-      LIMIT ${limit}
+      ${limitClause}
     `)
 
     return result.rows as unknown as BlogArticleSummary[]

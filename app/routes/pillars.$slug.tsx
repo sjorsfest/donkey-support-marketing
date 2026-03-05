@@ -5,21 +5,34 @@ import type { Route } from "./+types/pillars.$slug"
 import { data, useOutletContext } from "react-router"
 import { Navbar } from "~/components/layout/navbar"
 import { Footer } from "~/components/layout/footer"
-import { getActivePillarBySlug } from "~/lib/pillar-data.server"
-import { getArticlesByPillar } from "~/lib/blog-data.server"
+import { getAllPublishedArticles, getArticlesByPillar } from "~/lib/blog-data.server"
+import { getMarketingPillarBySlug } from "~/lib/pillars"
 import { buildMeta } from "~/lib/seo"
-import type { FooterPillar } from "~/lib/footer-pillars.server"
+import type { MarketingPillar } from "~/lib/pillars"
+
+const HTML_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const pillar = await getActivePillarBySlug(params.slug)
+  const pillar = getMarketingPillarBySlug(params.slug)
 
   if (!pillar) {
     throw data({ message: "Pillar not found" }, { status: 404 })
   }
 
-  const articles = await getArticlesByPillar(params.slug)
+  const articles =
+    params.slug === "blog"
+      ? await getAllPublishedArticles()
+      : await getArticlesByPillar(params.slug)
 
-  return { pillar, articles }
+  return data(
+    { pillar, articles },
+    {
+      headers: {
+        "Cache-Control": HTML_CACHE_CONTROL,
+      },
+    }
+  )
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -30,15 +43,15 @@ export function meta({ data }: Route.MetaArgs) {
   const { pillar } = data
 
   return buildMeta({
-    path: `/pillars/${pillar.slug}`,
-    title: pillar.seo_title || `${pillar.name} | Donkey Support`,
-    description: pillar.seo_description || pillar.description || "",
+    path: pillar.path,
+    title: `${pillar.name} | Donkey Support`,
+    description: pillar.description,
   })
 }
 
 export default function PillarPage({ loaderData }: Route.ComponentProps) {
   const { pillar, articles } = loaderData
-  const { pillars } = useOutletContext<{ pillars: FooterPillar[] }>()
+  const { pillars } = useOutletContext<{ pillars: MarketingPillar[] }>()
 
   return (
     <>

@@ -3,7 +3,6 @@ import { type RouteConfig, index, route } from "@react-router/dev/routes";
 export default [
   index("routes/home.tsx"),
   route("api/db-connection", "routes/api.db-connection.ts"),
-  route("api/admin/sync-pillars", "routes/api.admin.sync-pillars.ts"),
   route("api/r2-upload", "routes/api.r2-upload.ts"),
   route("api/webhooks/donkey-seo", "routes/api.webhooks.donkey-seo.ts"),
   route("blog", "routes/blog.tsx"),
