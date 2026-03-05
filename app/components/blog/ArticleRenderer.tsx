@@ -719,6 +719,7 @@ function SourcesBlock({ block }: { block: ModularBlock }) {
   const links = safeArray(block.links).filter(
     (l): l is LinkObject => typeof l === "object" && l !== null && !!safeString((l as LinkObject).href),
   )
+  if (links.length === 0) return null
 
   return (
     <section className="rounded-lg sm:rounded-xl border border-gray-200 bg-gray-50 px-4 sm:px-5 md:px-6 py-4 sm:py-5">

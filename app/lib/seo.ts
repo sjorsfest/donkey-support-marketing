@@ -1,6 +1,6 @@
 const CANONICAL_ORIGIN = "https://www.donkey.support"
 const DEFAULT_SITE_NAME = "Donkey Support"
-const DEFAULT_SOCIAL_IMAGE = "/og/og-image.png?v=3"
+const DEFAULT_SOCIAL_IMAGE = "/og/og-image.png?v=4"
 const DEFAULT_SOCIAL_IMAGE_ALT = "Donkey Support customer support widget preview"
 
 type MetaLinkTag = {
@@ -99,8 +99,7 @@ export function buildMeta(config: SeoConfig): SeoMetaTag[] {
   const description = withLengthGuardrail("description", config.description, 160)
   const socialImage = toAbsoluteUrl(config.socialImagePath ?? DEFAULT_SOCIAL_IMAGE)
   const socialImageAlt = config.socialImageAlt ?? DEFAULT_SOCIAL_IMAGE_ALT
-  const twitterCard =
-    config.twitterCard ?? (socialImage ? "summary_large_image" : "summary")
+  const twitterCard = config.twitterCard ?? "summary_large_image"
 
   const meta: SeoMetaTag[] = [
     { title },
@@ -117,18 +116,16 @@ export function buildMeta(config: SeoConfig): SeoMetaTag[] {
     { name: "twitter:description", content: description },
   ]
 
-  if (socialImage) {
-    meta.push(
-      { property: "og:image", content: socialImage },
-      { property: "og:image:secure_url", content: socialImage },
-      { property: "og:image:width", content: "1200" },
-      { property: "og:image:height", content: "630" },
-      { property: "og:image:alt", content: socialImageAlt },
-      { name: "twitter:image", content: socialImage },
-      { name: "twitter:image:src", content: socialImage },
-      { name: "twitter:image:alt", content: socialImageAlt },
-    )
-  }
+  meta.push(
+    { property: "og:image", content: socialImage },
+    { property: "og:image:secure_url", content: socialImage },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+    { property: "og:image:alt", content: socialImageAlt },
+    { name: "twitter:image", content: socialImage },
+    { name: "twitter:image:src", content: socialImage },
+    { name: "twitter:image:alt", content: socialImageAlt },
+  )
 
   return meta
 }
