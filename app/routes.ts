@@ -19,6 +19,7 @@ export default [
   route("pillars/:slug", "routes/pillars.$slug.tsx"),
   route("tos", "routes/tos.tsx"),
   route("privacy-policy", "routes/privacy-policy.tsx"),
+  route("contact", "routes/contact.tsx"),
   route("go", "routes/go.tsx"),
   route("robots.txt", "routes/robots[.]txt.tsx"),
   route("llms.txt", "routes/llms[.]txt.tsx"),

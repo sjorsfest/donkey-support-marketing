@@ -56,7 +56,7 @@ export default function PillarPage({ loaderData }: Route.ComponentProps) {
   return (
     <>
       <Navbar />
-      <main className="py-20">
+      <main className="pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20">
         <div className="section-container">
           {/* Hero section */}
           <div className="max-w-3xl mx-auto mb-12 text-center">

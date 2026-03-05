@@ -137,6 +137,12 @@ export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
                 >
                   Privacy Policy
                 </a>
+                <a
+                  href="/contact"
+                  className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                >
+                  Contact
+                </a>
               </div>
             </div>
 
