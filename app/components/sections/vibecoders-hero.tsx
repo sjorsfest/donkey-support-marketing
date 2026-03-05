@@ -225,13 +225,13 @@ export function VibecodersHero() {
       <div className="absolute -bottom-8 right-8 w-24 h-24 bg-yellow-300/50 rounded-full blur-xl" />
 
       <div className="section-container">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center max-w-full">
           {/* Left Column - Content */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center lg:text-left"
+            className="text-center lg:text-left w-full min-w-0"
           >
             {/* Promo Badge */}
             <motion.div
@@ -246,7 +246,7 @@ export function VibecodersHero() {
             </motion.div>
 
             {/* Headline */}
-            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8 max-w-4xl mx-auto lg:mx-0">
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.15] mb-8">
               <span className="text-outline-hero">Support Chat</span>{" "}
               <span className="text-foreground">That</span>{" "}
               <span className="text-pink-500">Installs Itself</span>
@@ -275,7 +275,7 @@ export function VibecodersHero() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative"
+            className="relative w-full min-w-0"
           >
             {/* AI Agent Instructions Interface Mockup */}
             <Float delay={0} y={8}>
@@ -386,7 +386,7 @@ export function VibecodersHero() {
 
             {/* Widget Preview (smaller, in corner) */}
             <motion.div
-              className="absolute -bottom-4 -right-4 lg:bottom-8 lg:-right-4 w-48"
+              className="absolute -bottom-4 right-2 lg:bottom-8 lg:-right-4 w-48"
               initial={{ scale: 0.9, opacity: 0, rotate: -5 }}
               animate={{
                 scale: 1,
