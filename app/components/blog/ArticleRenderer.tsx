@@ -3,6 +3,7 @@
 
 import type { ReactNode } from "react"
 import type { ModularDocument, ModularBlock } from "~/lib/donkey-seo-client.server"
+import { CANONICAL_ORIGIN } from "~/lib/seo"
 import { cn } from "~/lib/utils"
 
 // ============================================================================
@@ -39,10 +40,45 @@ function serializeJsonLd(data: Record<string, unknown>): string {
 // Markdown Rendering
 // ============================================================================
 
-const INLINE_MARKDOWN_PATTERN = /(\[[^\]]+\]\((?:https?:\/\/[^\s)]+|#[^)]+)\)|\*\*[^*\n]+\*\*|`[^`\n]+`)/g
+const INLINE_MARKDOWN_PATTERN = /(\[[^\]]+\]\([^)]+\)|\*\*[^*\n]+\*\*|`[^`\n]+`)/g
 const LINK_MARKDOWN_PATTERN = /^\[([^\]]+)\]\(([^)]+)\)$/
 const FENCED_CODE_BLOCK_PATTERN = /```([a-zA-Z0-9_-]+)?\n([\s\S]*?)```/g
 const TABLE_PATTERN = /(?:^|\n)(\|.+\|(?:\n\|.+\|)+)/gm
+const INTERNAL_HOST_SUFFIX = "donkey.support"
+
+function isExternalHref(href: string): boolean {
+  const normalizedHref = href.trim()
+  if (!normalizedHref) return false
+
+  if (
+    normalizedHref.startsWith("#") ||
+    normalizedHref.startsWith("/") ||
+    normalizedHref.startsWith("./") ||
+    normalizedHref.startsWith("../") ||
+    normalizedHref.startsWith("mailto:") ||
+    normalizedHref.startsWith("tel:")
+  ) {
+    return false
+  }
+
+  try {
+    const url = new URL(normalizedHref, CANONICAL_ORIGIN)
+    if (url.protocol !== "http:" && url.protocol !== "https:") return false
+
+    const hostname = url.hostname.toLowerCase()
+    const isInternalHost = hostname === INTERNAL_HOST_SUFFIX || hostname.endsWith(`.${INTERNAL_HOST_SUFFIX}`)
+    return !isInternalHost
+  } catch {
+    return false
+  }
+}
+
+function getLinkAttrs(href: string): { target?: "_blank"; rel?: string } {
+  if (!isExternalHref(href)) {
+    return {}
+  }
+  return { target: "_blank", rel: "noopener noreferrer" }
+}
 
 type MarkdownBlock = {
   type: "paragraph" | "code" | "table"
@@ -102,13 +138,13 @@ function renderInlineMarkdown(value: string): ReactNode[] {
       const linkMatch = token.match(LINK_MARKDOWN_PATTERN)
       if (linkMatch) {
         const [, label, href] = linkMatch
-        const isAnchor = href.startsWith("#")
+        const linkAttrs = getLinkAttrs(href)
         nodes.push(
           <a
             key={`link-${tokenIndex}`}
             href={href}
-            target={isAnchor ? undefined : "_blank"}
-            rel={isAnchor ? undefined : "noopener noreferrer"}
+            target={linkAttrs.target}
+            rel={linkAttrs.rel}
             className="text-pink-500 hover:text-pink-600 underline underline-offset-2 font-medium transition-colors break-words"
           >
             {label}
@@ -362,12 +398,13 @@ function BlockLinks({ links }: { links?: ModularBlock["links"] }) {
       {safeLinks.map((link, i) => {
         const href = safeString(link.href)
         const text = safeString(link.anchor) || href
+        const linkAttrs = getLinkAttrs(href)
         return (
           <li key={i}>
             <a
               href={href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={linkAttrs.target}
+              rel={linkAttrs.rel}
               className="inline-flex items-center gap-1 sm:gap-1.5 text-xs sm:text-sm text-pink-500 hover:text-pink-600 font-medium transition-colors underline underline-offset-2"
             >
               <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
