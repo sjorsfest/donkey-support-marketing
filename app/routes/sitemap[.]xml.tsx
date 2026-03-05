@@ -10,6 +10,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   // List of static routes
   const staticRoutes = [
     { path: "/", changefreq: "daily", priority: "1.0" },
+    { path: "/vibecoders", changefreq: "weekly", priority: "0.8" },
     { path: "/remote-teams", changefreq: "weekly", priority: "0.8" },
     { path: "/crypto-web3", changefreq: "weekly", priority: "0.8" },
     { path: "/developer-tools", changefreq: "weekly", priority: "0.8" },

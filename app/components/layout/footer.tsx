@@ -63,6 +63,12 @@ export function Footer({ pillars = [] }: FooterProps) {
               <h3 className="text-sm font-bold text-foreground">Solutions</h3>
               <div className="flex flex-col items-center md:items-start gap-2">
                 <a
+                  href="/vibecoders"
+                  className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                >
+                  Vibecoders
+                </a>
+                <a
                   href="/remote-teams"
                   className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
                 >

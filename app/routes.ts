@@ -8,6 +8,7 @@ export default [
   route("api/webhooks/donkey-seo", "routes/api.webhooks.donkey-seo.ts"),
   route("blog", "routes/blog.tsx"),
   route("blog/:slug", "routes/blog.$slug.tsx"),
+  route("vibecoders", "routes/vibecoders.tsx"),
   route("remote-teams", "routes/remote-teams.tsx"),
   route("crypto-web3", "routes/crypto-web3.tsx"),
   route("developer-tools", "routes/developer-tools.tsx"),
