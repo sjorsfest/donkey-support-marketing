@@ -46,6 +46,12 @@ export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
                   Features
                 </a>
                 <a
+                  href="/#installation"
+                  className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                >
+                  Installation
+                </a>
+                <a
                   href="/#pricing"
                   className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
                 >

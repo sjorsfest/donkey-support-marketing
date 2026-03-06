@@ -40,7 +40,7 @@ export function Navbar() {
           </Link>
 
           {/* Nav Links */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center sm:gap-6 gap-8 lg:gap-12">
             <button
               onClick={() => scrollToSection("features")}
               className="font-semibold text-foreground/80 hover:text-foreground transition-colors"
@@ -52,6 +52,12 @@ export function Navbar() {
               className="font-semibold text-foreground/80 hover:text-foreground transition-colors"
             >
               Integrations
+            </button>
+            <button
+              onClick={() => scrollToSection("installation")}
+              className="font-semibold text-foreground/80 hover:text-foreground transition-colors"
+            >
+              Installation
             </button>
             <button
               onClick={() => scrollToSection("pricing")}

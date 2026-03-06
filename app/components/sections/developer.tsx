@@ -251,7 +251,7 @@ export function Developer() {
   }
 
   return (
-    <section className="py-20">
+    <section id="installation" className="py-20">
       <div className="section-container">
         <FadeIn className="text-center mb-12">
           <Badge variant="secondary" className="mb-4">
