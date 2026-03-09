@@ -10,7 +10,7 @@ const benefits = [
   {
     icon: "📬",
     title: "Never Miss a Reply",
-    description: "Automatic email follow-ups ensure community members see your responses"
+    description: "Automatically email members who miss your response - no conversation falls through the cracks"
   },
   {
     icon: "🔐",

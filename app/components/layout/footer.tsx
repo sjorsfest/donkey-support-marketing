@@ -30,7 +30,7 @@ export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
                 </span>
               </div>
               <p className="text-sm text-muted text-center md:text-left">
-                Built with ❤️ for indie builders
+                Built with ❤️ for founders doing their own support
               </p>
               <ExternalBadges />
             </div>

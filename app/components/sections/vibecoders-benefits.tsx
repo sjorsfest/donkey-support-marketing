@@ -19,8 +19,8 @@ const benefits = [
   },
   {
     icon: "🎯",
-    title: "Built for Builders",
-    description: "Perfect for indie hackers and solopreneurs shipping fast with AI assistance. Get support live without slowing down."
+    title: "Built for Indie Hackers",
+    description: "Perfect for founders shipping fast with AI assistance. Reply to support without leaving your coding flow or breaking your momentum."
   }
 ]
 

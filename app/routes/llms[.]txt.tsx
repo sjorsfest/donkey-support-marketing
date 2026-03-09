@@ -11,7 +11,7 @@ Name: Donkey Support
 Website: ${baseUrl}
 Primary URL: ${baseUrl}/
 Category: Customer support widget and messaging workflow automation
-Audience: Indie builders, solo founders, and small product teams
+Audience: Founders and small teams who handle support themselves
 
 ## What this tool is
 Donkey Support is a lightweight customer support widget you embed in your app or website.
@@ -29,7 +29,7 @@ The product is built for teams that want:
 2) Connect one platform (Slack, Discord, or Telegram).
 3) Receive new tickets as threads in your selected channel.
 4) Reply in-thread and sync replies back to the website visitor.
-5) If a customer misses a reply, trigger branded email follow-up and delivery tracking.
+5) Automatically email customers who miss your reply, with branded emails and delivery tracking.
 
 ## Main features
 - Full ticketing workflow: tickets, replies, and inbox views.
@@ -40,7 +40,7 @@ The product is built for teams that want:
 - Signed metadata tokens (HS256) for trusted context verification.
 - Office hours support.
 - Domain allowlist control for widget embeds.
-- Email follow-up when agent replies are unseen, with delivery status logs.
+- Automatically email customers who miss replies, with delivery status tracking.
 - Multi-tenant account isolation.
 - Webhooks for automation use cases.
 

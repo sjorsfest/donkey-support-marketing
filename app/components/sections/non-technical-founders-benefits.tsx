@@ -15,7 +15,7 @@ const benefits = [
   {
     icon: "📬",
     title: "Automatic Follow-ups",
-    description: "Never miss a lead - automatic emails when your replies go unseen"
+    description: "Never miss a lead - automatically email customers who miss your reply"
   },
   {
     icon: "💰",
@@ -30,11 +30,11 @@ export function NonTechnicalFoundersBenefits() {
       <div className="section-container">
         <FadeIn className="text-center mb-12">
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Why founders{" "}
+            Why non-technical founders{" "}
             <span className="text-pink-500">love it</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            You don&apos;t need to be technical to deliver great support.
+            You don&apos;t need to be technical to deliver great support. Work from tools you already know - no complex systems to learn.
           </p>
         </FadeIn>
 

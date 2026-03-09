@@ -70,9 +70,9 @@ const features = [
     ),
   },
   {
-    title: "Automatic missed-reply follow-ups",
+    title: "Automatic email reminders",
     description:
-      "If a visitor doesn't see your agent reply, Donkey Support sends a branded email nudge automatically and tracks delivery status.",
+      "Automatically email customers who miss your reply. Sends branded email reminders and tracks delivery status so nothing falls through the cracks.",
     badge: "Automation",
     visual: (
       <div className="relative">
@@ -114,8 +114,8 @@ export function Features() {
             <span className="text-pink-500">nothing you don&apos;t</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Powerful features without the complexity. Built for builders who
-            want simple support and reliable follow-up.
+            Powerful features without the complexity. Built for founders who
+            need effective support without the bloat or context switching.
           </p>
         </FadeIn>
 

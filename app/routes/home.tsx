@@ -27,7 +27,7 @@ import {
 const PAGE_PATH = "/"
 const PAGE_TITLE = "Customer Support Widget for Slack & Discord | Donkey"
 const PAGE_DESCRIPTION =
-  "Support chat that lives in your Discord server. Reply from Slack, Discord, or Telegram threads and follow up by email when replies go unseen."
+  "Support chat that lives in your Discord server. Reply from Slack, Discord, or Telegram threads and automatically email customers who miss your reply."
 
 export function meta({}: Route.MetaArgs) {
   return buildMeta({

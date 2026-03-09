@@ -1,7 +1,7 @@
 {
   "name": "Donkey Support",
   "short_name": "Donkey Support",
-  "description": "A lightweight customer support widget for your website. Reply from Slack, Discord, or Telegram threads, and follow up by email when replies go unseen.",
+  "description": "A lightweight customer support widget for your website. Reply from Slack, Discord, or Telegram threads, and automatically email customers who miss your reply.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

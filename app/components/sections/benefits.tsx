@@ -22,9 +22,9 @@ const benefits = [
   },
   {
     icon: "💰",
-    title: "Affordable for solo builders",
+    title: "Priced for indie founders",
     description:
-      "No per-seat pricing. No enterprise minimums. Built for solopreneurs and small teams.",
+      "No per-seat pricing. No enterprise minimums. Pay for what you use, not team size.",
   },
 ]
 
@@ -34,12 +34,11 @@ export function Benefits() {
       <div className="section-container">
         <FadeIn className="text-center mb-12">
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Why solo builders{" "}
-            <span className="text-pink-500">love it</span>
+            Built for founders{" "}
+            <span className="text-pink-500">doing their own support</span>
           </h2>
           <p className="text-lg text-muted max-w-2xl mx-auto">
-            Support shouldn&apos;t be complicated. We built Donkey Support for
-            people who do support themselves.
+            When you&apos;re building, marketing, AND supporting - you can&apos;t afford to context switch. Stay in your flow, reply from where you already work.
           </p>
         </FadeIn>
 
