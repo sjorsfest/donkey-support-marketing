@@ -862,12 +862,16 @@ interface ArticleRendererProps {
   document: ModularDocument
   featuredImageUrl?: string | null
   featuredImageAlt?: string | null
+  publishedAt?: string | null
+  updatedAt?: string | null
 }
 
 export function ArticleRenderer({
   document,
   featuredImageUrl: externalFeaturedImageUrl,
-  featuredImageAlt: externalFeaturedImageAlt
+  featuredImageAlt: externalFeaturedImageAlt,
+  publishedAt,
+  updatedAt
 }: ArticleRendererProps) {
   const seoMeta = document.seo_meta
   const author = document.author
@@ -884,6 +888,96 @@ export function ArticleRenderer({
   const authorTwitter = author?.social_urls?.twitter || author?.social_urls?.x
   const authorWebsite = author?.social_urls?.website
   const structuredData = safeStructuredData(document.structured_data)
+
+  // Format dates for display
+  const formatDate = (dateString: string | null | undefined): string => {
+    if (!dateString) return ""
+    try {
+      const date = new Date(dateString)
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      })
+    } catch {
+      return ""
+    }
+  }
+
+  // Calculate reading time based on word count
+  const calculateReadingTime = (doc: ModularDocument): number => {
+    const WORDS_PER_MINUTE = 225
+    let wordCount = 0
+
+    // Count words in H1
+    const h1 = safeString(doc.seo_meta?.h1)
+    if (h1) {
+      wordCount += h1.split(/\s+/).filter(Boolean).length
+    }
+
+    // Count words in all blocks
+    const docBlocks = safeArray<ModularBlock>(doc.blocks)
+    docBlocks.forEach(block => {
+      // Count heading
+      const heading = safeString(block.heading)
+      if (heading) {
+        wordCount += heading.split(/\s+/).filter(Boolean).length
+      }
+
+      // Count body
+      const body = safeString(block.body)
+      if (body) {
+        wordCount += body.split(/\s+/).filter(Boolean).length
+      }
+
+      // Count items
+      const items = safeArray<string>(block.items)
+      items.forEach(item => {
+        const itemText = safeString(item)
+        if (itemText) {
+          wordCount += itemText.split(/\s+/).filter(Boolean).length
+        }
+      })
+
+      // Count FAQ items
+      if (block.faq_items) {
+        const faqItems = safeArray(block.faq_items)
+        faqItems.forEach((item: any) => {
+          const question = safeString(item?.question)
+          const answer = safeString(item?.answer)
+          if (question) wordCount += question.split(/\s+/).filter(Boolean).length
+          if (answer) wordCount += answer.split(/\s+/).filter(Boolean).length
+        })
+      }
+
+      // Count table data
+      if (block.table_columns) {
+        const columns = safeArray<string>(block.table_columns)
+        columns.forEach(col => {
+          const colText = safeString(col)
+          if (colText) wordCount += colText.split(/\s+/).filter(Boolean).length
+        })
+      }
+      if (block.table_rows) {
+        const rows = safeArray<string[]>(block.table_rows)
+        rows.forEach(row => {
+          if (Array.isArray(row)) {
+            row.forEach(cell => {
+              const cellText = safeString(cell)
+              if (cellText) wordCount += cellText.split(/\s+/).filter(Boolean).length
+            })
+          }
+        })
+      }
+    })
+
+    return Math.max(1, Math.ceil(wordCount / WORDS_PER_MINUTE))
+  }
+
+  const formattedPublishedDate = formatDate(publishedAt)
+  const formattedUpdatedDate = formatDate(updatedAt)
+  const showUpdatedDate = formattedUpdatedDate && publishedAt !== updatedAt
+  const readingTimeMinutes = calculateReadingTime(document)
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -922,60 +1016,106 @@ export function ArticleRenderer({
           </div>
         )}
 
-        {/* Author Byline */}
-        {authorName && (
-          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 pb-6 sm:pb-7 md:pb-8 border-b border-gray-100">
-            {authorProfileImage ? (
-              <img
-                src={authorProfileImage}
-                alt={authorName}
-                className="h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full object-cover ring-2 ring-gray-100"
-              />
-            ) : (
-              <div className="flex h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 items-center justify-center rounded-full bg-gray-50 text-gray-300">
-                <svg className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
+        {/* Article Metadata (Author & Dates) */}
+        {(authorName || formattedPublishedDate) && (
+          <div className="pb-6 sm:pb-7 md:pb-8 border-b border-gray-100 space-y-4">
+            {/* Author Byline */}
+            {authorName && (
+              <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
+                {authorProfileImage ? (
+                  <img
+                    src={authorProfileImage}
+                    alt={authorName}
+                    className="h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full object-cover ring-2 ring-gray-100"
+                  />
+                ) : (
+                  <div className="flex h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 items-center justify-center rounded-full bg-gray-50 text-gray-300">
+                    <svg className="h-5 w-5 sm:h-6 sm:w-6 md:h-7 md:w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                    <a
+                      href={`/blog/author/${encodeURIComponent(authorName)}`}
+                      className="font-semibold text-sm sm:text-base text-gray-900 hover:text-pink-600 transition-colors"
+                    >
+                      {authorName}
+                    </a>
+                    {(authorTwitter || authorWebsite) && (
+                      <div className="flex items-center gap-1.5 sm:gap-2">
+                        {authorTwitter && (
+                          <a
+                            href={authorTwitter}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-pink-500 transition-colors"
+                            aria-label="Twitter"
+                          >
+                            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                            </svg>
+                          </a>
+                        )}
+                        {authorWebsite && (
+                          <a
+                            href={authorWebsite}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-gray-400 hover:text-pink-500 transition-colors"
+                            aria-label="Website"
+                          >
+                            <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                            </svg>
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  {authorBio && (
+                    <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm leading-relaxed text-gray-600">{authorBio}</p>
+                  )}
+                </div>
               </div>
             )}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                <span className="font-semibold text-sm sm:text-base text-gray-900">{authorName}</span>
-                {(authorTwitter || authorWebsite) && (
-                  <div className="flex items-center gap-1.5 sm:gap-2">
-                    {authorTwitter && (
-                      <a
-                        href={authorTwitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-pink-500 transition-colors"
-                        aria-label="Twitter"
-                      >
-                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                        </svg>
-                      </a>
-                    )}
-                    {authorWebsite && (
-                      <a
-                        href={authorWebsite}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-pink-500 transition-colors"
-                        aria-label="Website"
-                      >
-                        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                        </svg>
-                      </a>
-                    )}
+
+            {/* Publication Dates & Reading Time */}
+            {(formattedPublishedDate || readingTimeMinutes) && (
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs sm:text-sm text-gray-600">
+                {formattedPublishedDate && (
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>
+                      <span className="font-medium text-gray-700">Posted on:</span> {formattedPublishedDate}
+                    </span>
+                  </div>
+                )}
+                {showUpdatedDate && (
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    <span>
+                      <span className="font-medium text-gray-700">Last updated:</span> {formattedUpdatedDate}
+                    </span>
+                  </div>
+                )}
+                {readingTimeMinutes > 0 && (
+                  <div className="flex items-center gap-1.5">
+                    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>
+                      <span className="font-medium text-gray-700">{readingTimeMinutes} min read</span>
+                    </span>
                   </div>
                 )}
               </div>
-              {authorBio && (
-                <p className="mt-0.5 sm:mt-1 text-xs sm:text-sm leading-relaxed text-gray-600">{authorBio}</p>
-              )}
-            </div>
+            )}
           </div>
         )}
 

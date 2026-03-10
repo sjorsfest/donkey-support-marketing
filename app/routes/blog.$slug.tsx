@@ -113,6 +113,8 @@ export default function BlogArticlePage({ loaderData }: Route.ComponentProps) {
             document={modularDocument}
             featuredImageUrl={article.featured_image_url}
             featuredImageAlt={article.featured_image_alt}
+            publishedAt={article.published_at}
+            updatedAt={article.updated_at}
           />
 
           {/* Back to pillar */}

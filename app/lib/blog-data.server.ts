@@ -64,7 +64,7 @@ export async function getPublishedArticleBySlug(
         seo_title, seo_description, seo_h1,
         featured_image_url, featured_image_alt,
         pillar_slug, pillar_name,
-        webhook_payload, published_at
+        webhook_payload, published_at, updated_at
       FROM donkey_articles
       WHERE slug = ${slug} AND publish_status = 'published'
     `)
@@ -142,6 +142,30 @@ export async function getArticlesByPillar(
         featured_image_url, featured_image_alt, published_at
       FROM donkey_articles
       WHERE pillar_slug = ${pillarSlug} AND publish_status = 'published'
+      ORDER BY published_at DESC
+    `)
+
+    return result.rows as unknown as BlogArticleSummary[]
+  })
+}
+
+/**
+ * Get articles by a specific author name
+ * Cached for 1 minute
+ */
+export async function getArticlesByAuthor(
+  authorName: string
+): Promise<BlogArticleSummary[]> {
+  return withCache(`articles:author:${authorName}`, ARTICLES_LIST_CACHE_TTL, async () => {
+    const db = getDb()
+
+    const result = await db.execute(sql`
+      SELECT
+        article_id, slug, title, excerpt,
+        featured_image_url, featured_image_alt, published_at
+      FROM donkey_articles
+      WHERE publish_status = 'published'
+        AND webhook_payload->'modular_document'->'author'->>'name' = ${authorName}
       ORDER BY published_at DESC
     `)
 
