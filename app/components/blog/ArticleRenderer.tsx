@@ -906,7 +906,7 @@ export function ArticleRenderer({
 
   // Calculate reading time based on word count
   const calculateReadingTime = (doc: ModularDocument): number => {
-    const WORDS_PER_MINUTE = 225
+    const WORDS_PER_MINUTE = 255
     let wordCount = 0
 
     // Count words in H1
@@ -1083,36 +1083,25 @@ export function ArticleRenderer({
 
             {/* Publication Dates & Reading Time */}
             {(formattedPublishedDate || readingTimeMinutes) && (
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs sm:text-sm text-gray-600">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm text-gray-500">
                 {formattedPublishedDate && (
-                  <div className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span>
-                      <span className="font-medium text-gray-700">Posted on:</span> {formattedPublishedDate}
-                    </span>
-                  </div>
+                  <time dateTime={publishedAt || undefined}>
+                    {formattedPublishedDate}
+                  </time>
                 )}
                 {showUpdatedDate && (
-                  <div className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    <span>
-                      <span className="font-medium text-gray-700">Last updated:</span> {formattedUpdatedDate}
-                    </span>
-                  </div>
+                  <>
+                    <span className="text-gray-300">•</span>
+                    <time dateTime={updatedAt || undefined} title={`Last updated: ${formattedUpdatedDate}`}>
+                      Updated {formattedUpdatedDate}
+                    </time>
+                  </>
                 )}
                 {readingTimeMinutes > 0 && (
-                  <div className="flex items-center gap-1.5">
-                    <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>
-                      <span className="font-medium text-gray-700">{readingTimeMinutes} min read</span>
-                    </span>
-                  </div>
+                  <>
+                    <span className="text-gray-300">•</span>
+                    <span>{readingTimeMinutes} min read</span>
+                  </>
                 )}
               </div>
             )}
