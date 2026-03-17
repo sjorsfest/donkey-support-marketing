@@ -18,6 +18,11 @@ const BADGES = [
     src: "https://neeed.directory/badges/neeed-badge-light.svg",
     alt: "Featured on neeed.directory",
   },
+  {
+    href: "https://launchigniter.com/product/donkey-support?ref=badge-donkey-support",
+    src: "https://launchigniter.com/api/badge/donkey-support?theme=neutral",
+    alt: "Featured on LaunchIgniter",
+  },
 ]
 
 export function ExternalBadges() {
