@@ -36,7 +36,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   const pillars = getMarketingPillars()
-  const latestPosts = await getAllPublishedArticles(5)
+  const latestPosts = await getAllPublishedArticles(30)
 
   return {
     appUrl: process.env.APP_URL ?? "",
