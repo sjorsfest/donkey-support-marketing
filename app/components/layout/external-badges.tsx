@@ -1,7 +1,3 @@
-"use client"
-
-import { useEffect, useRef, useState } from "react"
-
 const BADGES = [
   {
     href: "https://www.producthunt.com/products/donkey-support?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-donkey-support",
@@ -31,53 +27,24 @@ const BADGES = [
 ]
 
 export function ExternalBadges() {
-  const [shouldRenderBadges, setShouldRenderBadges] = useState(false)
-  const containerRef = useRef<HTMLDivElement | null>(null)
-
-  useEffect(() => {
-    if (!containerRef.current) {
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0]
-        if (!entry?.isIntersecting) {
-          return
-        }
-        setShouldRenderBadges(true)
-        observer.disconnect()
-      },
-      { rootMargin: "200px 0px" },
-    )
-
-    observer.observe(containerRef.current)
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <div ref={containerRef} className="flex flex-wrap gap-2 mt-2 max-w-[260px]">
-      {shouldRenderBadges
-        ? BADGES.map((badge) => (
-            <a
-              key={badge.href}
-              href={badge.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="opacity-70 hover:opacity-100 transition-opacity"
-            >
-              <img
-                src={badge.src}
-                alt={badge.alt}
-                height={28}
-                loading="lazy"
-                decoding="async"
-                fetchPriority="low"
-                className="h-[28px] w-auto object-contain"
-              />
-            </a>
-          ))
-        : null}
+    <div className="flex flex-wrap gap-2 mt-2 max-w-[260px]">
+      {BADGES.map((badge) => (
+        <a
+          key={badge.href}
+          href={badge.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="opacity-70 hover:opacity-100 transition-opacity"
+        >
+          <img
+            src={badge.src}
+            alt={badge.alt}
+            height={28}
+            className="h-[28px] w-auto object-contain"
+          />
+        </a>
+      ))}
     </div>
   )
 }
