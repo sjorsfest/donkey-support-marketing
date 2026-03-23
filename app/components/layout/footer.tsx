@@ -1,7 +1,9 @@
+import { useOutletContext } from "react-router"
 import { FadeIn } from "~/components/motion"
 import { BrandLogo } from "~/components/ui/brand-logo"
 import { ExternalBadges } from "./external-badges"
 import { getMarketingPillars, type MarketingPillar } from "~/lib/pillars"
+import type { BlogArticleSummary } from "~/lib/blog-data.server"
 
 interface FooterProps {
   pillars?: MarketingPillar[]
@@ -10,11 +12,13 @@ interface FooterProps {
 const DEFAULT_PILLARS = getMarketingPillars()
 
 export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
+  const ctx = useOutletContext<{ pillars: MarketingPillar[]; latestPosts: BlogArticleSummary[] } | null>()
+  const latestPosts = ctx?.latestPosts ?? []
   return (
     <footer className="py-12 border-t-2 border-outline/20">
       <div className="section-container">
         <FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-8 lg:gap-12">
             {/* Logo & Tagline */}
             <div className="flex flex-col items-center md:items-start gap-2 lg:col-span-2">
               <div className="flex items-center gap-1">
@@ -164,6 +168,24 @@ export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
                       className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
                     >
                       {pillar.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Latest Blog Posts */}
+            {latestPosts.length > 0 && (
+              <div className="flex flex-col items-center md:items-start gap-3">
+                <h3 className="text-sm font-bold text-foreground">Latest Blog Posts</h3>
+                <div className="flex flex-col items-center md:items-start gap-2">
+                  {latestPosts.map((post) => (
+                    <a
+                      key={post.article_id}
+                      href={`/blog/${post.slug}`}
+                      className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                    >
+                      {post.title}
                     </a>
                   ))}
                 </div>

@@ -13,6 +13,7 @@ import "./app.css";
 import { SupportWidget } from "./components/supportWidget/supportWidget";
 import { AppConfigProvider } from "./context/appConfig";
 import { getMarketingPillars } from "./lib/pillars";
+import { getAllPublishedArticles } from "./lib/blog-data.server";
 
 const MANAGED_HOSTS = new Set(["donkey.support", "www.donkey.support"])
 const CANONICAL_HOST = "www.donkey.support"
@@ -35,10 +36,12 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   const pillars = getMarketingPillars()
+  const latestPosts = await getAllPublishedArticles(5)
 
   return {
     appUrl: process.env.APP_URL ?? "",
     pillars,
+    latestPosts,
   };
 }
 
@@ -85,7 +88,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App({ loaderData }: Route.ComponentProps) {
   return (
     <AppConfigProvider appUrl={loaderData.appUrl}>
-      <Outlet context={{ pillars: loaderData.pillars }} />
+      <Outlet context={{ pillars: loaderData.pillars, latestPosts: loaderData.latestPosts }} />
     </AppConfigProvider>
   );
 }
