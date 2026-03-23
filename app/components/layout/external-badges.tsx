@@ -23,6 +23,11 @@ const BADGES = [
     src: "https://launchigniter.com/api/badge/donkey-support?theme=neutral",
     alt: "Featured on LaunchIgniter",
   },
+  {
+    href: "https://weliketools.com",
+    src: "https://weliketools.com/assets/images/badge.png",
+    alt: "We Like Tools",
+  },
 ]
 
 export function ExternalBadges() {
@@ -51,7 +56,7 @@ export function ExternalBadges() {
   }, [])
 
   return (
-    <div ref={containerRef} className="flex items-center gap-2 mt-2">
+    <div ref={containerRef} className="flex flex-wrap gap-2 mt-2 max-w-[260px]">
       {shouldRenderBadges
         ? BADGES.map((badge) => (
             <a
@@ -64,12 +69,11 @@ export function ExternalBadges() {
               <img
                 src={badge.src}
                 alt={badge.alt}
-                width={120}
-                height={26}
+                height={28}
                 loading="lazy"
                 decoding="async"
                 fetchPriority="low"
-                className="w-[120px] h-[26px] object-contain"
+                className="h-[28px] w-auto object-contain"
               />
             </a>
           ))
