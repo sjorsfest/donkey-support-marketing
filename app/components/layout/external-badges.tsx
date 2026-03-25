@@ -24,6 +24,11 @@ const BADGES = [
     src: "https://weliketools.com/assets/images/badge.png",
     alt: "We Like Tools",
   },
+  {
+    href: "https://saaswheel.com",
+    src: "https://saaswheel.com/assets/images/badge.png",
+    alt: "SaaS Wheel",
+  },
 ]
 
 export function ExternalBadges() {
