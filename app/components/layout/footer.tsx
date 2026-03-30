@@ -10,6 +10,10 @@ interface FooterProps {
 }
 
 const DEFAULT_PILLARS = getMarketingPillars()
+const DONKEY_SEO_URL =
+  "https://donkeyseo.io/?utm_source=donkey_support&utm_medium=footer&utm_campaign=partner_referral&utm_content=donkey_seo"
+const DONKEY_DIRECTORY_URL =
+  "https://donkey.directory/?utm_source=donkey_support&utm_medium=footer&utm_campaign=partner_referral&utm_content=donkey_directory"
 
 export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
   const ctx = useOutletContext<{ pillars: MarketingPillar[]; latestPosts: BlogArticleSummary[] } | null>()
@@ -18,7 +22,7 @@ export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
     <footer className="py-12 border-t-2 border-outline/20">
       <div className="section-container">
         <FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-8 gap-8 lg:gap-12">
             {/* Logo & Tagline */}
             <div className="flex flex-col items-center md:items-start gap-2 lg:col-span-2">
               <div className="flex items-center gap-1">
@@ -152,6 +156,41 @@ export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
                   className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
                 >
                   Contact
+                </a>
+              </div>
+            </div>
+
+            {/* Partner Tools */}
+            <div className="flex flex-col items-center md:items-start gap-3">
+              <h3 className="text-sm font-bold text-foreground">Partner Tools</h3>
+              <div className="flex w-full max-w-[240px] flex-col gap-2">
+                <a
+                  href={DONKEY_SEO_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-lg border-2 border-outline bg-[#FFCD38] px-3 py-2 text-sm font-bold text-foreground no-underline shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:bg-[#f8c000]"
+                >
+                  <span className="block text-[11px] uppercase tracking-[0.04em] text-foreground/80">
+                    Need SEO momentum?
+                  </span>
+                  <span className="inline-flex items-center gap-1">
+                    Donkey SEO
+                    <span className="transition-transform group-hover:translate-x-0.5">↗</span>
+                  </span>
+                </a>
+                <a
+                  href={DONKEY_DIRECTORY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-lg border-2 border-outline bg-[#C3F73A] px-3 py-2 text-sm font-bold text-foreground no-underline shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:bg-[#b8ec2e]"
+                >
+                  <span className="block text-[11px] uppercase tracking-[0.04em] text-foreground/80">
+                    Launch in more directories
+                  </span>
+                  <span className="inline-flex items-center gap-1">
+                    Donkey Directories
+                    <span className="transition-transform group-hover:translate-x-0.5">↗</span>
+                  </span>
                 </a>
               </div>
             </div>
