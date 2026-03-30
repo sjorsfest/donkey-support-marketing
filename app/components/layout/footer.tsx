@@ -163,34 +163,24 @@ export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
             {/* Partner Tools */}
             <div className="flex flex-col items-center md:items-start gap-3">
               <h3 className="text-sm font-bold text-foreground">Partner Tools</h3>
-              <div className="flex w-full max-w-[240px] flex-col gap-2">
+              <div className="flex flex-col items-center md:items-start gap-2">
                 <a
                   href={DONKEY_SEO_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-lg border-2 border-outline bg-[#FFCD38] px-3 py-2 text-sm font-bold text-foreground no-underline shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:bg-[#f8c000]"
+                  className="group inline-flex items-center gap-1.5 rounded-md border-l-2 border-[#FFCD38] py-0.5 pl-2.5 text-sm font-semibold text-foreground no-underline transition-all duration-200 hover:scale-[1.03] hover:border-l-[3px] hover:bg-[#FFCD38]/15 hover:text-foreground"
                 >
-                  <span className="block text-[11px] uppercase tracking-[0.04em] text-foreground/80">
-                    Need SEO momentum?
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    Donkey SEO
-                    <span className="transition-transform group-hover:translate-x-0.5">↗</span>
-                  </span>
+                  Donkey SEO
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-110">↗</span>
                 </a>
                 <a
                   href={DONKEY_DIRECTORY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group rounded-lg border-2 border-outline bg-[#C3F73A] px-3 py-2 text-sm font-bold text-foreground no-underline shadow-[var(--shadow-sm)] transition-all hover:-translate-y-0.5 hover:bg-[#b8ec2e]"
+                  className="group inline-flex items-center gap-1.5 rounded-md border-l-2 border-[#C3F73A] py-0.5 pl-2.5 text-sm font-semibold text-foreground no-underline transition-all duration-200 hover:scale-[1.03] hover:border-l-[3px] hover:bg-[#C3F73A]/15 hover:text-foreground"
                 >
-                  <span className="block text-[11px] uppercase tracking-[0.04em] text-foreground/80">
-                    Launch in more directories
-                  </span>
-                  <span className="inline-flex items-center gap-1">
-                    Donkey Directories
-                    <span className="transition-transform group-hover:translate-x-0.5">↗</span>
-                  </span>
+                  Donkey Directories
+                  <span className="inline-block transition-transform duration-200 group-hover:translate-x-1 group-hover:scale-110">↗</span>
                 </a>
               </div>
             </div>
