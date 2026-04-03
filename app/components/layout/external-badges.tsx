@@ -34,6 +34,11 @@ const BADGES = [
     src: "https://themegatools.com/assets/images/badge.png",
     alt: "The Mega Tools",
   },
+  {
+    href: "https://saasfame.com/item/donkey-support",
+    src: "https://saasfame.com/badge-light.svg",
+    alt: "Featured on saasfame.com",
+  },
 ]
 
 export function ExternalBadges() {
