@@ -43,7 +43,7 @@ const BADGES = [
 
 export function ExternalBadges() {
   return (
-    <div className="flex flex-col items-center md:items-start gap-6 mt-4 max-w-[260px]">
+    <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-10 gap-y-6 mt-4 max-w-[260px]">
       {BADGES.map((badge) => (
         <a
           key={badge.href}
