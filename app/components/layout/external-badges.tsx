@@ -43,19 +43,21 @@ const BADGES = [
 
 export function ExternalBadges() {
   return (
-    <div className="flex flex-wrap gap-2 mt-2 max-w-[260px]">
+    <div className="flex flex-col items-center md:items-start gap-6 mt-4 max-w-[260px]">
       {BADGES.map((badge) => (
         <a
           key={badge.href}
           href={badge.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="opacity-70 hover:opacity-100 transition-opacity"
+          className="opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300"
         >
           <img
             src={badge.src}
             alt={badge.alt}
             height={28}
+            loading="lazy"
+            decoding="async"
             className="h-[28px] w-auto object-contain"
           />
         </a>
