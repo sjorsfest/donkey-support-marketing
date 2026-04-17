@@ -30,13 +30,13 @@ export async function withCache<T>(
   // Try to get from Redis
   const cached = await client.get(key)
   if (cached !== null) {
+    console.log(`[cache HIT] ${key}`)
     return JSON.parse(cached) as T
   }
 
-  // Cache miss — execute function
+  // Cache miss — execute function and store in Redis
+  console.log(`[cache MISS] ${key} — fetching from database`)
   const result = await fn()
-
-  // Store in Redis with TTL
   await client.set(key, JSON.stringify(result), "EX", ttlSeconds)
 
   return result
