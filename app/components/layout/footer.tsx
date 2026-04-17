@@ -208,15 +208,22 @@ export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
               <div className="flex flex-col items-center md:items-start gap-3">
                 <h3 className="text-sm font-bold text-foreground">Latest Blog Posts</h3>
                 <div className="flex flex-col items-center md:items-start gap-2">
-                  {latestPosts.map((post) => (
+                  {latestPosts.slice(0, 5).map((post) => (
                     <a
                       key={post.article_id}
                       href={`/blog/${post.slug}`}
-                      className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors"
+                      title={post.title}
+                      className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors line-clamp-2 text-center md:text-left"
                     >
                       {post.title}
                     </a>
                   ))}
+                  <a
+                    href="/blog"
+                    className="text-sm font-semibold text-foreground hover:text-pink-500 transition-colors mt-1"
+                  >
+                    View all posts →
+                  </a>
                 </div>
               </div>
             )}

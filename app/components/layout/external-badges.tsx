@@ -43,23 +43,36 @@ const BADGES = [
 
 export function ExternalBadges() {
   return (
-    <div className="flex flex-wrap gap-2 mt-2 max-w-[260px]">
-      {BADGES.map((badge) => (
-        <a
-          key={badge.href}
-          href={badge.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="opacity-70 hover:opacity-100 transition-opacity"
-        >
-          <img
-            src={badge.src}
-            alt={badge.alt}
-            height={28}
-            className="h-[28px] w-auto object-contain"
-          />
-        </a>
-      ))}
+    <div className="relative mt-4 w-full max-w-[260px] overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+      <div className="flex w-max animate-marquee">
+        {[0, 1].map((copy) => (
+          <div
+            key={copy}
+            aria-hidden={copy === 1}
+            className="flex shrink-0 items-center gap-x-10 pr-10"
+          >
+            {BADGES.map((badge) => (
+              <a
+                key={`${badge.href}-${copy}`}
+                href={badge.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                tabIndex={copy === 1 ? -1 : undefined}
+                className="shrink-0 opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+              >
+                <img
+                  src={badge.src}
+                  alt={copy === 1 ? "" : badge.alt}
+                  height={28}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-[28px] w-auto object-contain"
+                />
+              </a>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
