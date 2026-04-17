@@ -6,10 +6,10 @@ import { getDb } from "~/lib/db.server"
 import { withCache } from "~/lib/cache.server"
 import type { ModularDocument } from "~/lib/donkey-seo-client.server"
 
-// Cache TTLs (in seconds)
-const ARTICLE_CACHE_TTL = 3600 // 60 minutes
-const ARTICLES_LIST_CACHE_TTL = 3600 // 60 minutes
-const SITEMAP_CACHE_TTL = 3600 // 60 minutes
+// Cache TTLs (in seconds) — 1 full day
+const ARTICLE_CACHE_TTL = 86400
+const ARTICLES_LIST_CACHE_TTL = 86400
+const SITEMAP_CACHE_TTL = 86400
 
 export interface BlogArticle {
   article_id: string

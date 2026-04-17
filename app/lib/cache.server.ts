@@ -1,130 +1,62 @@
-// Simple in-memory cache with TTL
-// Caches data to reduce database queries
+// Redis cache layer with TTL
+// All data is cached in Redis; falls back to fetcher function on cache miss
 
-interface CacheEntry<T> {
-  data: T
-  expiresAt: number
-}
+import Redis from "ioredis"
 
-class MemoryCache {
-  private cache: Map<string, CacheEntry<unknown>> = new Map()
+let redis: Redis | null = null
 
-  /**
-   * Get cached data if it exists and hasn't expired
-   */
-  get<T>(key: string): T | null {
-    const entry = this.cache.get(key) as CacheEntry<T> | undefined
-
-    if (!entry) {
-      return null
+function getRedis(): Redis {
+  if (!redis) {
+    const url = process.env.REDIS_URL
+    if (!url) {
+      throw new Error("REDIS_URL environment variable is required")
     }
-
-    // Check if expired
-    if (Date.now() > entry.expiresAt) {
-      this.cache.delete(key)
-      return null
-    }
-
-    return entry.data
+    redis = new Redis(url)
   }
-
-  /**
-   * Set data in cache with TTL in seconds
-   */
-  set<T>(key: string, data: T, ttlSeconds: number): void {
-    const expiresAt = Date.now() + ttlSeconds * 1000
-
-    this.cache.set(key, {
-      data,
-      expiresAt,
-    })
-  }
-
-  /**
-   * Clear specific cache key
-   */
-  delete(key: string): void {
-    this.cache.delete(key)
-  }
-
-  /**
-   * Clear all cache
-   */
-  clear(): void {
-    this.cache.clear()
-  }
-
-  /**
-   * Get cache stats (useful for monitoring)
-   */
-  getStats() {
-    const now = Date.now()
-    let validEntries = 0
-    let expiredEntries = 0
-
-    this.cache.forEach((entry) => {
-      if (now > entry.expiresAt) {
-        expiredEntries++
-      } else {
-        validEntries++
-      }
-    })
-
-    return {
-      totalEntries: this.cache.size,
-      validEntries,
-      expiredEntries,
-    }
-  }
-
-  /**
-   * Clean up expired entries (can be called periodically)
-   */
-  cleanup(): void {
-    const now = Date.now()
-    const keysToDelete: string[] = []
-
-    this.cache.forEach((entry, key) => {
-      if (now > entry.expiresAt) {
-        keysToDelete.push(key)
-      }
-    })
-
-    keysToDelete.forEach((key) => this.cache.delete(key))
-  }
+  return redis
 }
-
-// Singleton instance
-const cache = new MemoryCache()
-
-// Cleanup expired entries every 5 minutes
-if (typeof setInterval !== "undefined") {
-  setInterval(() => {
-    cache.cleanup()
-  }, 5 * 60 * 1000)
-}
-
-export { cache }
 
 /**
- * Helper function to cache the result of an async function
+ * Helper function to cache the result of an async function in Redis.
+ * Always reads from Redis first. On miss, executes fn, stores result in Redis with TTL, and returns it.
  */
 export async function withCache<T>(
   key: string,
   ttlSeconds: number,
   fn: () => Promise<T>
 ): Promise<T> {
-  // Try to get from cache
-  const cached = cache.get<T>(key)
+  const client = getRedis()
+
+  // Try to get from Redis
+  const cached = await client.get(key)
   if (cached !== null) {
-    return cached
+    return JSON.parse(cached) as T
   }
 
-  // If not in cache, execute function
+  // Cache miss — execute function
   const result = await fn()
 
-  // Store in cache
-  cache.set(key, result, ttlSeconds)
+  // Store in Redis with TTL
+  await client.set(key, JSON.stringify(result), "EX", ttlSeconds)
 
   return result
+}
+
+/**
+ * Delete a specific cache key
+ */
+export async function deleteCache(key: string): Promise<void> {
+  const client = getRedis()
+  await client.del(key)
+}
+
+/**
+ * Delete all cache keys matching a pattern (e.g. "articles:*")
+ */
+export async function deleteCachePattern(pattern: string): Promise<void> {
+  const client = getRedis()
+  const keys = await client.keys(pattern)
+  if (keys.length > 0) {
+    await client.del(...keys)
+  }
 }
