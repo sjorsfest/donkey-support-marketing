@@ -235,6 +235,15 @@ function App() {
   )
 }`,
   },
+  {
+    title: "Headless REST API",
+    description: "Build your own chat UI and pipe messages straight to your team.",
+    language: "bash",
+    code: `curl -X POST https://app.donkey.support/api/v1/tickets \\
+  -H "Authorization: Bearer dk_live_..." \\
+  -H "Content-Type: application/json" \\
+  -d '{ "externalId": "user_123", "message": "Hi, I need help" }'`,
+  },
 ]
 
 export function Developer() {
@@ -331,6 +340,8 @@ export function Developer() {
                       <code>
                         {example.language === "html" ? (
                           <HighlightHTML code={example.code} />
+                        ) : example.language === "bash" ? (
+                          <HighlightBash code={example.code} />
                         ) : (
                           <HighlightTSX code={example.code} />
                         )}
@@ -358,6 +369,27 @@ function HighlightHTML({ code }: { code: string }) {
       .replace(
         /(\s)([\w-]+)(=)/g,
         `$1${TOKENS.attrOpen}$2${TOKENS.attrClose}$3`
+      )
+      .replace(
+        /(&quot;.*?&quot;)/g,
+        `${TOKENS.stringOpen}$1${TOKENS.stringClose}`
+      )
+  )
+
+  return <span dangerouslySetInnerHTML={{ __html: highlighted }} />
+}
+
+function HighlightBash({ code }: { code: string }) {
+  const safeCode = escapeHtml(code)
+  const highlighted = injectTokens(
+    safeCode
+      .replace(
+        /\b(curl)\b/g,
+        `${TOKENS.keywordOpen}$1${TOKENS.keywordClose}`
+      )
+      .replace(
+        /(^|\s)(-[\w-]+)/g,
+        `$1${TOKENS.attrOpen}$2${TOKENS.attrClose}`
       )
       .replace(
         /(&quot;.*?&quot;)/g,

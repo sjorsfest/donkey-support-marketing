@@ -39,6 +39,46 @@ const features = [
     ),
   },
   {
+    title: "Bring your own chat UI",
+    description:
+      "Prefer your own interface? Build a fully custom support chat with the Headless API. It's your design and your framework. Send messages over a simple REST endpoint and receive replies via signed webhooks, while your team keeps answering from Slack, Discord, or Telegram.",
+    badge: "Headless API",
+    visual: (
+      <div className="relative">
+        <div className="bg-white rounded-xl border-2 border-outline shadow-[4px_4px_0_#1a1a1a] max-w-[240px] mx-auto overflow-hidden">
+          <div className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-indigo-500 to-purple-500">
+            <div className="w-5 h-5 rounded-md bg-white/90 flex items-center justify-center text-[10px]">
+              💬
+            </div>
+            <span className="text-xs font-semibold text-white">
+              Your App · Support
+            </span>
+          </div>
+          <div className="p-3 space-y-2">
+            <div className="flex justify-end">
+              <div className="bg-indigo-500 text-white text-[11px] rounded-lg rounded-br-sm px-2.5 py-1.5 max-w-[80%]">
+                Hi, I need help
+              </div>
+            </div>
+            <div className="flex justify-start">
+              <div className="bg-muted text-foreground text-[11px] rounded-lg rounded-bl-sm px-2.5 py-1.5 max-w-[80%]">
+                Happy to help! 👋
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 px-3 py-2 border-t-2 border-outline/10 bg-gray-50">
+            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-800 border border-green-300">
+              POST
+            </span>
+            <span className="text-[10px] font-mono text-muted">
+              /api/v1/tickets
+            </span>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
     title: "Trusted visitor context",
     description:
       "Know who you're talking to with email, name, and custom metadata. Add a signed metadata token so agents can trust the context they see.",
