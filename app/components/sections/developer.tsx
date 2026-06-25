@@ -235,16 +235,12 @@ function App() {
   )
 }`,
   },
-  {
-    title: "Headless REST API",
-    description: "Build your own chat UI and pipe messages straight to your team.",
-    language: "bash",
-    code: `curl -X POST https://app.donkey.support/api/v1/tickets \\
+]
+
+const HEADLESS_API_EXAMPLE = `curl -X POST https://app.donkey.support/api/v1/tickets \\
   -H "Authorization: Bearer dk_live_..." \\
   -H "Content-Type: application/json" \\
-  -d '{ "externalId": "user_123", "message": "Hi, I need help" }'`,
-  },
-]
+  -d '{ "externalId": "user_123", "message": "Hi, I need help" }'`
 
 export function Developer() {
   const [copied, setCopied] = useState(false)
@@ -353,6 +349,51 @@ export function Developer() {
             </StaggerItem>
           ))}
         </StaggerContainer>
+
+        {/* Headless API callout */}
+        <FadeIn className="mt-6">
+          <Card>
+            <CardContent className="p-6 md:p-8">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <Badge variant="secondary" className="mb-4">
+                    Headless API
+                  </Badge>
+                  <h3 className="font-display text-2xl font-bold mb-3">
+                    Or build your own chat UI
+                  </h3>
+                  <p className="text-muted leading-relaxed mb-5">
+                    Don't want the embeddable widget? Pipe messages to and from
+                    our chat engine over a simple REST API and signed webhooks.
+                    Your interface, your framework, while your team keeps
+                    answering from Slack, Discord, or Telegram.
+                  </p>
+                  <ul className="space-y-2 text-sm">
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-pink-500 mt-0.5 shrink-0" />
+                      <span>POST a message and it becomes a ticket instantly</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-pink-500 mt-0.5 shrink-0" />
+                      <span>Get replies in real time via HMAC-signed webhooks</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-pink-500 mt-0.5 shrink-0" />
+                      <span>Create API keys you can revoke anytime</span>
+                    </li>
+                  </ul>
+                </div>
+                <div className="code-block p-4 overflow-x-auto max-w-full">
+                  <pre className="text-sm w-fit">
+                    <code>
+                      <HighlightBash code={HEADLESS_API_EXAMPLE} />
+                    </code>
+                  </pre>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </FadeIn>
       </div>
     </section>
   )
