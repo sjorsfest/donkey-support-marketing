@@ -179,7 +179,7 @@ export function Hero() {
                   </picture>
                 </div>
                 <p className="text-sm font-semibold text-foreground/70">
-                  Be an early adopter — <span className="text-pink-500">join the herd</span>
+                  Hundreds of donkeys can't be wrong — <span className="text-pink-500">join the herd</span>
                 </p>
               </div>
               <a
