@@ -22,6 +22,15 @@ const PAGE_TITLE = "Indie Game Developer Support Software | Donkey Support"
 const PAGE_DESCRIPTION =
   "Discord-native support for indie game studios. Centralize bug reports, verify players, and keep followers updated when replies are missed."
 
+const HTML_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export function meta({}: Route.MetaArgs) {
   return buildMeta({
     path: PAGE_PATH,

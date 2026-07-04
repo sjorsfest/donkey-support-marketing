@@ -22,6 +22,15 @@ const PAGE_TITLE = "Support Chat for AI-First Developers | Donkey Support"
 const PAGE_DESCRIPTION =
   "Copy installation instructions, paste into Claude Code or Cursor, done. Support chat that installs itself via AI - built for developers who ship with LLMs."
 
+const HTML_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export function meta({}: Route.MetaArgs) {
   return buildMeta({
     path: PAGE_PATH,

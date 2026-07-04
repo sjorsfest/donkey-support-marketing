@@ -22,6 +22,15 @@ const PAGE_TITLE = "Support Software for Non-Technical Founders | Donkey"
 const PAGE_DESCRIPTION =
   "No-code support widget for non-technical SaaS founders. Reply from Discord or Slack with automatic follow-ups and flat pricing."
 
+const HTML_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export function meta({}: Route.MetaArgs) {
   return buildMeta({
     path: PAGE_PATH,

@@ -14,12 +14,28 @@ import type { MarketingPillar } from "~/lib/pillars"
 
 const HTML_CACHE_CONTROL =
   "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+// Short TTL: a 404'd slug can become a live article at the next webhook
+// publish, which purges Redis but cannot purge the edge cache.
+const NOT_FOUND_CACHE_CONTROL = "public, max-age=0, s-maxage=300"
+
+// Headers set inside data() are dropped from the document response unless the
+// route exports headers() — this export is what actually enables edge caching.
+// It covers the 200 path; thrown responses carry their own headers, which
+// root's headers() forwards.
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
 
 export async function loader({ params }: Route.LoaderArgs) {
   const pruneAction = getPruneAction(params.slug)
   if (pruneAction) {
     if (pruneAction.action === "redirect") {
-      throw redirect(`/blog/${pruneAction.to}`, 301)
+      throw redirect(`/blog/${pruneAction.to}`, {
+        status: 301,
+        headers: { "Cache-Control": HTML_CACHE_CONTROL },
+      })
     }
     throw data(
       { message: "This article has been removed" },
@@ -30,19 +46,15 @@ export async function loader({ params }: Route.LoaderArgs) {
   const article = await getPublishedArticleBySlug(params.slug)
 
   if (!article) {
-    throw data({ message: "Article not found" }, { status: 404 })
+    throw data(
+      { message: "Article not found" },
+      { status: 404, headers: { "Cache-Control": NOT_FOUND_CACHE_CONTROL } }
+    )
   }
 
   const modularDocument = article.webhook_payload.modular_document
 
-  return data(
-    { article, modularDocument },
-    {
-      headers: {
-        "Cache-Control": HTML_CACHE_CONTROL,
-      },
-    }
-  )
+  return { article, modularDocument }
 }
 
 export function meta({ data }: Route.MetaArgs) {

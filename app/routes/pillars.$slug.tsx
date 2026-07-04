@@ -13,11 +13,24 @@ import type { MarketingPillar } from "~/lib/pillars"
 const HTML_CACHE_CONTROL =
   "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
 
+// Headers set inside data() are dropped from the document response unless the
+// route exports headers() — this export is what actually enables edge caching.
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export async function loader({ params }: Route.LoaderArgs) {
   const pillar = getMarketingPillarBySlug(params.slug)
 
   if (!pillar) {
-    throw data({ message: "Pillar not found" }, { status: 404 })
+    // Pillars are static config — only a deploy (which purges the edge
+    // cache) can change them, so the full TTL is safe here.
+    throw data(
+      { message: "Pillar not found" },
+      { status: 404, headers: { "Cache-Control": HTML_CACHE_CONTROL } }
+    )
   }
 
   const articles =
@@ -25,14 +38,7 @@ export async function loader({ params }: Route.LoaderArgs) {
       ? await getAllPublishedArticles()
       : await getArticlesByPillar(params.slug)
 
-  return data(
-    { pillar, articles },
-    {
-      headers: {
-        "Cache-Control": HTML_CACHE_CONTROL,
-      },
-    }
-  )
+  return { pillar, articles }
 }
 
 export function meta({ data }: Route.MetaArgs) {

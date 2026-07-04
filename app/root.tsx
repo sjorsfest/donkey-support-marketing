@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  type HeadersArgs,
 } from "react-router";
 import { Analytics } from "@vercel/analytics/react"
 import type { Route } from "./+types/root";
@@ -17,6 +18,15 @@ import { getAllPublishedArticles } from "./lib/blog-data.server";
 
 const MANAGED_HOSTS = new Set(["donkey.support", "www.donkey.support"])
 const CANONICAL_HOST = "www.donkey.support"
+
+// Applies to documents rendered from the root error boundary. Thrown 404/410
+// responses bubble here and would otherwise lose the cache headers their
+// loader attached (every bot hit on a pruned/dead URL would be an uncached
+// function invocation). Forwarding errorHeaders keeps each thrown response's
+// own policy; unexpected errors (500s) carry none and stay uncached.
+export function headers({ errorHeaders }: HeadersArgs) {
+  return errorHeaders ?? new Headers()
+}
 
 export async function loader({ request }: Route.LoaderArgs) {
   const requestUrl = new URL(request.url)
@@ -36,7 +46,12 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   const pillars = getMarketingPillars()
-  const latestPosts = await getAllPublishedArticles(30)
+  // Footer renders 5 titles; fetch with headroom for prune/dedupe, then
+  // strip to the fields the footer uses so every page's HTML stays small.
+  const articles = await getAllPublishedArticles(30)
+  const latestPosts = articles
+    .slice(0, 5)
+    .map(({ article_id, slug, title }) => ({ article_id, slug, title }))
 
   return {
     appUrl: process.env.APP_URL ?? "",

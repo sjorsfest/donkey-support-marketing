@@ -2,7 +2,7 @@
 // Do not edit manually.
 
 export const sitemapLastmodMap: Record<string, string> = {
-  "/": "2026-02-28T23:20:01+01:00",
+  "/": "2026-03-09T10:12:32+01:00",
   "/discord-communities": "2026-02-28T23:20:01+01:00",
   "/open-source": "2026-02-28T23:20:01+01:00",
   "/indie-games": "2026-02-28T23:20:01+01:00",

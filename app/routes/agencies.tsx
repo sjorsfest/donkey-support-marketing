@@ -22,6 +22,15 @@ const PAGE_TITLE = "White Label Support Software for Agencies | Donkey Support"
 const PAGE_DESCRIPTION =
   "Unbranded support widget for agency client work. Flat pricing, multi-client support, and replies from Slack or Discord."
 
+const HTML_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export function meta({}: Route.MetaArgs) {
   return buildMeta({
     path: PAGE_PATH,

@@ -12,22 +12,28 @@ import type { MarketingPillar } from "~/lib/pillars"
 const HTML_CACHE_CONTROL =
   "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
 
+// Headers set inside data() are dropped from the document response unless the
+// route exports headers() — this export is what actually enables edge caching.
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export async function loader({ params }: Route.LoaderArgs) {
   const authorName = decodeURIComponent(params.name)
   const articles = await getArticlesByAuthor(authorName)
 
   if (articles.length === 0) {
-    throw data({ message: "Author not found" }, { status: 404 })
+    // Short TTL: an author page can come alive at the next webhook publish,
+    // which purges Redis but cannot purge the edge cache.
+    throw data(
+      { message: "Author not found" },
+      { status: 404, headers: { "Cache-Control": "public, max-age=0, s-maxage=300" } }
+    )
   }
 
-  return data(
-    { authorName, articles },
-    {
-      headers: {
-        "Cache-Control": HTML_CACHE_CONTROL,
-      },
-    }
-  )
+  return { authorName, articles }
 }
 
 export function meta({ data }: Route.MetaArgs) {

@@ -5,6 +5,7 @@ import { sql } from "drizzle-orm"
 import { getDb } from "~/lib/db.server"
 import { getDonkeySeoClient } from "~/lib/donkey-seo-client.server"
 import { uploadImageToR2 } from "~/lib/r2.server"
+import { deleteCache, deleteCachePattern } from "~/lib/cache.server"
 import { CANONICAL_ORIGIN } from "~/lib/seo"
 import type { ModularBlock, ModularDocument } from "~/lib/donkey-seo-client.server"
 
@@ -288,7 +289,13 @@ export async function processArticlePublication(
         updated_at = NOW()
     `)
 
-    // 7. Notify Donkey SEO of successful publication
+    // 7. Purge cached article data so the new post appears immediately.
+    // Caches are otherwise TTL-only (up to 24h stale) — including a cached
+    // null for this slug if the URL was hit before publication.
+    await deleteCache(`article:${metadata.slug}`)
+    await deleteCachePattern("articles:*")
+
+    // 8. Notify Donkey SEO of successful publication
     const publishedUrl = `${CANONICAL_ORIGIN}/blog/${metadata.slug}`
     await client.patchPublicationStatus(metadata.article_id, {
       publish_status: "published",
@@ -296,7 +303,7 @@ export async function processArticlePublication(
       published_url: publishedUrl,
     })
 
-    // 8. Mark webhook event as processed
+    // 9. Mark webhook event as processed
     await db.execute(sql`
       UPDATE donkey_webhook_events
       SET processed = true, processed_at = NOW()

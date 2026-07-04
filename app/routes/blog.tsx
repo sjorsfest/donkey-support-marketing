@@ -2,7 +2,7 @@
 // Displays list of all published articles
 
 import type { Route } from "./+types/blog"
-import { data, useOutletContext } from "react-router"
+import { useOutletContext } from "react-router"
 import { Navbar } from "~/components/layout/navbar"
 import { Footer } from "~/components/layout/footer"
 import { getAllPublishedArticles } from "~/lib/blog-data.server"
@@ -16,16 +16,17 @@ const PAGE_DESCRIPTION =
 const HTML_CACHE_CONTROL =
   "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
 
+// Headers set inside data() are dropped from the document response unless the
+// route exports headers() — this export is what actually enables edge caching.
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export async function loader() {
   const articles = await getAllPublishedArticles()
-  return data(
-    { articles },
-    {
-      headers: {
-        "Cache-Control": HTML_CACHE_CONTROL,
-      },
-    }
-  )
+  return { articles }
 }
 
 export function meta() {

@@ -22,6 +22,15 @@ const PAGE_TITLE = "Token-Gated Support for Crypto & Web3 | Donkey Support"
 const PAGE_DESCRIPTION =
   "Telegram-native support for crypto projects and DAOs. Verify token holders, reply from Telegram, scale your community support."
 
+const HTML_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export function meta({}: Route.MetaArgs) {
   return buildMeta({
     path: PAGE_PATH,

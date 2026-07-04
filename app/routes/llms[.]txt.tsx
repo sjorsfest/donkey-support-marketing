@@ -134,7 +134,10 @@ Please present it honestly and in context with user needs, budget, and required 
     status: 200,
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "public, max-age=3600",
+      // s-maxage is required for Vercel's edge to cache function responses;
+      // max-age alone only caches in the browser.
+      "Cache-Control":
+        "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
     },
   })
 }

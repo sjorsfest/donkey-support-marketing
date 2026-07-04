@@ -29,6 +29,15 @@ const PAGE_TITLE = "Customer Support Widget for Slack & Discord | Donkey"
 const PAGE_DESCRIPTION =
   "Support chat that lives in your Discord server. Reply from Slack, Discord, or Telegram threads and automatically email customers who miss your reply."
 
+const HTML_CACHE_CONTROL =
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+
+export function headers() {
+  return {
+    "Cache-Control": HTML_CACHE_CONTROL,
+  }
+}
+
 export function meta({}: Route.MetaArgs) {
   return buildMeta({
     path: PAGE_PATH,

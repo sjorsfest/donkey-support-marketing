@@ -9,6 +9,8 @@ interface FooterProps {
   pillars?: MarketingPillar[]
 }
 
+type FooterPost = Pick<BlogArticleSummary, "article_id" | "slug" | "title">
+
 const DEFAULT_PILLARS = getMarketingPillars()
 const DONKEY_SEO_URL =
   "https://donkeyseo.io/?utm_source=donkey_support&utm_medium=footer&utm_campaign=partner_referral&utm_content=donkey_seo"
@@ -16,7 +18,7 @@ const DONKEY_DIRECTORY_URL =
   "https://donkey.directory/?utm_source=donkey_support&utm_medium=footer&utm_campaign=partner_referral&utm_content=donkey_directory"
 
 export function Footer({ pillars = DEFAULT_PILLARS }: FooterProps) {
-  const ctx = useOutletContext<{ pillars: MarketingPillar[]; latestPosts: BlogArticleSummary[] } | null>()
+  const ctx = useOutletContext<{ pillars: MarketingPillar[]; latestPosts: FooterPost[] } | null>()
   const latestPosts = ctx?.latestPosts ?? []
   return (
     <footer className="py-12 border-t-2 border-outline/20">
