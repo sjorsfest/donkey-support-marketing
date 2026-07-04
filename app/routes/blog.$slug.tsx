@@ -2,11 +2,12 @@
 // Displays individual article from Donkey SEO
 
 import type { Route } from "./+types/blog.$slug"
-import { data, useOutletContext } from "react-router"
+import { data, redirect, useOutletContext } from "react-router"
 import { Navbar } from "~/components/layout/navbar"
 import { Footer } from "~/components/layout/footer"
 import { ArticleRenderer } from "~/components/blog/ArticleRenderer"
 import { getPublishedArticleBySlug } from "~/lib/blog-data.server"
+import { getPruneAction } from "~/lib/blog-prune.server"
 import { getPillarPathBySlug } from "~/lib/pillars"
 import { buildMeta, buildJsonLdGraph, CANONICAL_ORIGIN } from "~/lib/seo"
 import type { MarketingPillar } from "~/lib/pillars"
@@ -15,6 +16,17 @@ const HTML_CACHE_CONTROL =
   "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
 
 export async function loader({ params }: Route.LoaderArgs) {
+  const pruneAction = getPruneAction(params.slug)
+  if (pruneAction) {
+    if (pruneAction.action === "redirect") {
+      throw redirect(`/blog/${pruneAction.to}`, 301)
+    }
+    throw data(
+      { message: "This article has been removed" },
+      { status: 410, headers: { "Cache-Control": HTML_CACHE_CONTROL } }
+    )
+  }
+
   const article = await getPublishedArticleBySlug(params.slug)
 
   if (!article) {

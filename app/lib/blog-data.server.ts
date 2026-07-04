@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm"
 import { getDb } from "~/lib/db.server"
 import { withCache } from "~/lib/cache.server"
+import { filterPrunedArticles } from "~/lib/blog-prune.server"
 import type { ModularDocument } from "~/lib/donkey-seo-client.server"
 
 // Cache TTLs (in seconds) — 1 full day
@@ -87,7 +88,7 @@ export async function getAllPublishedArticles(
   const limitClause =
     typeof limit === "number" ? sql`LIMIT ${limit}` : sql``
 
-  return withCache(`articles:all:${limit}`, ARTICLES_LIST_CACHE_TTL, async () => {
+  const articles = await withCache(`articles:all:${limit}`, ARTICLES_LIST_CACHE_TTL, async () => {
     const db = getDb()
 
     const result = await db.execute(sql`
@@ -103,6 +104,8 @@ export async function getAllPublishedArticles(
 
     return result.rows as unknown as BlogArticleSummary[]
   })
+
+  return filterPrunedArticles(articles)
 }
 
 /**
@@ -112,7 +115,7 @@ export async function getAllPublishedArticles(
 export async function getPublishedArticlesForSitemap(): Promise<
   BlogArticleForSitemap[]
 > {
-  return withCache("articles:sitemap", SITEMAP_CACHE_TTL, async () => {
+  const articles = await withCache("articles:sitemap", SITEMAP_CACHE_TTL, async () => {
     const db = getDb()
 
     const result = await db.execute(sql`
@@ -124,6 +127,8 @@ export async function getPublishedArticlesForSitemap(): Promise<
 
     return result.rows as unknown as BlogArticleForSitemap[]
   })
+
+  return filterPrunedArticles(articles)
 }
 
 /**
@@ -133,7 +138,7 @@ export async function getPublishedArticlesForSitemap(): Promise<
 export async function getArticlesByPillar(
   pillarSlug: string
 ): Promise<BlogArticleSummary[]> {
-  return withCache(`articles:pillar:${pillarSlug}`, ARTICLES_LIST_CACHE_TTL, async () => {
+  const articles = await withCache(`articles:pillar:${pillarSlug}`, ARTICLES_LIST_CACHE_TTL, async () => {
     const db = getDb()
 
     const result = await db.execute(sql`
@@ -147,6 +152,8 @@ export async function getArticlesByPillar(
 
     return result.rows as unknown as BlogArticleSummary[]
   })
+
+  return filterPrunedArticles(articles)
 }
 
 /**
@@ -156,7 +163,7 @@ export async function getArticlesByPillar(
 export async function getArticlesByAuthor(
   authorName: string
 ): Promise<BlogArticleSummary[]> {
-  return withCache(`articles:author:${authorName}`, ARTICLES_LIST_CACHE_TTL, async () => {
+  const articles = await withCache(`articles:author:${authorName}`, ARTICLES_LIST_CACHE_TTL, async () => {
     const db = getDb()
 
     const result = await db.execute(sql`
@@ -171,4 +178,6 @@ export async function getArticlesByAuthor(
 
     return result.rows as unknown as BlogArticleSummary[]
   })
+
+  return filterPrunedArticles(articles)
 }
